@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DraftSiteModels.ViewModels
+namespace DraftSiteModels.InputModels
 {
-    public class PreDraftViewModel
+    public class DraftInputModel
     {
-        public List<DraftTeamSummaryViewModel> DraftTeams { get; set; }
         public bool HasComputerTeams { get; set; }
-
         public bool IsPublic { get; set; }
+
         public bool IsSinglePick { get; set; }
 
         [StringLength(50)]
