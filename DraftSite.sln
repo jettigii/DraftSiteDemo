@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DraftSiteRepository", "Draf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DraftSiteService", "DraftSiteService\DraftSiteService.csproj", "{4FFFAB2F-AEA9-4E48-8BF1-84C8FCA4B602}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DraftSiteModels", "DraftSiteModels\DraftSiteModels.csproj", "{F44D6648-88FC-4FAD-939C-8F1F52DFB8E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4FFFAB2F-AEA9-4E48-8BF1-84C8FCA4B602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FFFAB2F-AEA9-4E48-8BF1-84C8FCA4B602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FFFAB2F-AEA9-4E48-8BF1-84C8FCA4B602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F44D6648-88FC-4FAD-939C-8F1F52DFB8E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F44D6648-88FC-4FAD-939C-8F1F52DFB8E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F44D6648-88FC-4FAD-939C-8F1F52DFB8E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F44D6648-88FC-4FAD-939C-8F1F52DFB8E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
