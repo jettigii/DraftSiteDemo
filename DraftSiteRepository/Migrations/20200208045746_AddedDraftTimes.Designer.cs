@@ -3,14 +3,16 @@ using System;
 using DraftSiteRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DraftSiteRepository.Migrations
 {
     [DbContext(typeof(DraftSiteContext))]
-    partial class DraftSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20200208045746_AddedDraftTimes")]
+    partial class AddedDraftTimes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +38,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
-                    b.Property<int>("OwnerId")
+                    b.Property<int?>("OwnerId")
                         .HasColumnType("int");
 
                     b.Property<int>("PickTimeId")
@@ -47,6 +49,9 @@ namespace DraftSiteRepository.Migrations
 
                     b.Property<DateTimeOffset>("StartTime")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -221,10 +226,8 @@ namespace DraftSiteRepository.Migrations
             modelBuilder.Entity("DraftSiteModels.Entities.Draft", b =>
                 {
                     b.HasOne("DraftSiteModels.Entities.DraftSiteUser", "Owner")
-                        .WithMany("Drafts")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("OwnerId");
 
                     b.HasOne("DraftSiteModels.Models.DraftTime", "PickTime")
                         .WithMany("Drafts")

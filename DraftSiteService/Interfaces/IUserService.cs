@@ -1,11 +1,11 @@
 ﻿using DraftSiteModels.ViewModels;
+using System.Threading.Tasks;
 
 namespace DraftSiteService.Interfaces
 {
     public interface IUserService
     {
-        DraftSiteUserViewModel Authenticate(string token);
-        DraftSiteUserViewModel GetProfile(string token);
+        Task<DraftSiteUserViewModel> Authenticate(string token);
 
     }
 }

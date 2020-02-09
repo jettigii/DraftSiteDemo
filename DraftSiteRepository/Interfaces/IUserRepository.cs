@@ -1,13 +1,10 @@
-﻿using DraftSiteModels.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DraftSiteModels.Entities;
+using System.Threading.Tasks;
 
 namespace DraftSiteRepository.Interfaces
 {
     public interface IUserRepository
     {
-        DraftSiteUserViewModel Authenticate(string token);
-        DraftSiteUserViewModel GetProfile(string token);
+        Task<DraftSiteUser> Authenticate(string token);
     }
 }

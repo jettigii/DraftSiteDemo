@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DraftSiteRepository.Migrations
 {
-    public partial class InitialCreation : Migration
+    public partial class InitiaDbCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,20 @@ namespace DraftSiteRepository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Drafts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DraftSiteUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Token = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DraftSiteUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,19 +70,6 @@ namespace DraftSiteRepository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DraftUsers",
                 columns: table => new
                 {
@@ -85,9 +86,9 @@ namespace DraftSiteRepository.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DraftUsers_Users_UserId",
+                        name: "FK_DraftUsers_DraftSiteUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "DraftSiteUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -191,7 +192,7 @@ namespace DraftSiteRepository.Migrations
                 name: "Drafts");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "DraftSiteUsers");
         }
     }
 }

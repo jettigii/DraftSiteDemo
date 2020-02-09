@@ -13,13 +13,13 @@ namespace DraftSiteModels.InputModels
         [StringLength(50)]
         public string Name { get; set; }
 
-        [Range(typeof(int), "0", "60")]
-        public int PickTime { get; set; }
+        [Range(0, 3600)]
+        public int? PickTime { get; set; }
 
-        [Range(typeof(int), "3", "7")]
-        public int RoundCount { get; set; }
+        [Range(3, 7)]
+        public int? RoundCount { get; set; }
 
-        public DateTimeOffset StartTime { get; set; }
+        public DateTimeOffset? StartTime { get; set; }
 
         [StringLength(80)]
         public string UserId { get; set; }

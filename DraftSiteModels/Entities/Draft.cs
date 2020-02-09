@@ -1,7 +1,7 @@
-﻿using System;
+﻿using DraftSiteModels.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace DraftSiteModels.Entities
 {
@@ -18,15 +18,18 @@ namespace DraftSiteModels.Entities
         public string Name { get; set; }
 
         [Range(typeof(int), "0", "60")]
-        public int PickTime { get; set; }
+        public virtual DraftTime PickTime { get; set; }
+
+        public int PickTimeId { get; set; }
 
         [Range(typeof(int), "3", "7")]
         public int RoundCount { get; set; }
 
         public DateTimeOffset StartTime { get; set; }
 
-        [StringLength(80)]
-        public string UserId { get; set; }
+        public virtual DraftSiteUser Owner { get; set; }
+
+        public int OwnerId { get; set; }
 
         public IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }
 

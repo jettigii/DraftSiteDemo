@@ -1,52 +1,56 @@
 ﻿using DraftSiteModels.InputModels;
+using DraftSiteService.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DraftSiteApi.Controllers
 {
+    [Authorize]
+    [EnableCors(Startup.VUE_CORS_POLICY)]
+    [ApiController]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        public UserController()
-        {
+        private readonly IUserService _userService;
 
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody]DraftSiteToken model)
         {
-            var user = HttpContext.User;
+            var user = await _userService.Authenticate(model.Token);
 
-            //if (user == null)
-            //    return BadRequest(new { message = "Username or password is incorrect" });
+            if (string.IsNullOrWhiteSpace(user.Username))
+            {
+                return NotFound();
+            }
 
-            //var claims = new List<Claim>
-            //{
-            //    new Claim(ClaimTypes.Name, model.Username)
-            //};
 
-            //var userIdentity = new ClaimsIdentity(claims, "login");
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.SerialNumber, user.Id.ToString()),
+            };
 
-            //ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-            //await HttpContext.SignInAsync(principal);
+            var userIdentity = new ClaimsIdentity(claims, "login");
+            ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
+            await HttpContext.SignInAsync(principal);
 
-            //// return basic user info and authentication token
-            //return Ok(new
-            //{
-            //    user.Username
-            //});
-            return NotFound();
-        }
+            // return basic user info and authentication token
+            return Ok(new
+            {
+                user.Username
+            });
 
-        [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> GetProfile([FromBody]DraftSiteToken model)
-        {
-            return NotFound();
         }
     }
 }
