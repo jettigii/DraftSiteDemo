@@ -27,7 +27,6 @@ namespace DraftSiteService.Services
         public async Task<DraftViewModel> CreateDraft(DraftInputModel draft)
         {
             var draftEntity = _mapper.Map<Draft>(draft);
-            //draftEntity.OwnerId = 1;
             draftEntity.PickTimeId = GetDraftTimeFromSeconds(draft.PickTime.Value).Id;
             var newDraft = await _draftRepository.CreateDraft(draftEntity);
             var draftViewModel = _mapper.Map<DraftViewModel>(newDraft);

@@ -26,7 +26,7 @@ namespace DraftSiteRepository.Repositories
 
         public async Task<List<Draft>> GetDrafts(int userId)
         {
-            var drafts = await _context.Drafts.Where(draft => draft.OwnerId == userId).ToListAsync();
+            var drafts = await _context.Drafts.Where(draft => draft.IsPublic).ToListAsync();
             return drafts;
         }
 
