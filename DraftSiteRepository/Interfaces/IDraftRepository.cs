@@ -1,5 +1,4 @@
 ﻿using DraftSiteModels.Entities;
-using DraftSiteModels.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,8 +8,10 @@ namespace DraftSiteRepository.Interfaces
     {
         Task<Draft> CreateDraft(Draft draft);
 
-        Task<List<Draft>> GetDrafts(int userId);
+        Task<List<Draft>> GetDrafts();
 
-        List<DraftTime> GetDraftTimes();
+        Task<List<DraftTime>> GetDraftTimes();
+
+        Task<List<DraftStatus>> GetDraftStatuses();
     }
 }

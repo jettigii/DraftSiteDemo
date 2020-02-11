@@ -2,7 +2,7 @@ import DraftService from "../../services/draft-service.js";
 
 const state = {
   createDraftResponse: {},
-  draftLobby: [],
+  drafts: [],
   draftLobbyError: "",
   draftLookups: "",
   lookupError: {},
@@ -22,17 +22,13 @@ const actions = {
         commit("setCreateDraftResponse", error);
       });
   },
-  async loadDraftLobby({ commit }, token) {
+  async loadDraftLobby({ commit }) {
     const draftService = new DraftService();
 
     await draftService
-      .getDrafts(token)
+      .getDrafts()
       .then(response => {
-        if (response.data.drafts) {
-          commit("setDraftLobby", response.data.drafts);
-        } else {
-          commit("setDraftLobby", []);
-        }
+        commit("setDraftLobby", response.data);
       })
       .catch(error => {
         commit("setDraftLobby", []);

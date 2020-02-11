@@ -1,7 +1,6 @@
-﻿using DraftSiteModels.Entities;
-using DraftSiteModels.Models;
+﻿using DraftSiteModels.Data;
+using DraftSiteModels.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace DraftSiteRepository
 {
@@ -21,7 +20,9 @@ namespace DraftSiteRepository
         public DbSet<DraftTeamUserPlayer> DraftTeamUserPlayers { get; set; }
 
         // Data Tables
+        public DbSet<DraftStatus> DraftStatuses { get; set; }
         public DbSet<DraftTime> DraftTimes { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -72,6 +73,11 @@ namespace DraftSiteRepository
                 .WithOne(foreignEntity => foreignEntity.PickTime)
                 .HasForeignKey(entity => entity.PickTimeId);
 
+            modelBuilder.Entity<DraftStatus>()
+                .HasMany(entity => entity.Drafts)
+                .WithOne(foreignEntity => foreignEntity.DraftStatus)
+                .HasForeignKey(entity => entity.DraftStatusId);
+
             modelBuilder.Entity<Draft>()
                 .HasOne(entity => entity.Owner)
                 .WithMany(foreignEntity => foreignEntity.Drafts)
@@ -112,18 +118,10 @@ namespace DraftSiteRepository
 
         private ModelBuilder SeedDraftTimeData(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DraftTime>().HasData(DraftTimeData);
+            modelBuilder.Entity<DraftStatus>().HasData(DraftStatusData.DraftStatuses);
+            modelBuilder.Entity<DraftTime>().HasData(DraftTimeData.DraftTimes);
 
             return modelBuilder;
         }
-
-        public List<DraftTime> DraftTimeData = new List<DraftTime>()
-        {
-            new DraftTime() { Id = 1, Name = "ThirtySeconds", TimeInSeconds = 30, Value = "30 Seconds" },
-            new DraftTime() { Id = 2, Name = "OneMinute", TimeInSeconds = 60, Value = "1 Minute" },
-            new DraftTime() { Id = 3, Name = "FiveMinutes", TimeInSeconds = 300, Value = "5 Minutes" },
-            new DraftTime() { Id = 4, Name = "OneHour", TimeInSeconds = 3600, Value = "1 Hour" },
-            new DraftTime() { Id = 5, Name = "Unlimited", TimeInSeconds = 0, Value = "Unlimited" }
-        };
     }
 }

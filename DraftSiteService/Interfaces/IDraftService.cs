@@ -1,15 +1,16 @@
 ﻿using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DraftSiteService.Interfaces
 {
     public interface IDraftService
     {
-        Task<DraftLobbyViewModel> GetUserLobby(string token);
+        Task<List<DraftViewModel>> GetUserLobby();
 
         Task<DraftViewModel> CreateDraft(DraftInputModel draft);
 
-        DraftDataViewModel GetDraftLookups();
+       Task< DraftDataViewModel> GetDraftLookups();
     }
 }

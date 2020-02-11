@@ -11,6 +11,10 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(Vuex);
 
+Vue.filter("yesno", function(value) {
+  return value ? "Yes" : "No";
+});
+
 new Vue({
   router,
   store,

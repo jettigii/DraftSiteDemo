@@ -24,10 +24,16 @@
           >Public?
         </b-form-checkbox>
         <b-form-checkbox
-          v-model="hasComputerTeams"
+          v-model="isComputerTeams"
           name="has-computer-teams-check-button"
           switch
           >Allow Computer Teams
+        </b-form-checkbox>
+        <b-form-checkbox
+          v-model="isMultiSelect"
+          name="has-multi-select-check-button"
+          switch
+          >Allow Multiple Team Selection
         </b-form-checkbox>
         <h3>Draft Start</h3>
         <input
@@ -85,7 +91,8 @@ export default {
       draftRoundSelected: {},
       draftTimeSelected: {},
       errorMessage: "",
-      hasComputerTeams: false,
+      isComputerTeams: false,
+      isMultiSelect: false,
       isPublic: false,
       draftName: ""
     };
@@ -103,7 +110,8 @@ export default {
       evt.preventDefault();
       await this.createDraft({
         name: this.draftName,
-        hasComputerTeams: this.hasComputerTeams,
+        isComputerTeams: this.isComputerTeams,
+        isMultiSelect: this.isMultiSelect,
         isPublic: this.isPublic,
         pickTime: this.draftTimeSelected,
         roundCount: this.draftRoundSelected

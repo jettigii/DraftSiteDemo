@@ -1,13 +1,18 @@
 <template>
   <div class="DraftLobby">
-    {{ user.username }}
     <div id="main">
-      <!-- Post -->
-      <section class="post">
-        <header class="major"></header>
-      </section>
+      <b-table hover :items="draftData">
+        <template v-slot:cell(isComputerTeams)="data">
+          <b class="text-info">{{ data.value | yesno }}</b>
+        </template>
+        <template v-slot:cell(isMultiSelect)="data">
+          <b class="text-info">{{ data.value | yesno }}</b>
+        </template>
+        <template v-slot:cell(isPublic)="data">
+          <b class="text-info">{{ data.value | yesno }}</b>
+        </template>
+      </b-table>
     </div>
-    <b-table hover :items="drafts"></b-table>
   </div>
 </template>
 
@@ -15,18 +20,8 @@
 import { mapActions, mapState } from "vuex";
 
 export default {
-  data() {
-    return {
-      drafts: [],
-      error: false,
-      errorMessage: "",
-      user: {}
-    };
-  },
   async mounted() {
-    await this.loadDraftLobby("abc");
-    this.user = this.userData;
-    this.drafts = this.draftData;
+    await this.loadDraftLobby();
   },
   methods: {
     ...mapActions({
@@ -35,7 +30,6 @@ export default {
   },
   computed: {
     ...mapState({
-      userData: state => state.draft.user,
       draftData: state => state.draft.drafts
     })
   }

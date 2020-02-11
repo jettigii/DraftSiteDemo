@@ -1,7 +1,6 @@
 ﻿using DraftSiteModels.Entities;
 using DraftSiteRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DraftSiteRepository.Repositories
@@ -17,7 +16,13 @@ namespace DraftSiteRepository.Repositories
 
         public async Task<DraftSiteUser> Authenticate(string token)
         {
-            var user = await _context.DraftSiteUsers.Where(user => user.Token == token).SingleOrDefaultAsync();
+            var user = await _context.DraftSiteUsers.SingleOrDefaultAsync(user => user.Token == token);
+            return user;
+        }
+
+        public async Task<DraftSiteUser> GetUserById(int id)
+        {
+            var user = await _context.DraftSiteUsers.SingleOrDefaultAsync(user => user.Id == id);
             return user;
         }
     }

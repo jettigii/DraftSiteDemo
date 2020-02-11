@@ -1,9 +1,7 @@
 ﻿using DraftSiteModels.Entities;
-using DraftSiteModels.Models;
 using DraftSiteRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DraftSiteRepository.Repositories
@@ -24,15 +22,27 @@ namespace DraftSiteRepository.Repositories
             return draft;
         }
 
-        public async Task<List<Draft>> GetDrafts(int userId)
+        public async Task<List<Draft>> GetDrafts()
         {
-            var drafts = await _context.Drafts.Where(draft => draft.IsPublic).ToListAsync();
+            var drafts = await _context
+                .Drafts
+                .Include(draft => draft.Owner)
+                .Include(draft => draft.PickTime)
+                .Include(draft => draft.DraftStatus)
+                .ToListAsync();
             return drafts;
         }
 
-        public List<DraftTime> GetDraftTimes()
+        public async Task<List<DraftStatus>> GetDraftStatuses()
         {
-            return _context.DraftTimeData;
+            var statuses = await _context.DraftStatuses.ToListAsync();
+            return statuses;
+        }
+
+        public async Task<List<DraftTime>> GetDraftTimes()
+        {
+            var times = await _context.DraftTimes.ToListAsync();
+            return times;
         }
     }
 }

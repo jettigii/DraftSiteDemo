@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DraftSiteModels.Entities;
 using DraftSiteModels.InputModels;
-using DraftSiteModels.Models;
 using DraftSiteModels.ViewModels;
 using DraftSiteRepository.Interfaces;
 using DraftSiteService.Interfaces;
@@ -27,40 +26,38 @@ namespace DraftSiteService.Services
         public async Task<DraftViewModel> CreateDraft(DraftInputModel draft)
         {
             var draftEntity = _mapper.Map<Draft>(draft);
-            draftEntity.PickTimeId = GetDraftTimeFromSeconds(draft.PickTime.Value).Id;
+            var draftTime = await GetDraftTimeFromSeconds(draft.PickTime.Value);
+            draftEntity.PickTimeId = draftTime.Id;
+            draftEntity.OwnerId = draft.UserId;
+            draftEntity.DraftStatusId = 1;
+
             var newDraft = await _draftRepository.CreateDraft(draftEntity);
             var draftViewModel = _mapper.Map<DraftViewModel>(newDraft);
             return draftViewModel;
         }
 
-        public async Task<DraftLobbyViewModel> GetUserLobby(string token)
+        public async Task<List<DraftViewModel>> GetUserLobby()
         {
-
-            var user = await _userRepository.Authenticate(token);
-            var drafts = await _draftRepository.GetDrafts(user.Id);
-
-            var userViewModel = _mapper.Map<DraftSiteUserViewModel>(user);
+            var drafts = await _draftRepository.GetDrafts();
             var draftLobbyViewModel = _mapper.Map<List<DraftViewModel>>(drafts);
-
-            var draftLobby = new DraftLobbyViewModel()
-            {
-                Drafts = draftLobbyViewModel,
-                User = userViewModel
-            };
-
-            return draftLobby;
+            return draftLobbyViewModel;
         }
 
-        public DraftTime GetDraftTimeFromSeconds(int seconds)
+        public async Task<DraftTime> GetDraftTimeFromSeconds(int seconds)
         {
-            return _draftRepository.GetDraftTimes().Single(draftTime => draftTime.TimeInSeconds == seconds);
+            var draftTimes = await _draftRepository.GetDraftTimes();
+            return draftTimes.Single(draftTime => draftTime.TimeInSeconds == seconds);
         }
 
-        public DraftDataViewModel GetDraftLookups()
+        public async Task<DraftDataViewModel> GetDraftLookups()
         {
+            var draftTimes = await _draftRepository.GetDraftTimes();
+            var draftStatuses = await _draftRepository.GetDraftStatuses();
+
             return new DraftDataViewModel()
             {
-                DraftTimes = _mapper.Map<List<DraftTimeViewModel>>(_draftRepository.GetDraftTimes().ToList())
+                DraftTimes = _mapper.Map<List<DraftTimeViewModel>>(draftTimes),
+                DraftStatuses = _mapper.Map<List<DraftStatusViewModel>>(draftStatuses)
             };
         }
     }

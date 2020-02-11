@@ -1,15 +1,12 @@
-﻿using DraftSiteModels.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace DraftSiteModels.Models
+namespace DraftSiteModels.Entities
 {
-    public class DraftTime
+    public class DraftStatus
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
-
-        public int TimeInSeconds { get; set; }
 
         public string Value { get; set; }
 

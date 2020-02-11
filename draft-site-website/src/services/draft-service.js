@@ -17,8 +17,8 @@ class DraftService {
     return apiCall;
   }
 
-  async getDrafts(token) {
-    const apiCall = await axios.get(draftEndpoint + token, {
+  async getDrafts() {
+    const apiCall = await axios.get(draftEndpoint, {
       headers: {
         "Access-Control-Allow-Origin": "http://localhost:8080/"
       }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DraftSiteRepository.Migrations
 {
     [DbContext(typeof(DraftSiteContext))]
-    [Migration("20200209211005_FirstCleanup")]
-    partial class FirstCleanup
+    [Migration("20200211021023_InitialDbCreation")]
+    partial class InitialDbCreation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,9 @@ namespace DraftSiteRepository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("DraftStatusId")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasComputerTeams")
@@ -52,6 +55,8 @@ namespace DraftSiteRepository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DraftStatusId");
+
                     b.HasIndex("OwnerId");
 
                     b.HasIndex("PickTimeId");
@@ -74,6 +79,67 @@ namespace DraftSiteRepository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DraftSiteUsers");
+                });
+
+            modelBuilder.Entity("DraftSiteModels.Entities.DraftStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DraftStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "WaitingForPlayers",
+                            Value = "Waiting for players"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "WaitingForOwnerToStart",
+                            Value = "Waiting for owner"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "WaitingForTimerToStart",
+                            Value = "Waiting for time"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "InProgress",
+                            Value = "In Progress"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Paused",
+                            Value = "Paused"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Completed",
+                            Value = "Completed"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Canceled",
+                            Value = "Canceled"
+                        });
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.DraftTeamUser", b =>
@@ -117,53 +183,7 @@ namespace DraftSiteRepository.Migrations
                     b.ToTable("DraftTeamUserPlayers");
                 });
 
-            modelBuilder.Entity("DraftSiteModels.Entities.DraftUser", b =>
-                {
-                    b.Property<int>("DraftId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DraftId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("DraftUsers");
-                });
-
-            modelBuilder.Entity("DraftSiteModels.Entities.Player", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("College")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Players");
-                });
-
-            modelBuilder.Entity("DraftSiteModels.Entities.Team", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("DraftSiteModels.Models.DraftTime", b =>
+            modelBuilder.Entity("DraftSiteModels.Entities.DraftTime", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -220,15 +240,67 @@ namespace DraftSiteRepository.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DraftSiteModels.Entities.DraftUser", b =>
+                {
+                    b.Property<int>("DraftId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DraftId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("DraftUsers");
+                });
+
+            modelBuilder.Entity("DraftSiteModels.Entities.Player", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("College")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("DraftSiteModels.Entities.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+                });
+
             modelBuilder.Entity("DraftSiteModels.Entities.Draft", b =>
                 {
+                    b.HasOne("DraftSiteModels.Entities.DraftStatus", "DraftStatus")
+                        .WithMany("Drafts")
+                        .HasForeignKey("DraftStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DraftSiteModels.Entities.DraftSiteUser", "Owner")
                         .WithMany("Drafts")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DraftSiteModels.Models.DraftTime", "PickTime")
+                    b.HasOne("DraftSiteModels.Entities.DraftTime", "PickTime")
                         .WithMany("Drafts")
                         .HasForeignKey("PickTimeId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -3,7 +3,6 @@ using DraftSiteService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -23,17 +22,19 @@ namespace DraftSiteApi.Controllers
             _draftService = draftService;
         }
 
-        [HttpGet("{token}")]
-        public async Task<IActionResult> GetUserLobby([FromRoute]string token)
+        [HttpGet]
+        public async Task<IActionResult> GetUserLobby()
         {
-            var userLobby = await _draftService.GetUserLobby(token);
-
-            if (string.IsNullOrWhiteSpace(userLobby.User.Username))
+            try
             {
-                return NotFound();
+                int.TryParse(HttpContext.User.Claims.Single(claim => claim.Type == ClaimTypes.SerialNumber).Value, out var userId);
+                var userLobby = await _draftService.GetUserLobby();
+                return Ok(userLobby);
             }
-
-            return Ok(userLobby);
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [AllowAnonymous]
@@ -42,12 +43,12 @@ namespace DraftSiteApi.Controllers
         {
             try
             {
-                var user = HttpContext.User.Identity.Name;
-                draft.UserId = HttpContext.User.Claims.Single(claim => claim.Type == ClaimTypes.SerialNumber).Value;
+                int.TryParse(HttpContext.User.Claims.Single(claim => claim.Type == ClaimTypes.SerialNumber).Value, out var userId);
+                draft.UserId = userId;
                 var draftViewModel = await _draftService.CreateDraft(draft);
                 return Ok(draftViewModel);
             }
-            catch (Exception ex)
+            catch
             {
                 return BadRequest();
             }
@@ -55,9 +56,9 @@ namespace DraftSiteApi.Controllers
 
         [AllowAnonymous]
         [HttpGet("lookups")]
-        public IActionResult GetDraftLookups()
+        public async Task<IActionResult> GetDraftLookups()
         {
-            var draftData = _draftService.GetDraftLookups();
+            var draftData = await _draftService.GetDraftLookups();
             return Ok(draftData);
         }
     }

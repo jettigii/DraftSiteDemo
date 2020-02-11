@@ -1,5 +1,4 @@
-﻿using DraftSiteModels.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,10 +8,10 @@ namespace DraftSiteModels.Entities
     {
         public int Id { get; set; }
 
-        public bool HasComputerTeams { get; set; }
+        public bool IsComputerTeams { get; set; }
         public bool IsPublic { get; set; }
 
-        public bool IsSinglePick { get; set; }
+        public bool IsMultiSelect { get; set; }
 
         [StringLength(50)]
         public string Name { get; set; }
@@ -30,6 +29,9 @@ namespace DraftSiteModels.Entities
         public virtual DraftSiteUser Owner { get; set; }
 
         public int OwnerId { get; set; }
+
+        public DraftStatus DraftStatus { get; set; }
+        public int DraftStatusId { get; set; }
 
         public IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }
 
