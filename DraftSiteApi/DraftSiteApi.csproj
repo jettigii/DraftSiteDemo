@@ -18,6 +18,7 @@
     <ProjectReference Include="..\DraftSiteModels\DraftSiteModels.csproj" />
     <ProjectReference Include="..\DraftSiteRepository\DraftSiteRepository.csproj" />
     <ProjectReference Include="..\DraftSiteService\DraftSiteService.csproj" />
+    <ProjectReference Include="..\FiniTechSolutions\FiniTechSolutions.csproj" />
   </ItemGroup>
 
 

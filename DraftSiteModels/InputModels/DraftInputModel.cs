@@ -13,6 +13,9 @@ namespace DraftSiteModels.InputModels
         [StringLength(50)]
         public string Name { get; set; }
 
+        [StringLength(24)]
+        public string Password { get; set; }
+
         [Range(0, 3600)]
         public int? PickTime { get; set; }
 

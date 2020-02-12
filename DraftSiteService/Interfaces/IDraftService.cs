@@ -7,10 +7,14 @@ namespace DraftSiteService.Interfaces
 {
     public interface IDraftService
     {
-        Task<List<DraftViewModel>> GetUserLobby();
-
         Task<DraftViewModel> CreateDraft(DraftInputModel draft);
 
-       Task< DraftDataViewModel> GetDraftLookups();
+        Task<DraftDataViewModel> GetDraftLookups();
+
+        Task<PreDraftViewModel> GetPreDraftLobby(int draftId, int userId, string password);
+
+        Task<List<DraftViewModel>> GetUserLobby();
+
+        Task<DraftViewModel> UpdateDraftSettings(DraftInputModel draft);
     }
 }

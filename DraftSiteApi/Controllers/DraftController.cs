@@ -37,7 +37,6 @@ namespace DraftSiteApi.Controllers
             }
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreateDraft([FromBody]DraftInputModel draft)
         {
@@ -54,7 +53,6 @@ namespace DraftSiteApi.Controllers
             }
         }
 
-        [AllowAnonymous]
         [HttpGet("lookups")]
         public async Task<IActionResult> GetDraftLookups()
         {

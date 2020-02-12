@@ -8,10 +8,14 @@ namespace DraftSiteRepository.Interfaces
     {
         Task<Draft> CreateDraft(Draft draft);
 
-        Task<List<Draft>> GetDrafts();
+        Task<Draft> GetDraft(int id);
+
+        Task<List<Draft>> GetDrafts();        
+
+        Task<List<DraftStatus>> GetDraftStatuses();
 
         Task<List<DraftTime>> GetDraftTimes();
 
-        Task<List<DraftStatus>> GetDraftStatuses();
+        Task<Draft> UpdateDraftSettings(Draft draft);
     }
 }

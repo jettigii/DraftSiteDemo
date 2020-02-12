@@ -4,6 +4,8 @@ using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
 using DraftSiteRepository.Interfaces;
 using DraftSiteService.Interfaces;
+using FiniTechSolutions.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,14 +14,14 @@ namespace DraftSiteService.Services
 {
     public class DraftService : IDraftService
     {
-        private readonly IUserRepository _userRepository;
         private readonly IDraftRepository _draftRepository;
+        private readonly IPasswordService _passwordService;
         private readonly IMapper _mapper;
 
-        public DraftService(IUserRepository userRepository, IDraftRepository draftRepository, IMapper mapper)
+        public DraftService(IDraftRepository draftRepository, IPasswordService passwordService, IMapper mapper)
         {
-            _userRepository = userRepository;
             _draftRepository = draftRepository;
+            _passwordService = passwordService;
             _mapper = mapper;
         }
 
@@ -33,6 +35,13 @@ namespace DraftSiteService.Services
 
             var newDraft = await _draftRepository.CreateDraft(draftEntity);
             var draftViewModel = _mapper.Map<DraftViewModel>(newDraft);
+            return draftViewModel;
+        }
+
+        public async Task<DraftViewModel> GetDraft(int id)
+        {
+            var draft = await _draftRepository.GetDraft(id);
+            var draftViewModel = _mapper.Map<DraftViewModel>(draft);
             return draftViewModel;
         }
 
@@ -59,6 +68,38 @@ namespace DraftSiteService.Services
                 DraftTimes = _mapper.Map<List<DraftTimeViewModel>>(draftTimes),
                 DraftStatuses = _mapper.Map<List<DraftStatusViewModel>>(draftStatuses)
             };
+        }
+
+        public async Task<PreDraftViewModel> GetPreDraftLobby(int draftId, string username, string password)
+        {
+            var draft = await _draftRepository.GetDraft(draftId);
+
+            if (!_passwordService.Check(draft.password, password))
+            {
+                throw new Exception("Incorrect Password");
+            }
+
+            var preDraftLobbyViewModel = _mapper.Map<PreDraftViewModel>(draft);
+
+            if (draft.Owner.Username == username)
+            {
+                preDraftLobbyViewModel.IsOwner = true;
+            }
+
+            return preDraftLobbyViewModel;
+        }
+
+        public async Task<DraftViewModel> UpdateDraftSettings(DraftInputModel draft)
+        {
+            var draftEntity = _mapper.Map<Draft>(draft);
+            var updatedDraft = await _draftRepository.UpdateDraftSettings(draftEntity);
+            var preDraftLobbyViewModel = _mapper.Map<DraftViewModel>(updatedDraft);
+            return preDraftLobbyViewModel;
+        }
+
+        public Task<PreDraftViewModel> GetPreDraftLobby(int draftId, int userId, string password)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

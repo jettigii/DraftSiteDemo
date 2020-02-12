@@ -26,6 +26,8 @@ namespace DraftSiteModels.Entities
 
         public DateTimeOffset StartTime { get; set; }
 
+        public string password { get; set; }
+
         public virtual DraftSiteUser Owner { get; set; }
 
         public int OwnerId { get; set; }

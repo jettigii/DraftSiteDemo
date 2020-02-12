@@ -23,6 +23,15 @@
         <b-form-checkbox v-model="isPublic" name="is-public-check-button" switch
           >Public?
         </b-form-checkbox>
+        <div v-if="!isPublic">
+          <b-form-input
+            type="text"
+            name="txtPassword"
+            id="txtPassword"
+            v-model="password"
+            placeholder="Password"
+          ></b-form-input>
+        </div>
         <b-form-checkbox
           v-model="isComputerTeams"
           name="has-computer-teams-check-button"
@@ -94,7 +103,8 @@ export default {
       isComputerTeams: false,
       isMultiSelect: false,
       isPublic: false,
-      draftName: ""
+      draftName: "",
+      password: ""
     };
   },
   async mounted() {
@@ -113,6 +123,7 @@ export default {
         isComputerTeams: this.isComputerTeams,
         isMultiSelect: this.isMultiSelect,
         isPublic: this.isPublic,
+        password: this.password,
         pickTime: this.draftTimeSelected,
         roundCount: this.draftRoundSelected
       });

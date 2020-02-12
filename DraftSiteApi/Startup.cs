@@ -1,10 +1,14 @@
 using AutoMapper;
+using DraftSiteApi.Hubs;
+using DraftSiteModels.HubModels;
 using DraftSiteModels.Maps;
 using DraftSiteRepository;
 using DraftSiteRepository.Interfaces;
 using DraftSiteRepository.Repositories;
 using DraftSiteService.Interfaces;
 using DraftSiteService.Services;
+using FiniTechSolutions.Interfaces;
+using FiniTechSolutions.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +36,7 @@ namespace DraftSiteApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSignalR();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -50,6 +55,9 @@ namespace DraftSiteApi
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDraftRepository, DraftRepository>();
+
+            services.AddScoped<IUserMappingService<HubUser>, UserMappingService<HubUser>>();
+            services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddCors(options =>
             {
@@ -86,6 +94,7 @@ namespace DraftSiteApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PreDraftLobbyHub>("/hubs/preDraftLobby");
             });
         }
     }
