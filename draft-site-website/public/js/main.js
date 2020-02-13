@@ -271,3 +271,36 @@ function startDateSwitch() {
 	}
 }
 
+// Show team area
+function teamSwitch() {
+	var element2 = document.getElementById("btnTeamSwitch");
+	var element = document.getElementById("btnPlayerSwitch");
+	element.classList.add("primary");
+	element2.classList.remove("primary");
+
+	var teamArea = document.getElementById("teamArea");
+	var playerArea = document.getElementById("playersArea");
+	teamArea.style.display = "block";
+	playerArea.style.display = "none";
+}
+// show player area
+function playerSwitch() {
+	var element2 = document.getElementById("btnPlayerSwitch");
+	var element = document.getElementById("btnTeamSwitch");
+	element.classList.add("primary");
+	element2.classList.remove("primary");
+
+	var teamArea = document.getElementById("teamArea");
+	var playerArea = document.getElementById("playersArea");
+	teamArea.style.display = "none";
+	playerArea.style.display = "block";
+}
+
+// chat window open-close
+function openForm() {
+	if (document.getElementById("chatForm").style.display == "block")
+		document.getElementById("chatForm").style.display = "none";
+	else
+		document.getElementById("chatForm").style.display = "block";
+}
+  

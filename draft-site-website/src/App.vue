@@ -1,19 +1,20 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
 
     <!-- Nav -->
     <nav id="nav">
       <ul class="links">
-        <li class="active"><a href="index.html">Draft Logo</a></li>
+        <li class="active"><router-link to="home">Draft Logo</router-link></li>
 
-        <router-link to="/">Draft Lobby</router-link>
-        <router-link to="createDraft">Create Draft</router-link>
+        <li ><router-link to="lobby">Draft Lobby</router-link></li>
+        <li ><router-link to="createDraft">Create Draft</router-link></li>
+        <li ><router-link to="preDraft">Pre Draft</router-link></li>
       </ul>
       {{ user.username }}
     </nav>
 
-    <div>
+    <div style="width:100%; height:100%; padding-top: 100px;">
       <router-view />
     </div>
 
@@ -24,7 +25,9 @@
         <li>Designed by: FiniTech Inc.</li>
       </ul>
     </div>
+
   </div>
+
 </template>
 
 <script>
@@ -61,8 +64,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 100px;
+  margin: 0px;
+  /* margin-top: 100px; */
   height: 100%;
   width: 100%;
+}
+#nav {
+  border-bottom-width: 5px;
+  /* border-color: goldenrod; */
+  border-color: red;
+  border-style: solid;
 }
 </style>
