@@ -1,8 +1,19 @@
 <template>
-  <div class="DraftCreate">
-    <div id="main">
-      <h2>Create Draft</h2>
+  <div class="DraftCreate blur" style="width:100%;height:100%">
+    <div id="main" style="background-color: rgba(0, 0, 0, 0); width:100%">
+      
+      <div class="centerIt">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Create Draft</h4>
+            <router-link to="/"><button type="button" class="close" data-dismiss="modal" style="border: 0;border-radius: 0px;box-shadow: none; background: none;">&times;</button></router-link>
+          </div>
+          
       <b-form @submit="onSubmit" @reset="onReset">
+        <div class="modal-body">
+
+        <div class="actions">
+        <label for="txtName">Name</label>
         <b-form-input
           type="text"
           name="txtName"
@@ -10,41 +21,56 @@
           v-model="draftName"
           placeholder="Name"
         ></b-form-input>
+        </div>
+        <br>
+        <div class="actions" style="display:inline-block; text-align:left; width:40%;">
+        <label for="draftRoundSelected">Draft Rounds</label>
         <b-form-select
           v-model="draftRoundSelected"
           :options="draftRounds"
+          id="draftRoundSelected"
         ></b-form-select>
+        </div>
+        
+        <!-- Spacer -->
+        <div style="display:inline-block; text-align:left; width:5%;"></div>
+
+        <div class="actions" style="display:inline-block; text-align:left; width:40%;">
+        <label for="draftRoundSelected">Draft Time</label>
         <b-form-select
           v-model="draftTimeSelected"
           :options="draftLookups.draftTimes"
           value-field="timeInSeconds"
           text-field="value"
         ></b-form-select>
-        <b-form-checkbox v-model="isPublic" name="is-public-check-button" switch
-          >Public?
-        </b-form-checkbox>
-        <div v-if="!isPublic">
-          <b-form-input
-            type="text"
-            name="txtPassword"
-            id="txtPassword"
-            v-model="password"
-            placeholder="Password"
-          ></b-form-input>
         </div>
+
+        <br><br>
+
+        <b-form-checkbox v-model="isPublic" name="is-public-check-button" switch size="sm"
+          ><label>Public?</label>
+        </b-form-checkbox>
+
         <b-form-checkbox
           v-model="isComputerTeams"
           name="has-computer-teams-check-button"
           switch
-          >Allow Computer Teams
+          size="sm"
+          ><label>Allow Computer Teams</label>
         </b-form-checkbox>
+
         <b-form-checkbox
           v-model="isMultiSelect"
           name="has-multi-select-check-button"
           switch
-          >Allow Multiple Team Selection
+          size="sm"
+          ><label>Allow Multiple Team Selection</label>
         </b-form-checkbox>
-        <h3>Draft Start</h3>
+
+        <div class="actions" style="display:inline-block; margin-right:10px; text-align:left;">
+        <label>Draft Start</label>
+        </div>
+
         <input
           type="radio"
           id="rdoDraftStartAuto"
@@ -52,6 +78,7 @@
           onclick="startDateSwitch();"
           checked
         />
+        
         <label for="rdoDraftStartAuto">Automatic</label>
         <input
           type="radio"
@@ -59,26 +86,34 @@
           name="rdoDraftStart"
           onclick="startDateSwitch();"
         />
+        
         <label for="rdoDraftStartMan">Manual</label>
         <!-- Manual Date -->
-        <h3>
+        <h5 id="lblManDate" style="display: none;">
           Select start date:
-        </h3>
+        </h5>
         <input
           type="date"
           name="tpManualDate"
           id="tpManualDate"
           value=""
           placeholder="CurrentDate"
+          style="display: none;"
         />
+        </div>
+        
         <!-- Submit and reset Buttons -->
+        <div class="modal-footer">
         <ul class="actions">
           <li>
             <input type="submit" value="Create" class="primary" />
           </li>
           <li><input type="reset" value="Reset" /></li>
         </ul>
+        </div>
       </b-form>
+      </div>
+      </div>
     </div>
   </div>
 </template>
@@ -103,8 +138,7 @@ export default {
       isComputerTeams: false,
       isMultiSelect: false,
       isPublic: false,
-      draftName: "",
-      password: ""
+      draftName: ""
     };
   },
   async mounted() {
@@ -123,7 +157,6 @@ export default {
         isComputerTeams: this.isComputerTeams,
         isMultiSelect: this.isMultiSelect,
         isPublic: this.isPublic,
-        password: this.password,
         pickTime: this.draftTimeSelected,
         roundCount: this.draftRoundSelected
       });
@@ -145,36 +178,30 @@ export default {
 </script>
 
 <style scoped>
-.grid-container {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 33% 33% 33%;
-  grid-template-areas: "Public rdPublic" "comTeams rdComTeams" "draftStart rdDraftStart";
-  width: 100%;
+
+.blur {
+  background-image: url('../assets/bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.centerIt {
+  display: inline-block; 
+  margin: 0 auto;
+  padding: 3px;
+  width: 60%;
   text-align: left;
 }
 
-.Public {
-  grid-area: Public;
+@media only screen and (max-width: 600px) {
+  .centerIt {
+    display: inline-block; 
+    margin: 0 auto;
+    padding: 3px;
+    width: 90%;
+    text-align: left;
+  }
 }
 
-.rdPublic {
-  grid-area: rdPublic;
-}
 
-.comTeams {
-  grid-area: comTeams;
-}
-
-.rdComTeams {
-  grid-area: rdComTeams;
-}
-
-.draftStart {
-  grid-area: draftStart;
-}
-
-.rdDraftStart {
-  grid-area: rdDraftStart;
-}
 </style>

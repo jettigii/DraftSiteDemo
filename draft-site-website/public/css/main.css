@@ -6,6 +6,10 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
+html, body {
+	height: 100%;
+	background-color:#1E252D;
+}
 
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
@@ -2439,18 +2443,18 @@ input, select, textarea {
 				content: '';
 				display: inline-block;
 				font-size: 0.8rem;
-				height: 1.8rem;
+				height: 1.2rem;
 				left: 0;
 				line-height: 1.65rem;
 				position: absolute;
 				text-align: center;
 				top: -0.125rem;
-				width: 1.8rem;
+				width: 1.2rem;
 			}
 
 		input[type="checkbox"]:checked + label:before,
 		input[type="radio"]:checked + label:before {
-			content: '\f00c';
+			/* content: '\f00c'; */
 		}
 
 	input[type="checkbox"] + label:before {
@@ -4409,7 +4413,7 @@ input, select, textarea {
 		line-height: 1.5;
 		text-align: center;
 		text-transform: uppercase;
-		margin: 4rem auto 8rem auto;
+		margin: 2rem auto 2rem auto;
 		width: calc(100% - 4rem);
 		max-width: 72rem;
 		z-index: 2;
