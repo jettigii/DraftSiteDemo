@@ -23,6 +23,21 @@ namespace DraftSiteRepository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DraftStartTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true),
+                    IsEnabled = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DraftStartTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DraftStatuses",
                 columns: table => new
                 {
@@ -84,19 +99,27 @@ namespace DraftSiteRepository.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    HasComputerTeams = table.Column<bool>(nullable: false),
+                    IsComputerTeams = table.Column<bool>(nullable: false),
                     IsPublic = table.Column<bool>(nullable: false),
-                    IsSinglePick = table.Column<bool>(nullable: false),
+                    IsMultiSelect = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: true),
                     PickTimeId = table.Column<int>(nullable: false),
                     RoundCount = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTimeOffset>(nullable: false),
+                    password = table.Column<string>(nullable: true),
                     OwnerId = table.Column<int>(nullable: false),
-                    DraftStatusId = table.Column<int>(nullable: false)
+                    DraftStatusId = table.Column<int>(nullable: false),
+                    DraftStartTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Drafts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Drafts_DraftStartTypes_DraftStartTypeId",
+                        column: x => x.DraftStartTypeId,
+                        principalTable: "DraftStartTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Drafts_DraftStatuses_DraftStatusId",
                         column: x => x.DraftStatusId,
@@ -147,7 +170,8 @@ namespace DraftSiteRepository.Migrations
                 {
                     DraftId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
-                    TeamId = table.Column<int>(nullable: false)
+                    TeamId = table.Column<int>(nullable: false),
+                    IsComputer = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,6 +223,15 @@ namespace DraftSiteRepository.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "DraftStartTypes",
+                columns: new[] { "Id", "IsEnabled", "Name", "Value" },
+                values: new object[,]
+                {
+                    { 1, true, "Manual", "Manual" },
+                    { 2, false, "Automatic", "Automatic" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "DraftStatuses",
                 columns: new[] { "Id", "Name", "Value" },
                 values: new object[,]
@@ -223,6 +256,11 @@ namespace DraftSiteRepository.Migrations
                     { 4, "OneHour", 3600, "1 Hour" },
                     { 5, "Unlimited", 0, "Unlimited" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Drafts_DraftStartTypeId",
+                table: "Drafts",
+                column: "DraftStartTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Drafts_DraftStatusId",
@@ -279,6 +317,9 @@ namespace DraftSiteRepository.Migrations
 
             migrationBuilder.DropTable(
                 name: "Drafts");
+
+            migrationBuilder.DropTable(
+                name: "DraftStartTypes");
 
             migrationBuilder.DropTable(
                 name: "DraftStatuses");

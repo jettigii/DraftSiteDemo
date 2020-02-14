@@ -30,10 +30,15 @@ namespace DraftSiteService.Services
         public async Task<DraftViewModel> CreateDraft(DraftInputModel draft)
         {
             var draftEntity = _mapper.Map<Draft>(draft);
+
             var draftTime = await GetDraftTimeFromSeconds(draft.PickTime);
             draftEntity.PickTimeId = draftTime.Id;
             draftEntity.OwnerId = draft.UserId;
             draftEntity.DraftStatusId = 1;
+
+            DateTimeOffset.TryParse(draft.StartTime, out var startTime);
+            draftEntity.StartTime = startTime;
+
             // TODO Create draft players to allow for custom players or removal of players.
             var newDraft = await _draftRepository.CreateDraft(draftEntity);
             var draftViewModel = _mapper.Map<DraftViewModel>(newDraft);
@@ -64,11 +69,13 @@ namespace DraftSiteService.Services
         {
             var draftTimes = await _draftRepository.GetDraftTimes();
             var draftStatuses = await _draftRepository.GetDraftStatuses();
+            var draftStartTypes = await _draftRepository.GetStartTypes();
 
             return new DraftDataViewModel()
             {
+                DraftStartTimes = _mapper.Map<List<DraftStartTypeViewModel>>(draftStartTypes),
+                DraftStatuses = _mapper.Map<List<DraftStatusViewModel>>(draftStatuses),
                 DraftTimes = _mapper.Map<List<DraftTimeViewModel>>(draftTimes),
-                DraftStatuses = _mapper.Map<List<DraftStatusViewModel>>(draftStatuses)
             };
         }
 

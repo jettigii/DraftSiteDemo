@@ -26,7 +26,6 @@ namespace DraftSiteRepository.Repositories
         {
             await _context.DraftTeamUsers.AddAsync(user);
             await _context.SaveChangesAsync();
-
             return user;
         }
 
@@ -80,6 +79,12 @@ namespace DraftSiteRepository.Repositories
         {
             var players = await _context.Players.ToListAsync();
             return players;
+        }
+
+        public async Task<List<DraftStartType>> GetStartTypes()
+        {
+            var draftStartTypes = await _context.DraftStartTypes.ToListAsync();
+            return draftStartTypes;
         }
 
         public async Task<List<Team>> GetTeams()

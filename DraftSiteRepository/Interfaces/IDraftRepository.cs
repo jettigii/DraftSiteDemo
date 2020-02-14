@@ -16,6 +16,8 @@ namespace DraftSiteRepository.Interfaces
 
         Task<List<Draft>> GetDrafts();
 
+        Task<List<DraftStartType>> GetStartTypes();
+
         Task<List<DraftStatus>> GetDraftStatuses();
 
         Task<List<DraftTime>> GetDraftTimes();

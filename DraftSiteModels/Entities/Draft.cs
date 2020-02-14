@@ -35,6 +35,9 @@ namespace DraftSiteModels.Entities
         public DraftStatus DraftStatus { get; set; }
         public int DraftStatusId { get; set; }
 
+        public DraftStartType DraftStartType { get; set; }
+        public int DraftStartTypeId { get; set; }
+
         public IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }
 
         public IEnumerable<DraftUser> DraftUsers { get; set; }

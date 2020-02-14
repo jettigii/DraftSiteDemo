@@ -20,9 +20,9 @@ namespace DraftSiteRepository
         public DbSet<DraftTeamUserPlayer> DraftTeamUserPlayers { get; set; }
 
         // Data Tables
+        public DbSet<DraftStartType> DraftStartTypes { get; set; }
         public DbSet<DraftStatus> DraftStatuses { get; set; }
         public DbSet<DraftTime> DraftTimes { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -68,6 +68,16 @@ namespace DraftSiteRepository
                 .WithMany(foreignEntity => foreignEntity.Drafts)
                 .HasForeignKey(entity => entity.PickTimeId);
 
+            modelBuilder.Entity<Draft>()
+                .HasOne(entity => entity.DraftStartType)
+                .WithMany(foreignEntity => foreignEntity.Drafts)
+                .HasForeignKey(entity => entity.DraftStartTypeId);
+
+            modelBuilder.Entity<Draft>()
+                .HasOne(entity => entity.Owner)
+                .WithMany(foreignEntity => foreignEntity.Drafts)
+                .HasForeignKey(entity => entity.OwnerId);
+
             modelBuilder.Entity<DraftTime>()
                 .HasMany(entity => entity.Drafts)
                 .WithOne(foreignEntity => foreignEntity.PickTime)
@@ -78,15 +88,10 @@ namespace DraftSiteRepository
                 .WithOne(foreignEntity => foreignEntity.DraftStatus)
                 .HasForeignKey(entity => entity.DraftStatusId);
 
-            modelBuilder.Entity<Draft>()
-                .HasOne(entity => entity.Owner)
-                .WithMany(foreignEntity => foreignEntity.Drafts)
-                .HasForeignKey(entity => entity.OwnerId);
-
             modelBuilder.Entity<DraftUser>()
-            .HasOne(entity => entity.User)
-            .WithMany(foreignEntity => foreignEntity.DraftUsers)
-            .HasForeignKey(entity => entity.UserId);
+                .HasOne(entity => entity.User)
+                .WithMany(foreignEntity => foreignEntity.DraftUsers)
+                .HasForeignKey(entity => entity.UserId);
 
             modelBuilder.Entity<DraftUser>()
                 .HasOne(entity => entity.Draft)
@@ -118,6 +123,7 @@ namespace DraftSiteRepository
 
         private ModelBuilder SeedDraftTimeData(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DraftStartType>().HasData(DraftStartTypeData.DraftStartTypes);
             modelBuilder.Entity<DraftStatus>().HasData(DraftStatusData.DraftStatuses);
             modelBuilder.Entity<DraftTime>().HasData(DraftTimeData.DraftTimes);
 

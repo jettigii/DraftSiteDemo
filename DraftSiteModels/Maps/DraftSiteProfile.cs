@@ -14,7 +14,8 @@ namespace DraftSiteModels.Maps
             CreateMap<Draft, DraftViewModel>()
                 .ForMember(destination => destination.Username, opts => opts.MapFrom(source => source.Owner.Username))
                 .ForMember(destination => destination.DraftStatus, opts => opts.MapFrom(source => source.DraftStatus.Value))
-                .ForMember(destination => destination.PickTime, opts => opts.MapFrom(source => source.PickTime.Value));
+                .ForMember(destination => destination.PickTime, opts => opts.MapFrom(source => source.PickTime.Value))
+                .ForMember(destination => destination.DraftStartType, opts => opts.MapFrom(source => source.PickTime.Value));
 
             CreateMap<Draft, PreDraftViewModel>();
 
@@ -22,6 +23,9 @@ namespace DraftSiteModels.Maps
                 .ForMember(destination => destination.PickTime, opts => opts.Ignore());
 
             CreateMap<DraftTime, DraftTimeViewModel>();
+
+            CreateMap<DraftStartType, DraftStartTypeViewModel>();
+            
 
             CreateMap<DraftStatus, DraftStatusViewModel>();
 

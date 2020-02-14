@@ -1,5 +1,5 @@
 <template>
-  <div id="app" >
+  <div id="app">
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
 
     <!-- Nav -->
@@ -7,9 +7,8 @@
       <ul class="links">
         <li class="active"><router-link to="home">Draft Logo</router-link></li>
 
-        <li ><router-link to="lobby">Draft Lobby</router-link></li>
-        <li ><router-link to="createDraft">Create Draft</router-link></li>
-        <li ><router-link to="preDraft">Pre Draft</router-link></li>
+        <li><router-link to="lobby">Draft Lobby</router-link></li>
+        <li><router-link to="createDraft">Create Draft</router-link></li>
       </ul>
       {{ user.username }}
     </nav>
@@ -25,9 +24,7 @@
         <li>Designed by: FiniTech Inc.</li>
       </ul>
     </div>
-
   </div>
-
 </template>
 
 <script>

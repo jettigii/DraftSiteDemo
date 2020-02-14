@@ -22,7 +22,7 @@ namespace DraftSiteModels.InputModels
         [Range(3, 7)]
         public int RoundCount { get; set; }
 
-        public DateTimeOffset StartTime { get; set; }
+        public string StartTime { get; set; }
         
         public int UserId { get; set; }
     }

@@ -191,6 +191,7 @@ export default {
         roundCount: this.roundCount,
         startTime: this.startTime
       });
+      this.$router.push("/lobby");
     },
     onReset() {
       this.draftName = "";

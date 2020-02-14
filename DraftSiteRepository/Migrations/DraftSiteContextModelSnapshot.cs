@@ -23,6 +23,9 @@ namespace DraftSiteRepository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("DraftStartTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DraftStatusId")
                         .HasColumnType("int");
 
@@ -56,6 +59,8 @@ namespace DraftSiteRepository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DraftStartTypeId");
+
                     b.HasIndex("DraftStatusId");
 
                     b.HasIndex("OwnerId");
@@ -80,6 +85,42 @@ namespace DraftSiteRepository.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DraftSiteUsers");
+                });
+
+            modelBuilder.Entity("DraftSiteModels.Entities.DraftStartType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DraftStartTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsEnabled = true,
+                            Name = "Manual",
+                            Value = "Manual"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsEnabled = false,
+                            Name = "Automatic",
+                            Value = "Automatic"
+                        });
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.DraftStatus", b =>
@@ -153,6 +194,9 @@ namespace DraftSiteRepository.Migrations
 
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsComputer")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("DraftId", "UserId", "TeamId");
 
@@ -289,6 +333,12 @@ namespace DraftSiteRepository.Migrations
 
             modelBuilder.Entity("DraftSiteModels.Entities.Draft", b =>
                 {
+                    b.HasOne("DraftSiteModels.Entities.DraftStartType", "DraftStartType")
+                        .WithMany("Drafts")
+                        .HasForeignKey("DraftStartTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DraftSiteModels.Entities.DraftStatus", "DraftStatus")
                         .WithMany("Drafts")
                         .HasForeignKey("DraftStatusId")
