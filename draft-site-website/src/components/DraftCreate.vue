@@ -1,118 +1,137 @@
 <template>
   <div class="DraftCreate blur" style="width:100%;height:100%">
     <div id="main" style="background-color: rgba(0, 0, 0, 0); width:100%">
-      
       <div class="centerIt">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">Create Draft</h4>
-            <router-link to="/"><button type="button" class="close" data-dismiss="modal" style="border: 0;border-radius: 0px;box-shadow: none; background: none;">&times;</button></router-link>
+            <router-link to="/"
+              ><button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                style="border: 0;border-radius: 0px;box-shadow: none; background: none;"
+              >
+                &times;
+              </button></router-link
+            >
           </div>
-          
-      <b-form @submit="onSubmit" @reset="onReset">
-        <div class="modal-body">
 
-        <div class="actions">
-        <label for="txtName">Name</label>
-        <b-form-input
-          type="text"
-          name="txtName"
-          id="txtName"
-          v-model="draftName"
-          placeholder="Name"
-        ></b-form-input>
+          <b-form @submit="onSubmit" @reset="onReset">
+            <div class="modal-body">
+              <div class="actions">
+                <label for="txtName">Name</label>
+                <b-form-input
+                  type="text"
+                  name="txtName"
+                  id="txtName"
+                  v-model="draftName"
+                  placeholder="Name"
+                ></b-form-input>
+              </div>
+              <br />
+              <div
+                class="actions"
+                style="display:inline-block; text-align:left; width:40%;"
+              >
+                <label for="draftRoundSelected">Draft Rounds</label>
+                <b-form-select
+                  v-model="roundCount"
+                  :options="draftRounds"
+                  id="draftRoundSelected"
+                ></b-form-select>
+              </div>
+
+              <!-- Spacer -->
+              <div
+                style="display:inline-block; text-align:left; width:5%;"
+              ></div>
+
+              <div
+                class="actions"
+                style="display:inline-block; text-align:left; width:40%;"
+              >
+                <label for="draftRoundSelected">Draft Time</label>
+                <b-form-select
+                  v-model="pickTime"
+                  :options="draftLookups.draftTimes"
+                  value-field="timeInSeconds"
+                  text-field="value"
+                ></b-form-select>
+              </div>
+
+              <br /><br />
+
+              <b-form-checkbox
+                v-model="isPublic"
+                name="is-public-check-button"
+                switch
+                size="sm"
+                ><label>Public?</label>
+              </b-form-checkbox>
+
+              <div v-show="!isPublic">
+                <label for="txtPassword">Password</label>
+                <b-form-input
+                  type="password"
+                  name="txtPassword"
+                  id="txtPassword"
+                  v-model="password"
+                  placeholder="password"
+                ></b-form-input>
+              </div>
+
+              <b-form-checkbox
+                v-model="isComputerTeams"
+                name="has-computer-teams-check-button"
+                switch
+                size="sm"
+                ><label>Allow Computer Teams</label>
+              </b-form-checkbox>
+
+              <b-form-checkbox
+                v-model="isMultiSelect"
+                name="has-multi-select-check-button"
+                switch
+                size="sm"
+                ><label>Allow Multiple Team Selection</label>
+              </b-form-checkbox>
+
+              <div
+                class="actions"
+                style="display:inline-block; margin-right:10px; text-align:left;"
+              >
+                <label>Draft Start</label>
+              </div>
+
+              <b-form-radio-group
+                v-model="selected"
+                :options="options"
+                class="mb-3"
+                value-field="item"
+                text-field="name"
+                disabled-field="notEnabled"
+              >
+              </b-form-radio-group>
+
+              <datetime
+                format="YYYY-MM-DD h:i:s"
+                width="300px"
+                v-model="startTime"
+              ></datetime>
+            </div>
+
+            <!-- Submit and reset Buttons -->
+            <div class="modal-footer">
+              <ul class="actions">
+                <li>
+                  <input type="submit" value="Create" class="primary" />
+                </li>
+                <li><input type="reset" value="Reset" /></li>
+              </ul>
+            </div>
+          </b-form>
         </div>
-        <br>
-        <div class="actions" style="display:inline-block; text-align:left; width:40%;">
-        <label for="draftRoundSelected">Draft Rounds</label>
-        <b-form-select
-          v-model="draftRoundSelected"
-          :options="draftRounds"
-          id="draftRoundSelected"
-        ></b-form-select>
-        </div>
-        
-        <!-- Spacer -->
-        <div style="display:inline-block; text-align:left; width:5%;"></div>
-
-        <div class="actions" style="display:inline-block; text-align:left; width:40%;">
-        <label for="draftRoundSelected">Draft Time</label>
-        <b-form-select
-          v-model="draftTimeSelected"
-          :options="draftLookups.draftTimes"
-          value-field="timeInSeconds"
-          text-field="value"
-        ></b-form-select>
-        </div>
-
-        <br><br>
-
-        <b-form-checkbox v-model="isPublic" name="is-public-check-button" switch size="sm"
-          ><label>Public?</label>
-        </b-form-checkbox>
-
-        <b-form-checkbox
-          v-model="isComputerTeams"
-          name="has-computer-teams-check-button"
-          switch
-          size="sm"
-          ><label>Allow Computer Teams</label>
-        </b-form-checkbox>
-
-        <b-form-checkbox
-          v-model="isMultiSelect"
-          name="has-multi-select-check-button"
-          switch
-          size="sm"
-          ><label>Allow Multiple Team Selection</label>
-        </b-form-checkbox>
-
-        <div class="actions" style="display:inline-block; margin-right:10px; text-align:left;">
-        <label>Draft Start</label>
-        </div>
-
-        <input
-          type="radio"
-          id="rdoDraftStartAuto"
-          name="rdoDraftStart"
-          onclick="startDateSwitch();"
-          checked
-        />
-        
-        <label for="rdoDraftStartAuto">Automatic</label>
-        <input
-          type="radio"
-          id="rdoDraftStartMan"
-          name="rdoDraftStart"
-          onclick="startDateSwitch();"
-        />
-        
-        <label for="rdoDraftStartMan">Manual</label>
-        <!-- Manual Date -->
-        <h5 id="lblManDate" style="display: none;">
-          Select start date:
-        </h5>
-        <input
-          type="date"
-          name="tpManualDate"
-          id="tpManualDate"
-          value=""
-          placeholder="CurrentDate"
-          style="display: none;"
-        />
-        </div>
-        
-        <!-- Submit and reset Buttons -->
-        <div class="modal-footer">
-        <ul class="actions">
-          <li>
-            <input type="submit" value="Create" class="primary" />
-          </li>
-          <li><input type="reset" value="Reset" /></li>
-        </ul>
-        </div>
-      </b-form>
-      </div>
       </div>
     </div>
   </div>
@@ -120,8 +139,12 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import datetime from "vuejs-datetimepicker";
 
 export default {
+  components: {
+    datetime
+  },
   data() {
     return {
       draftLookups: {},
@@ -132,13 +155,19 @@ export default {
         { value: 6, text: 6 },
         { value: 7, text: 7 }
       ],
-      draftRoundSelected: {},
-      draftTimeSelected: {},
-      errorMessage: "",
       isComputerTeams: false,
-      isMultiSelect: false,
       isPublic: false,
-      draftName: ""
+      isMultiSelect: false,
+      draftName: "",
+      password: "",
+      pickTime: {},
+      roundCount: 3,
+      startTime: "",
+      selected: "Manual",
+      options: [
+        { item: "Manual", name: "Manual" },
+        { item: "Automatic", name: "Automatic", notEnabled: true }
+      ]
     };
   },
   async mounted() {
@@ -153,12 +182,14 @@ export default {
     async onSubmit(evt) {
       evt.preventDefault();
       await this.createDraft({
-        name: this.draftName,
         isComputerTeams: this.isComputerTeams,
-        isMultiSelect: this.isMultiSelect,
         isPublic: this.isPublic,
-        pickTime: this.draftTimeSelected,
-        roundCount: this.draftRoundSelected
+        isMultiSelect: this.isMultiSelect,
+        name: this.draftName,
+        password: this.password,
+        pickTime: this.pickTime,
+        roundCount: this.roundCount,
+        startTime: this.startTime
       });
     },
     onReset() {
@@ -178,15 +209,14 @@ export default {
 </script>
 
 <style scoped>
-
 .blur {
-  background-image: url('../assets/bg.jpg');
+  background-image: url("../assets/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .centerIt {
-  display: inline-block; 
+  display: inline-block;
   margin: 0 auto;
   padding: 3px;
   width: 60%;
@@ -195,13 +225,11 @@ export default {
 
 @media only screen and (max-width: 600px) {
   .centerIt {
-    display: inline-block; 
+    display: inline-block;
     margin: 0 auto;
     padding: 3px;
     width: 90%;
     text-align: left;
   }
 }
-
-
 </style>

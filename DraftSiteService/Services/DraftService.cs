@@ -14,25 +14,27 @@ namespace DraftSiteService.Services
 {
     public class DraftService : IDraftService
     {
-        private readonly IDraftRepository _draftRepository;
         private readonly IPasswordService _passwordService;
+        private readonly IDraftRepository _draftRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public DraftService(IDraftRepository draftRepository, IPasswordService passwordService, IMapper mapper)
+        public DraftService(IPasswordService passwordService, IDraftRepository draftRepository, IUserRepository userRepository, IMapper mapper)
         {
-            _draftRepository = draftRepository;
             _passwordService = passwordService;
+            _draftRepository = draftRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
         public async Task<DraftViewModel> CreateDraft(DraftInputModel draft)
         {
             var draftEntity = _mapper.Map<Draft>(draft);
-            var draftTime = await GetDraftTimeFromSeconds(draft.PickTime.Value);
+            var draftTime = await GetDraftTimeFromSeconds(draft.PickTime);
             draftEntity.PickTimeId = draftTime.Id;
             draftEntity.OwnerId = draft.UserId;
             draftEntity.DraftStatusId = 1;
-
+            // TODO Create draft players to allow for custom players or removal of players.
             var newDraft = await _draftRepository.CreateDraft(draftEntity);
             var draftViewModel = _mapper.Map<DraftViewModel>(newDraft);
             return draftViewModel;
@@ -86,6 +88,11 @@ namespace DraftSiteService.Services
                 preDraftLobbyViewModel.IsOwner = true;
             }
 
+            preDraftLobbyViewModel.DraftPlayers = await GetPlayers();
+
+            // TODO These players need to be DraftPlayerUserViewModel
+            preDraftLobbyViewModel.DraftTeams = await GetTeams();
+
             return preDraftLobbyViewModel;
         }
 
@@ -97,9 +104,32 @@ namespace DraftSiteService.Services
             return preDraftLobbyViewModel;
         }
 
-        public Task<PreDraftViewModel> GetPreDraftLobby(int draftId, int userId, string password)
+        public async Task<List<DraftPlayerViewModel>> GetPlayers()
         {
-            throw new System.NotImplementedException();
+            var players = await _draftRepository.GetPlayers();
+            return _mapper.Map<List<DraftPlayerViewModel>>(players);
+        }
+
+        public async Task<List<DraftTeamSummaryViewModel>> GetTeams()
+        {
+            var teams = await _draftRepository.GetTeams();
+            return _mapper.Map<List<DraftTeamSummaryViewModel>>(teams);
+        }
+
+        public async Task<List<DraftTeamSummaryViewModel>> DeselectTeam(string username, int draftId, int teamId)
+        {
+            var user = await _userRepository.GetUserByUsername(username);
+            await _draftRepository.DeleteDraftTeamUser(user.Id, draftId, teamId);
+            return await GetTeams();
+        }
+
+        public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(string username, TeamChoiceInputModel teamSelection)
+        {
+            var user = await _userRepository.GetUserByUsername(username);
+            var teamEntity = _mapper.Map<DraftTeamUser>(teamSelection);
+            teamEntity.UserId = user.Id;
+            await _draftRepository.CreateDraftTeamUser(user.Id, teamEntity);
+            return await GetTeams(); throw new NotImplementedException();
         }
     }
 }

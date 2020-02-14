@@ -22,6 +22,26 @@ namespace DraftSiteRepository.Repositories
             return draft;
         }
 
+        public async Task<DraftTeamUser> CreateDraftTeamUser(int userId, DraftTeamUser user)
+        {
+            await _context.DraftTeamUsers.AddAsync(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, int teamId)
+        {
+            var draftTeamUser = await _context
+                .DraftTeamUsers
+                .SingleOrDefaultAsync(dtu => dtu.DraftId == draftId && dtu.TeamId == teamId && dtu.UserId == userId);
+
+            _context.DraftTeamUsers.Remove(draftTeamUser);
+            await _context.SaveChangesAsync();
+
+            return draftTeamUser;
+        }
+
         public async Task<Draft> GetDraft(int id)
         {
             var draft = await _context
@@ -56,6 +76,18 @@ namespace DraftSiteRepository.Repositories
             return times;
         }
 
+        public async Task<List<Player>> GetPlayers()
+        {
+            var players = await _context.Players.ToListAsync();
+            return players;
+        }
+
+        public async Task<List<Team>> GetTeams()
+        {
+            var players = await _context.Teams.ToListAsync();
+            return players;
+        }
+
         public async Task<Draft> UpdateDraftSettings(Draft updatedDraft)
         {
             var entity = await _context
@@ -80,5 +112,7 @@ namespace DraftSiteRepository.Repositories
 
             return entity;
         }
+
+
     }
 }

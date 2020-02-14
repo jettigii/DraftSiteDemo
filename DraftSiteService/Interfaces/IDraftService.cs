@@ -9,12 +9,16 @@ namespace DraftSiteService.Interfaces
     {
         Task<DraftViewModel> CreateDraft(DraftInputModel draft);
 
+        Task<List<DraftTeamSummaryViewModel>> DeselectTeam(string username, int draftId, int teamId);
+
         Task<DraftDataViewModel> GetDraftLookups();
 
-        Task<PreDraftViewModel> GetPreDraftLobby(int draftId, int userId, string password);
+        Task<PreDraftViewModel> GetPreDraftLobby(int draftId, string username, string password);
 
         Task<List<DraftViewModel>> GetUserLobby();
 
-        Task<DraftViewModel> UpdateDraftSettings(DraftInputModel draft);
+        Task<List<DraftTeamSummaryViewModel>> SelectTeam(string username, TeamChoiceInputModel teamSelection);
+
+        Task<DraftViewModel> UpdateDraftSettings(DraftInputModel draft);        
     }
 }

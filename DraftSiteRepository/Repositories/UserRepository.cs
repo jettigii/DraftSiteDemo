@@ -22,8 +22,14 @@ namespace DraftSiteRepository.Repositories
 
         public async Task<DraftSiteUser> GetUserById(int id)
         {
-            var user = await _context.DraftSiteUsers.SingleOrDefaultAsync(user => user.Id == id);
-            return user;
+            var userEntity = await _context.DraftSiteUsers.SingleOrDefaultAsync(user => user.Id == id);
+            return userEntity;
+        }
+
+        public async Task<DraftSiteUser> GetUserByUsername(string username)
+        {
+            var userEntity = await _context.DraftSiteUsers.SingleOrDefaultAsync(user => user.Username == username);
+            return userEntity;
         }
     }
 }

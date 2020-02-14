@@ -52,11 +52,11 @@ namespace DraftSiteApi
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDraftService, DraftService>();
-
+            services.AddScoped<IUserLobbyMappingService, UserLobbyMappingService>();
+            
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDraftRepository, DraftRepository>();
 
-            services.AddScoped<IUserMappingService<HubUser>, UserMappingService<HubUser>>();
             services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddCors(options =>

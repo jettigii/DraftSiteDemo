@@ -30,6 +30,11 @@ export default new Router({
       path: "/preDraft",
       name: "preDraft",
       component: preDraft
+    },
+    {
+      path: "*",
+      name: "default",
+      component: lobby
     }
   ]
 });

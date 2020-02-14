@@ -2,6 +2,11 @@
 {
     public class HubUser
     {
-        public string username { get; set; }
+        public string ConnectionId { get; set; }
+
+        public int DraftId { get; set; }
+
+        public string Username { get; set; }
+
     }
 }
