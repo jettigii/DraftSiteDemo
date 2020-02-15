@@ -4,6 +4,7 @@ import lobby from "./components/DraftLobby.vue";
 import createDraft from "./components/DraftCreate.vue";
 import home from "./components/Home.vue";
 import preDraft from "./components/DraftPre.vue";
+import draftRoom from "./components/DraftRoom.vue";
 
 Vue.use(Router);
 
@@ -25,6 +26,12 @@ export default new Router({
       path: "/home",
       name: "home",
       component: home
+    },
+    {
+      path: "/draftRoom/:draftId",
+      name: "draftRoom",
+      component: draftRoom,
+      props: true
     },
     {
       path: "/preDraft",

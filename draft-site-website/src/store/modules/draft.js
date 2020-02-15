@@ -22,6 +22,19 @@ const actions = {
         commit("setCreateDraftResponse", error);
       });
   },
+  async loadDraft({ commit }) {
+    const draftService = new DraftService();
+
+    await draftService
+      .getDrafts()
+      .then(response => {
+        commit("setDraftLobby", response.data);
+      })
+      .catch(error => {
+        commit("setDraftLobby", []);
+        commit("setDraftLobbyFail", error.response.data.errors);
+      });
+  },
   async loadDraftLobby({ commit }) {
     const draftService = new DraftService();
 
