@@ -1,7 +1,12 @@
 <template>
   <div class="DraftLobby">
     <div id="main">
-      <b-table hover :items="draftData" @row-clicked="enterDraft">
+      <b-table
+        hover
+        :items="draftData"
+        @row-clicked="enterDraft"
+        :fields="draftFields"
+      >
         <template v-slot:cell(isComputerTeams)="data">
           <b class="text-info">{{ data.value | yesno }}</b>
         </template>
@@ -13,6 +18,31 @@
         </template>
       </b-table>
     </div>
+    <div>
+      <b-modal
+        id="modal-password"
+        ref="modal"
+        title="Submit draft password"
+        @show="resetModal"
+        @hidden="resetModal"
+        @ok="enterDraft"
+      >
+        <form ref="form" @submit.stop.prevent="enter">
+          <b-form-group
+            label="Password"
+            label-for="password-input"
+            invalid-feedback="Password is required"
+          >
+            <b-form-input
+              id="password-input"
+              v-model="password"
+              :state="passwordState"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </form>
+      </b-modal>
+    </div>
   </div>
 </template>
 
@@ -20,6 +50,23 @@
 import { mapActions, mapState } from "vuex";
 
 export default {
+  data() {
+    return {
+      password: "",
+      passwordState: null,
+      showModalPassword: false,
+      draftFields: [
+        { key: "name" },
+        { key: "roundCount" },
+        { key: "pickTime" },
+        { key: "startTime" },
+        { key: "isMultiSelect", label: "Multiple Team Selection" },
+        { key: "isComputerTeams", label: "Computer Players Allowed" },
+        { key: "isPublic" },
+        { key: "username", label: "Manager" }
+      ]
+    };
+  },
   async mounted() {
     await this.loadDraftLobby();
   },
@@ -35,6 +82,10 @@ export default {
           status: row.draftStatus
         }
       });
+    },
+    resetModal() {
+      this.name = "";
+      this.nameState = null;
     }
   },
   computed: {

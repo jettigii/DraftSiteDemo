@@ -8,9 +8,6 @@
 import PreDraftLobby from "./DraftPre.vue";
 
 export default {
-  async mounted() {
-    await this.loadDraft();
-  },
   props: {
     draftId: Number,
     status: String

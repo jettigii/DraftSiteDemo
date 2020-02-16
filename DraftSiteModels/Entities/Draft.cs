@@ -21,7 +21,7 @@ namespace DraftSiteModels.Entities
 
         public int PickTimeId { get; set; }
 
-        [Range(typeof(int), "3", "7")]
+        [Range(typeof(int), "1", "7")]
         public int RoundCount { get; set; }
 
         public DateTimeOffset StartTime { get; set; }

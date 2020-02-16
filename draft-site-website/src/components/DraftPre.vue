@@ -53,7 +53,7 @@
           class="draftSettings"
           style="width:100%;height:100%;border-width: 2px 0px 0px 0px;border-style: solid;border-color:#212931;padding:10px;"
         >
-          <DraftSettings @updateSettings="createNewDraft" />
+          <DraftSettings @updateSettings="updateSettings" />
         </div>
         <!-- TODO: Brian, This doesn't look right here with the divs -->
       </div>
@@ -69,65 +69,7 @@
           <form action="#" class="form-container">
             <h5>Group Chat</h5>
 
-            <div style="overflow: auto;max-height: 420px;">
-              <!-- MESSAGE EXAMPLE -->
-              <div class="containerMessage darker">
-                <img
-                  src="https://picsum.photos/255/255"
-                  alt="Avatar"
-                  class="right"
-                  style="width:100%;"
-                />
-                <p>{{ message }}</p>
-                <span class="user-left">{{ messageUsername }}</span>
-              </div>
-              <!-- MESSAGE EXAMPLE -->
-
-              <div class="containerMessage">
-                <img
-                  src="https://picsum.photos/255/255"
-                  alt="Avatar"
-                  style="width:100%;"
-                />
-                <p>
-                  Did you know the first French fries weren't actually cooked in
-                  France?
-                </p>
-                <span class="user-right">{{ messageUsername }}</span>
-              </div>
-
-              <div class="containerMessage darker">
-                <img
-                  src="https://picsum.photos/255/255"
-                  alt="Avatar"
-                  class="right"
-                  style="width:100%;"
-                />
-                <p>O Rly?</p>
-                <span class="user-left">{{ messageUsername }}</span>
-              </div>
-
-              <div class="containerMessage">
-                <img
-                  src="https://picsum.photos/255/255"
-                  alt="Avatar"
-                  style="width:100%;"
-                />
-                <p>Yea, they were cooked in Greece.</p>
-                <span class="user-right">{{ messageUsername }}</span>
-              </div>
-
-              <div class="containerMessage darker">
-                <img
-                  src="https://picsum.photos/255/255"
-                  alt="Avatar"
-                  class="right"
-                  style="width:100%;"
-                />
-                <p>lol, hilarous dad!</p>
-                <span class="user-left">{{ messageUsername }}</span>
-              </div>
-            </div>
+            <div style="overflow: auto;max-height: 420px;"></div>
 
             <div
               style="background-color:white;height:40px;margin:5px;width:100%;"
@@ -157,17 +99,24 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import DraftSettings from "./DraftSettings.vue";
+import PreDraftLobbyHub from "../hubs/pre-draft-lobby-hub.js";
 
 export default {
   async mounted() {
-    await this.loadDraftLobby();
+    // await this.loadPreDraftLobby();
+    this.preDraftLobbyHub = PreDraftLobbyHub;
+  },
+  data() {
+    return {
+      preDraftLobbyHub: ""
+    };
   },
   components: {
     DraftSettings
   },
   methods: {
     ...mapActions({
-      loadDraftLobby: "draft/loadDraftLobby"
+      updateSettings: "draft/updateSettings"
     })
   },
   computed: {

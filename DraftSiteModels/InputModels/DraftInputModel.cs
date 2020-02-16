@@ -19,7 +19,7 @@ namespace DraftSiteModels.InputModels
         [Range(0, 3600)]
         public int PickTime { get; set; }
 
-        [Range(3, 7)]
+        [Range(1, 7)]
         public int RoundCount { get; set; }
 
         public string StartTime { get; set; }

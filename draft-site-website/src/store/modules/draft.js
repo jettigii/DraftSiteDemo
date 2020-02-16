@@ -6,6 +6,8 @@ const state = {
   draftLobbyError: "",
   draftLookups: "",
   lookupError: {},
+  preDraftHubConnection: "",
+  preDraftLobby: "",
   user: {}
 };
 
@@ -36,6 +38,19 @@ const actions = {
       });
   },
   async loadDraftLobby({ commit }) {
+    const draftService = new DraftService();
+
+    await draftService
+      .getDrafts()
+      .then(response => {
+        commit("setDraftLobby", response.data);
+      })
+      .catch(error => {
+        commit("setDraftLobby", []);
+        commit("setDraftLobbyFail", error.response.data.errors);
+      });
+  },
+  async loadPreDraftLobby({ commit }) {
     const draftService = new DraftService();
 
     await draftService
