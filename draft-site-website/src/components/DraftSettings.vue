@@ -184,12 +184,6 @@ export default {
 </script>
 
 <style scoped>
-.blur {
-  background-image: url("../assets/bg.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 .centerIt {
   display: inline-block;
   margin: 0 auto;

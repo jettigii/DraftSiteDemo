@@ -54,7 +54,6 @@ export default {
     return {
       password: "",
       passwordState: null,
-      showModalPassword: false,
       draftFields: [
         { key: "name" },
         { key: "roundCount" },
@@ -75,13 +74,15 @@ export default {
       loadDraftLobby: "draft/loadDraftLobby"
     }),
     enterDraft: function(row) {
-      this.$router.push({
-        name: "draftRoom",
-        params: {
-          draftId: row.id,
-          status: row.draftStatus
-        }
-      });
+      if (row.isPublic) {
+        this.$router.push({
+          name: "draftRoom",
+          params: {
+            draftId: row.id,
+            status: row.draftStatus
+          }
+        });
+      }
     },
     resetModal() {
       this.name = "";
