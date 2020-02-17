@@ -1,4 +1,5 @@
-﻿using DraftSiteModels.Entities;
+﻿using DraftSiteModels.DraftSite;
+using DraftSiteModels.Entities;
 using DraftSiteRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -14,21 +15,21 @@ namespace DraftSiteRepository.Repositories
             _context = context;
         }
 
-        public async Task<DraftSiteUser> Authenticate(string token)
+        public async Task<UserAuthTokens> Authenticate(string token)
         {
-            var user = await _context.DraftSiteUsers.SingleOrDefaultAsync(user => user.Token == token);
+            var user = await _context.UserAuthTokens.SingleOrDefaultAsync(user => user.HashedValidator == token);
             return user;
         }
 
-        public async Task<DraftSiteUser> GetUserById(int id)
+        public async Task<Users> GetUserById(int id)
         {
-            var userEntity = await _context.DraftSiteUsers.SingleOrDefaultAsync(user => user.Id == id);
+            var userEntity = await _context.Users.SingleOrDefaultAsync(user => user.Id == id);
             return userEntity;
         }
 
-        public async Task<DraftSiteUser> GetUserByUsername(string username)
+        public async Task<Users> GetUserByUsername(string username)
         {
-            var userEntity = await _context.DraftSiteUsers.SingleOrDefaultAsync(user => user.Username == username);
+            var userEntity = await _context.Users.SingleOrDefaultAsync(user => user.Username == username);
             return userEntity;
         }
     }

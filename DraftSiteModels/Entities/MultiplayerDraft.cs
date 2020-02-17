@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DraftSiteModels.DraftSite;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,14 +29,14 @@ namespace DraftSiteModels.Entities
 
         public string password { get; set; }
 
-        public virtual DraftSiteUser Owner { get; set; }
+        public virtual Users Owner { get; set; }
 
         public int OwnerId { get; set; }
 
-        public DraftStatus DraftStatus { get; set; }
+        public virtual DraftStatus DraftStatus { get; set; }
         public int DraftStatusId { get; set; }
 
-        public DraftStartType DraftStartType { get; set; }
+        public virtual DraftStartType DraftStartType { get; set; }
         public int DraftStartTypeId { get; set; }
 
         public IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace DraftSiteModels.Entities
+﻿using DraftSiteModels.DraftSite;
+
+namespace DraftSiteModels.Entities
 {
     public class DraftTeamUserPlayer
     {
@@ -7,7 +9,7 @@
         public int TeamId { get; set; }
         public int UserId { get; set; }
 
-        public virtual Player Player { get; set; }
+        public virtual Players Player { get; set; }
         public int PlayerId { get; set; }
     }
 }

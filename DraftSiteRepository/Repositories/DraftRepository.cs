@@ -1,4 +1,5 @@
-﻿using DraftSiteModels.Entities;
+﻿using DraftSiteModels.DraftSite;
+using DraftSiteModels.Entities;
 using DraftSiteRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace DraftSiteRepository.Repositories
 
         public async Task<MultiplayerDraft> CreateDraft(MultiplayerDraft draft)
         {
-            await _context.Drafts.AddAsync(draft);
+            await _context.MultiPlayerDrafts.AddAsync(draft);
             await _context.SaveChangesAsync();
             return draft;
         }
@@ -44,7 +45,7 @@ namespace DraftSiteRepository.Repositories
         public async Task<MultiplayerDraft> GetDraft(int id)
         {
             var draft = await _context
-                .Drafts
+                .MultiPlayerDrafts
                 .Include(draft => draft.Owner)
                 .Include(draft => draft.PickTime)
                 .Include(draft => draft.DraftStatus)
@@ -55,7 +56,7 @@ namespace DraftSiteRepository.Repositories
         public async Task<List<MultiplayerDraft>> GetDrafts()
         {
             var drafts = await _context
-                .Drafts
+                .MultiPlayerDrafts
                 .Include(draft => draft.Owner)
                 .Include(draft => draft.PickTime)
                 .Include(draft => draft.DraftStatus)
@@ -75,7 +76,7 @@ namespace DraftSiteRepository.Repositories
             return times;
         }
 
-        public async Task<List<Player>> GetPlayers()
+        public async Task<List<Players>> GetPlayers()
         {
             var players = await _context.Players.ToListAsync();
             return players;
@@ -87,7 +88,7 @@ namespace DraftSiteRepository.Repositories
             return draftStartTypes;
         }
 
-        public async Task<List<Team>> GetTeams()
+        public async Task<List<Teams>> GetTeams()
         {
             var players = await _context.Teams.ToListAsync();
             return players;
@@ -96,7 +97,7 @@ namespace DraftSiteRepository.Repositories
         public async Task<MultiplayerDraft> UpdateDraftSettings(MultiplayerDraft updatedDraft)
         {
             var entity = await _context
-                .Drafts
+                .MultiPlayerDrafts
                 .Include(draft => draft.Owner)
                 .Include(draft => draft.PickTime)
                 .Include(draft => draft.DraftStatus)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DraftSiteModels.DraftSite;
+using System.Collections.Generic;
 
 namespace DraftSiteModels.Entities
 {
@@ -7,7 +8,7 @@ namespace DraftSiteModels.Entities
         public int DraftId { get; set; }
         public virtual MultiplayerDraft Draft { get; set; }
         public int UserId { get; set; }
-        public virtual DraftSiteUser User { get; set; }
+        public virtual Users User { get; set; }
 
         public virtual IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }
     }

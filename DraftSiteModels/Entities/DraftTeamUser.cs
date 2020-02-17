@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DraftSiteModels.DraftSite;
+using System.Collections.Generic;
 
 namespace DraftSiteModels.Entities
 {
@@ -8,7 +9,7 @@ namespace DraftSiteModels.Entities
         public int DraftId { get; set; }
         public int UserId { get; set; }
 
-        public virtual Team Team { get; set; }
+        public virtual Teams Team { get; set; }
         public int TeamId { get; set; }
 
         public bool IsComputer { get; set; }

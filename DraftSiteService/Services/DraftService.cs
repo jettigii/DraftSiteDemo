@@ -126,7 +126,7 @@ namespace DraftSiteService.Services
         public async Task<List<DraftTeamSummaryViewModel>> DeselectTeam(string username, int draftId, int teamId)
         {
             var user = await _userRepository.GetUserByUsername(username);
-            await _draftRepository.DeleteDraftTeamUser(user.Id, draftId, teamId);
+            await _draftRepository.DeleteDraftTeamUser(Convert.ToInt32(user.Id), draftId, teamId);
             return await GetTeams();
         }
 
@@ -134,8 +134,8 @@ namespace DraftSiteService.Services
         {
             var user = await _userRepository.GetUserByUsername(username);
             var teamEntity = _mapper.Map<DraftTeamUser>(teamSelection);
-            teamEntity.UserId = user.Id;
-            await _draftRepository.CreateDraftTeamUser(user.Id, teamEntity);
+            teamEntity.UserId = Convert.ToInt32(user.Id);
+            await _draftRepository.CreateDraftTeamUser(Convert.ToInt32(user.Id), teamEntity);
             return await GetTeams(); throw new NotImplementedException();
         }
     }

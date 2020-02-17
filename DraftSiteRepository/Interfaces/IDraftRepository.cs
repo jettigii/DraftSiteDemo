@@ -1,4 +1,5 @@
-﻿using DraftSiteModels.Entities;
+﻿using DraftSiteModels.DraftSite;
+using DraftSiteModels.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,9 +23,9 @@ namespace DraftSiteRepository.Interfaces
 
         Task<List<DraftTime>> GetDraftTimes();
 
-        Task<List<Player>> GetPlayers();
+        Task<List<Players>> GetPlayers();
 
-        Task<List<Team>> GetTeams();
+        Task<List<Teams>> GetTeams();
 
         Task<MultiplayerDraft> UpdateDraftSettings(MultiplayerDraft draft);
     }

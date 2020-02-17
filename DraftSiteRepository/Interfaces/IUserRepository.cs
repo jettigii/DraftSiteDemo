@@ -1,14 +1,14 @@
-﻿using DraftSiteModels.Entities;
+﻿using DraftSiteModels.DraftSite;
 using System.Threading.Tasks;
 
 namespace DraftSiteRepository.Interfaces
 {
     public interface IUserRepository
     {
-        Task<DraftSiteUser> Authenticate(string token);
-        
-        Task<DraftSiteUser> GetUserById(int id);
+        Task<UserAuthTokens> Authenticate(string token);
 
-        Task<DraftSiteUser> GetUserByUsername(string username);
+        Task<Users> GetUserById(int id);
+
+        Task<Users> GetUserByUsername(string username);
     }
 }
