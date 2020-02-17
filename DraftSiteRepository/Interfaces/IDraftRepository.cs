@@ -6,15 +6,15 @@ namespace DraftSiteRepository.Interfaces
 {
     public interface IDraftRepository
     {
-        Task<Draft> CreateDraft(Draft draft);
+        Task<MultiplayerDraft> CreateDraft(MultiplayerDraft draft);
 
         Task<DraftTeamUser> CreateDraftTeamUser(int userId, DraftTeamUser user);
 
         Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, int teamId);
 
-        Task<Draft> GetDraft(int id);
+        Task<MultiplayerDraft> GetDraft(int id);
 
-        Task<List<Draft>> GetDrafts();
+        Task<List<MultiplayerDraft>> GetDrafts();
 
         Task<List<DraftStartType>> GetStartTypes();
 
@@ -26,6 +26,6 @@ namespace DraftSiteRepository.Interfaces
 
         Task<List<Team>> GetTeams();
 
-        Task<Draft> UpdateDraftSettings(Draft draft);
+        Task<MultiplayerDraft> UpdateDraftSettings(MultiplayerDraft draft);
     }
 }

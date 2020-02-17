@@ -10,6 +10,6 @@ namespace DraftSiteModels.Entities
 
         public string Value { get; set; }
 
-        public virtual IEnumerable<Draft> Drafts { get; set; }
+        public virtual IEnumerable<MultiplayerDraft> Drafts { get; set; }
     }
 }

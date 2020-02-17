@@ -29,7 +29,7 @@ namespace DraftSiteService.Services
 
         public async Task<DraftViewModel> CreateDraft(DraftInputModel draft)
         {
-            var draftEntity = _mapper.Map<Draft>(draft);
+            var draftEntity = _mapper.Map<MultiplayerDraft>(draft);
 
             var draftTime = await GetDraftTimeFromSeconds(draft.PickTime);
             draftEntity.PickTimeId = draftTime.Id;
@@ -105,7 +105,7 @@ namespace DraftSiteService.Services
 
         public async Task<DraftViewModel> UpdateDraftSettings(DraftInputModel draft)
         {
-            var draftEntity = _mapper.Map<Draft>(draft);
+            var draftEntity = _mapper.Map<MultiplayerDraft>(draft);
             var updatedDraft = await _draftRepository.UpdateDraftSettings(draftEntity);
             var preDraftLobbyViewModel = _mapper.Map<DraftViewModel>(updatedDraft);
             return preDraftLobbyViewModel;

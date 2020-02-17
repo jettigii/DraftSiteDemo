@@ -11,6 +11,6 @@ namespace DraftSiteModels.Entities
         public string Username { get; set; }
 
         public IEnumerable<DraftUser> DraftUsers { get; set; }
-        public IEnumerable<Draft> Drafts { get; set; }
+        public IEnumerable<MultiplayerDraft> Drafts { get; set; }
     }
 }

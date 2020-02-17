@@ -15,7 +15,7 @@ namespace DraftSiteRepository.Repositories
             _context = context;
         }
 
-        public async Task<Draft> CreateDraft(Draft draft)
+        public async Task<MultiplayerDraft> CreateDraft(MultiplayerDraft draft)
         {
             await _context.Drafts.AddAsync(draft);
             await _context.SaveChangesAsync();
@@ -41,7 +41,7 @@ namespace DraftSiteRepository.Repositories
             return draftTeamUser;
         }
 
-        public async Task<Draft> GetDraft(int id)
+        public async Task<MultiplayerDraft> GetDraft(int id)
         {
             var draft = await _context
                 .Drafts
@@ -52,7 +52,7 @@ namespace DraftSiteRepository.Repositories
             return draft;
         }
 
-        public async Task<List<Draft>> GetDrafts()
+        public async Task<List<MultiplayerDraft>> GetDrafts()
         {
             var drafts = await _context
                 .Drafts
@@ -93,7 +93,7 @@ namespace DraftSiteRepository.Repositories
             return players;
         }
 
-        public async Task<Draft> UpdateDraftSettings(Draft updatedDraft)
+        public async Task<MultiplayerDraft> UpdateDraftSettings(MultiplayerDraft updatedDraft)
         {
             var entity = await _context
                 .Drafts

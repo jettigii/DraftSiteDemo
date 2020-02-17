@@ -14,7 +14,7 @@ namespace DraftSiteRepository
         public DbSet<Team> Teams { get; set; }
 
         // MultiDraft Tables
-        public DbSet<Draft> Drafts { get; set; }
+        public DbSet<MultiplayerDraft> Drafts { get; set; }
         public DbSet<DraftUser> DraftUsers { get; set; }
         public DbSet<DraftTeamUser> DraftTeamUsers { get; set; }
         public DbSet<DraftTeamUserPlayer> DraftTeamUserPlayers { get; set; }
@@ -46,7 +46,7 @@ namespace DraftSiteRepository
             modelBuilder.Entity<Team>()
                 .HasKey(entity => entity.Id);
 
-            modelBuilder.Entity<Draft>()
+            modelBuilder.Entity<MultiplayerDraft>()
                 .HasKey(entity => entity.Id);
 
             modelBuilder.Entity<DraftUser>()
@@ -63,17 +63,17 @@ namespace DraftSiteRepository
 
         private ModelBuilder ConfigureForeignKeys(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Draft>()
+            modelBuilder.Entity<MultiplayerDraft>()
                 .HasOne(entity => entity.PickTime)
                 .WithMany(foreignEntity => foreignEntity.Drafts)
                 .HasForeignKey(entity => entity.PickTimeId);
 
-            modelBuilder.Entity<Draft>()
+            modelBuilder.Entity<MultiplayerDraft>()
                 .HasOne(entity => entity.DraftStartType)
                 .WithMany(foreignEntity => foreignEntity.Drafts)
                 .HasForeignKey(entity => entity.DraftStartTypeId);
 
-            modelBuilder.Entity<Draft>()
+            modelBuilder.Entity<MultiplayerDraft>()
                 .HasOne(entity => entity.Owner)
                 .WithMany(foreignEntity => foreignEntity.Drafts)
                 .HasForeignKey(entity => entity.OwnerId);

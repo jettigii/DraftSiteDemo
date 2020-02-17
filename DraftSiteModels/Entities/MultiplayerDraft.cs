@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DraftSiteModels.Entities
 {
-    public class Draft
+    public class MultiplayerDraft
     {
         public int Id { get; set; }
 

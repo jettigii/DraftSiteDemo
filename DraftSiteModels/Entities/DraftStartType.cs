@@ -14,6 +14,6 @@ namespace DraftSiteModels.Entities
 
         public bool IsEnabled { get; set; }
 
-        public virtual IEnumerable<Draft> Drafts { get; set; }
+        public virtual IEnumerable<MultiplayerDraft> Drafts { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace DraftSiteModels.Entities
     public class DraftUser
     {
         public int DraftId { get; set; }
-        public virtual Draft Draft { get; set; }
+        public virtual MultiplayerDraft Draft { get; set; }
         public int UserId { get; set; }
         public virtual DraftSiteUser User { get; set; }
 

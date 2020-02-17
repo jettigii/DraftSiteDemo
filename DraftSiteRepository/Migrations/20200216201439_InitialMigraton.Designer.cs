@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DraftSiteRepository.Migrations
 {
     [DbContext(typeof(DraftSiteContext))]
-    [Migration("20200214063005_InitialDbCreation")]
-    partial class InitialDbCreation
+    [Migration("20200216201439_InitialMigraton")]
+    partial class InitialMigraton
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,90 +23,116 @@ namespace DraftSiteRepository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<int>("DraftStartTypeId")
+                        .HasColumnName("draft_start_type_id")
                         .HasColumnType("int");
 
                     b.Property<int>("DraftStatusId")
+                        .HasColumnName("draft_status_id")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsComputerTeams")
+                        .HasColumnName("is_computer_teams")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsMultiSelect")
+                        .HasColumnName("is_multi_select")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsPublic")
+                        .HasColumnName("is_public")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
                     b.Property<int>("OwnerId")
+                        .HasColumnName("owner_id")
                         .HasColumnType("int");
 
                     b.Property<int>("PickTimeId")
+                        .HasColumnName("pick_time_id")
                         .HasColumnType("int");
 
                     b.Property<int>("RoundCount")
+                        .HasColumnName("round_count")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("StartTime")
+                        .HasColumnName("start_time")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("password")
+                        .HasColumnName("password")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_drafts");
 
-                    b.HasIndex("DraftStartTypeId");
+                    b.HasIndex("DraftStartTypeId")
+                        .HasName("ix_drafts_draft_start_type_id");
 
-                    b.HasIndex("DraftStatusId");
+                    b.HasIndex("DraftStatusId")
+                        .HasName("ix_drafts_draft_status_id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("OwnerId")
+                        .HasName("ix_drafts_owner_id");
 
-                    b.HasIndex("PickTimeId");
+                    b.HasIndex("PickTimeId")
+                        .HasName("ix_drafts_pick_time_id");
 
-                    b.ToTable("Drafts");
+                    b.ToTable("drafts");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.DraftSiteUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<string>("Token")
+                        .HasColumnName("token")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Username")
+                        .HasColumnName("username")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_draft_site_users");
 
-                    b.ToTable("DraftSiteUsers");
+                    b.ToTable("draft_site_users");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.DraftStartType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsEnabled")
+                        .HasColumnName("is_enabled")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Value")
+                        .HasColumnName("value")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_draft_start_types");
 
-                    b.ToTable("DraftStartTypes");
+                    b.ToTable("draft_start_types");
 
                     b.HasData(
                         new
@@ -129,17 +155,21 @@ namespace DraftSiteRepository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Value")
+                        .HasColumnName("value")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_draft_statuses");
 
-                    b.ToTable("DraftStatuses");
+                    b.ToTable("draft_statuses");
 
                     b.HasData(
                         new
@@ -189,65 +219,83 @@ namespace DraftSiteRepository.Migrations
             modelBuilder.Entity("DraftSiteModels.Entities.DraftTeamUser", b =>
                 {
                     b.Property<int>("DraftId")
+                        .HasColumnName("draft_id")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
+                        .HasColumnName("user_id")
                         .HasColumnType("int");
 
                     b.Property<int>("TeamId")
+                        .HasColumnName("team_id")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsComputer")
+                        .HasColumnName("is_computer")
                         .HasColumnType("tinyint(1)");
 
-                    b.HasKey("DraftId", "UserId", "TeamId");
+                    b.HasKey("DraftId", "UserId", "TeamId")
+                        .HasName("pk_draft_team_users");
 
-                    b.HasIndex("TeamId");
+                    b.HasIndex("TeamId")
+                        .HasName("ix_draft_team_users_team_id");
 
-                    b.ToTable("DraftTeamUsers");
+                    b.ToTable("draft_team_users");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.DraftTeamUserPlayer", b =>
                 {
                     b.Property<int>("DraftId")
+                        .HasColumnName("draft_id")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
+                        .HasColumnName("user_id")
                         .HasColumnType("int");
 
                     b.Property<int>("TeamId")
+                        .HasColumnName("team_id")
                         .HasColumnType("int");
 
                     b.Property<int>("PlayerId")
+                        .HasColumnName("player_id")
                         .HasColumnType("int");
 
-                    b.HasKey("DraftId", "UserId", "TeamId", "PlayerId");
+                    b.HasKey("DraftId", "UserId", "TeamId", "PlayerId")
+                        .HasName("pk_draft_team_user_players");
 
-                    b.HasIndex("PlayerId");
+                    b.HasIndex("PlayerId")
+                        .HasName("ix_draft_team_user_players_player_id");
 
-                    b.HasIndex("DraftId", "TeamId", "UserId");
+                    b.HasIndex("DraftId", "TeamId", "UserId")
+                        .HasName("ix_draft_team_user_players_draft_id_team_id_user_id");
 
-                    b.ToTable("DraftTeamUserPlayers");
+                    b.ToTable("draft_team_user_players");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.DraftTime", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("TimeInSeconds")
+                        .HasColumnName("time_in_seconds")
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
+                        .HasColumnName("value")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_draft_times");
 
-                    b.ToTable("DraftTimes");
+                    b.ToTable("draft_times");
 
                     b.HasData(
                         new
@@ -290,47 +338,58 @@ namespace DraftSiteRepository.Migrations
             modelBuilder.Entity("DraftSiteModels.Entities.DraftUser", b =>
                 {
                     b.Property<int>("DraftId")
+                        .HasColumnName("draft_id")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
+                        .HasColumnName("user_id")
                         .HasColumnType("int");
 
-                    b.HasKey("DraftId", "UserId");
+                    b.HasKey("DraftId", "UserId")
+                        .HasName("pk_draft_users");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasName("ix_draft_users_user_id");
 
-                    b.ToTable("DraftUsers");
+                    b.ToTable("draft_users");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.Player", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<string>("College")
+                        .HasColumnName("college")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_players");
 
-                    b.ToTable("Players");
+                    b.ToTable("players");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.Team", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .HasColumnName("name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_teams");
 
-                    b.ToTable("Teams");
+                    b.ToTable("teams");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.Draft", b =>
@@ -338,24 +397,28 @@ namespace DraftSiteRepository.Migrations
                     b.HasOne("DraftSiteModels.Entities.DraftStartType", "DraftStartType")
                         .WithMany("Drafts")
                         .HasForeignKey("DraftStartTypeId")
+                        .HasConstraintName("fk_drafts_draft_start_types_draft_start_type_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftStatus", "DraftStatus")
                         .WithMany("Drafts")
                         .HasForeignKey("DraftStatusId")
+                        .HasConstraintName("fk_drafts_draft_statuses_draft_status_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftSiteUser", "Owner")
                         .WithMany("Drafts")
                         .HasForeignKey("OwnerId")
+                        .HasConstraintName("fk_drafts_draft_site_users_owner_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftTime", "PickTime")
                         .WithMany("Drafts")
                         .HasForeignKey("PickTimeId")
+                        .HasConstraintName("fk_drafts_draft_times_pick_time_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -365,18 +428,21 @@ namespace DraftSiteRepository.Migrations
                     b.HasOne("DraftSiteModels.Entities.Draft", null)
                         .WithMany("DraftTeamUsers")
                         .HasForeignKey("DraftId")
+                        .HasConstraintName("fk_draft_team_users_drafts_draft_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.Team", "Team")
                         .WithMany("DraftTeamUsers")
                         .HasForeignKey("TeamId")
+                        .HasConstraintName("fk_draft_team_users_teams_team_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftUser", "DraftUser")
                         .WithMany("DraftTeamUsers")
                         .HasForeignKey("DraftId", "UserId")
+                        .HasConstraintName("fk_draft_team_users_draft_users_draft_id_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -386,12 +452,14 @@ namespace DraftSiteRepository.Migrations
                     b.HasOne("DraftSiteModels.Entities.Player", "Player")
                         .WithMany("DraftTeamUserPlayers")
                         .HasForeignKey("PlayerId")
+                        .HasConstraintName("fk_draft_team_user_players_players_player_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftTeamUser", "DraftTeamUser")
                         .WithMany("DraftTeamUserPlayers")
                         .HasForeignKey("DraftId", "TeamId", "UserId")
+                        .HasConstraintName("fk_draft_team_user_players_draft_team_users_draft_id_team_id_us~")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -401,12 +469,14 @@ namespace DraftSiteRepository.Migrations
                     b.HasOne("DraftSiteModels.Entities.Draft", "Draft")
                         .WithMany("DraftUsers")
                         .HasForeignKey("DraftId")
+                        .HasConstraintName("fk_draft_users_drafts_draft_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftSiteUser", "User")
                         .WithMany("DraftUsers")
                         .HasForeignKey("UserId")
+                        .HasConstraintName("fk_draft_users_draft_site_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
