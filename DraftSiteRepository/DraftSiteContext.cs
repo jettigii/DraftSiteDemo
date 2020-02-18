@@ -1,5 +1,6 @@
 ﻿using DraftSiteModels.Data;
 using DraftSiteModels.Entities;
+using Marques.EFCore.SnakeCase;
 using Microsoft.EntityFrameworkCore;
 
 namespace DraftSiteRepository
@@ -32,6 +33,8 @@ namespace DraftSiteRepository
             modelBuilder = SeedDraftTimeData(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ToSnakeCase();
         }
 
         private ModelBuilder ConfigurePrimaryKeys(ModelBuilder modelBuilder)

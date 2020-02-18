@@ -6,7 +6,7 @@ namespace DraftSiteModels.DraftSite
 {
     public partial class Users
     {
-        public uint Id { get; set; }
+        public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public byte[] Securityphrase { get; set; }
@@ -18,12 +18,12 @@ namespace DraftSiteModels.DraftSite
         public string Zip { get; set; }
         public ushort Country { get; set; }
         public string Dob { get; set; }
-        public uint Teamnfl { get; set; }
-        public uint Teamnba { get; set; }
-        public uint Teammlb { get; set; }
-        public uint Teamnhl { get; set; }
-        public uint Teammls { get; set; }
-        public uint Teamwnba { get; set; }
+        public int Teamnfl { get; set; }
+        public int Teamnba { get; set; }
+        public int Teammlb { get; set; }
+        public int Teamnhl { get; set; }
+        public int Teammls { get; set; }
+        public int Teamwnba { get; set; }
         public string Sportorder { get; set; }
         public byte Maillist { get; set; }
         public DateTime Joindate { get; set; }

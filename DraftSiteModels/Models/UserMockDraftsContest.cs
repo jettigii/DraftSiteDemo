@@ -5,10 +5,10 @@ namespace DraftSiteModels.DraftSite
 {
     public partial class UserMockDraftsContest
     {
-        public uint Id { get; set; }
-        public uint DraftId { get; set; }
-        public uint Rank { get; set; }
-        public uint UserId { get; set; }
+        public int Id { get; set; }
+        public int DraftId { get; set; }
+        public int Rank { get; set; }
+        public int UserId { get; set; }
         public byte Points { get; set; }
     }
 }

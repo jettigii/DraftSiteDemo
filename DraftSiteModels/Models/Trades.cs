@@ -5,7 +5,7 @@ namespace DraftSiteModels.DraftSite
 {
     public partial class Trades
     {
-        public uint Id { get; set; }
+        public int Id { get; set; }
         public byte[] Description { get; set; }
         public DateTime Date { get; set; }
         public byte Type { get; set; }

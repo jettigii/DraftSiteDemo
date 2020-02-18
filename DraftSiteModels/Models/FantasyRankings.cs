@@ -5,11 +5,11 @@ namespace DraftSiteModels.DraftSite
 {
     public partial class FantasyRankings
     {
-        public uint Id { get; set; }
-        public uint FantasyId { get; set; }
-        public uint PlayerId { get; set; }
+        public int Id { get; set; }
+        public int FantasyId { get; set; }
+        public int PlayerId { get; set; }
         public ushort Rank { get; set; }
-        public uint TeamId { get; set; }
+        public int TeamId { get; set; }
         public string Positions { get; set; }
     }
 }

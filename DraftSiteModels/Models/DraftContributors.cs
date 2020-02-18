@@ -5,8 +5,8 @@ namespace DraftSiteModels.DraftSite
 {
     public partial class DraftContributors
     {
-        public uint Id { get; set; }
-        public uint DraftId { get; set; }
-        public uint AdminId { get; set; }
+        public int Id { get; set; }
+        public int DraftId { get; set; }
+        public int AdminId { get; set; }
     }
 }

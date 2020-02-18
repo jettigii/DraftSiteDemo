@@ -3,14 +3,16 @@ using System;
 using DraftSiteRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DraftSiteRepository.Migrations
 {
     [DbContext(typeof(DraftSiteContext))]
-    partial class DraftSiteContextModelSnapshot : ModelSnapshot
+    [Migration("20200217204515_DraftSiteIntegration")]
+    partial class DraftSiteIntegration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,8 +91,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "latin1")
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_admin");
+                    b.HasKey("Id");
 
                     b.HasIndex("Username")
                         .IsUnique()
@@ -128,8 +129,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "latin1")
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_admin_auth_tokens");
+                    b.HasKey("Id");
 
                     b.ToTable("admin_auth_tokens");
                 });
@@ -159,8 +159,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("text")
                         .HasColumnType("blob");
 
-                    b.HasKey("Id")
-                        .HasName("pk_ads");
+                    b.HasKey("Id");
 
                     b.ToTable("ads");
                 });
@@ -189,8 +188,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "latin1")
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_authors");
+                    b.HasKey("Id");
 
                     b.ToTable("authors");
                 });
@@ -258,8 +256,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("writer")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_blogposts");
+                    b.HasKey("Id");
 
                     b.ToTable("blogposts");
                 });
@@ -310,8 +307,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("writer")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_blogposts_bak");
+                    b.HasKey("Id");
 
                     b.ToTable("blogposts_bak");
                 });
@@ -344,8 +340,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_conferences");
+                    b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique()
@@ -375,8 +370,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_countries");
+                    b.HasKey("Id");
 
                     b.ToTable("countries");
                 });
@@ -396,8 +390,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("draft_id")
                         .HasColumnType("int(10) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_draft_contributors");
+                    b.HasKey("Id");
 
                     b.ToTable("draft_contributors");
                 });
@@ -436,7 +429,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
                     b.HasKey("DraftId", "Order")
-                        .HasName("primary");
+                        .HasName("PRIMARY");
 
                     b.ToTable("draft_picks");
                 });
@@ -467,7 +460,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnType("mediumint(8) unsigned");
 
                     b.HasKey("DraftId", "RankType", "Rank")
-                        .HasName("primary");
+                        .HasName("PRIMARY");
 
                     b.HasIndex("DraftId", "RankType")
                         .HasName("draft_ranktype");
@@ -514,7 +507,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("DraftId", "RankType")
-                        .HasName("primary");
+                        .HasName("PRIMARY");
 
                     b.ToTable("draft_versions");
                 });
@@ -626,8 +619,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_drafts");
+                    b.HasKey("Id");
 
                     b.HasIndex("Year")
                         .HasName("year");
@@ -672,8 +664,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user_id")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_drafts_unpublished");
+                    b.HasKey("Id");
 
                     b.ToTable("drafts_unpublished");
                 });
@@ -708,8 +699,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("team")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_draftteams");
+                    b.HasKey("Id");
 
                     b.ToTable("draftteams");
                 });
@@ -766,8 +756,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "latin1")
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_fantasy");
+                    b.HasKey("Id");
 
                     b.ToTable("fantasy");
                 });
@@ -802,8 +791,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("team_id")
                         .HasColumnType("int(10) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_fantasy_rankings");
+                    b.HasKey("Id");
 
                     b.ToTable("fantasy_rankings");
                 });
@@ -822,8 +810,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_games");
+                    b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique()
@@ -848,8 +835,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("sponsortakeover")
                         .HasColumnType("tinyint(4)");
 
-                    b.HasKey("Id")
-                        .HasName("pk_globals");
+                    b.HasKey("Id");
 
                     b.ToTable("globals");
                 });
@@ -879,8 +865,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_leagues");
+                    b.HasKey("Id");
 
                     b.ToTable("leagues");
                 });
@@ -908,7 +893,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnType("datetime");
 
                     b.HasKey("UserId", "Series", "Token")
-                        .HasName("primary");
+                        .HasName("PRIMARY");
 
                     b.ToTable("login_cookie_data");
                 });
@@ -941,8 +926,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("version")
                         .HasColumnType("smallint(6)");
 
-                    b.HasKey("Id")
-                        .HasName("pk_mock_drafts");
+                    b.HasKey("Id");
 
                     b.HasIndex("DraftId", "Version")
                         .IsUnique()
@@ -980,8 +964,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnType("smallint(6)")
                         .HasDefaultValueSql("'1'");
 
-                    b.HasKey("Id")
-                        .HasName("pk_mock_drafts_deleted");
+                    b.HasKey("Id");
 
                     b.ToTable("mock_drafts_deleted");
                 });
@@ -1031,7 +1014,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
                     b.HasKey("MockDraftId", "Order")
-                        .HasName("primary");
+                        .HasName("PRIMARY");
 
                     b.ToTable("mock_picks");
                 });
@@ -1081,7 +1064,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
                     b.HasKey("MockDraftId", "Order")
-                        .HasName("primary");
+                        .HasName("PRIMARY");
 
                     b.ToTable("mock_picks_deleted");
                 });
@@ -1104,7 +1087,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
                     b.HasKey("MockDraftId", "Order")
-                        .HasName("primary");
+                        .HasName("PRIMARY");
 
                     b.ToTable("mock_rounds");
                 });
@@ -1151,7 +1134,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnType("mediumint(8)");
 
                     b.HasKey("MockDraftId", "PickOrder")
-                        .HasName("primary");
+                        .HasName("PRIMARY");
 
                     b.ToTable("mock_trades");
                 });
@@ -1278,8 +1261,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("whats_new")
                         .HasColumnType("tinyint(3) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_permissions");
+                    b.HasKey("Id");
 
                     b.HasIndex("Admin")
                         .IsUnique()
@@ -1329,8 +1311,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_picks");
+                    b.HasKey("Id");
 
                     b.HasIndex("Team")
                         .HasName("team");
@@ -1382,8 +1363,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_picks_temp");
+                    b.HasKey("Id");
 
                     b.ToTable("picks_temp");
                 });
@@ -1422,8 +1402,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user_id")
                         .HasColumnType("int(10)");
 
-                    b.HasKey("Id")
-                        .HasName("pk_player_content");
+                    b.HasKey("Id");
 
                     b.ToTable("player_content");
                 });
@@ -1464,8 +1443,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user_limit")
                         .HasColumnType("tinyint(2)");
 
-                    b.HasKey("Id")
-                        .HasName("pk_player_content_types");
+                    b.HasKey("Id");
 
                     b.ToTable("player_content_types");
                 });
@@ -1646,8 +1624,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("weight")
                         .HasColumnType("smallint(5) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_players");
+                    b.HasKey("Id");
 
                     b.HasIndex("Highschool")
                         .HasName("highschool");
@@ -1693,8 +1670,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("sort")
                         .HasColumnType("tinyint(2)");
 
-                    b.HasKey("Id")
-                        .HasName("pk_positions");
+                    b.HasKey("Id");
 
                     b.ToTable("positions");
                 });
@@ -1726,8 +1702,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_positions_sub");
+                    b.HasKey("Id");
 
                     b.ToTable("positions_sub");
 
@@ -1763,8 +1738,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("type")
                         .HasColumnType("tinyint(3) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_ranks");
+                    b.HasKey("Id");
 
                     b.HasIndex("Type")
                         .HasName("type");
@@ -1807,8 +1781,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("type")
                         .HasColumnType("tinyint(3) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_ranks_temp");
+                    b.HasKey("Id");
 
                     b.HasIndex("Type")
                         .HasName("type");
@@ -1850,8 +1823,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_reset_password");
+                    b.HasKey("Id");
 
                     b.ToTable("reset_password");
                 });
@@ -1871,8 +1843,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("round")
                         .HasColumnType("tinyint(3) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_rounds");
+                    b.HasKey("Id");
 
                     b.HasIndex("Draft", "Round")
                         .HasName("draft_round");
@@ -1901,8 +1872,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnType("timestamp")
                         .HasDefaultValueSql("'0000-00-00 00:00:00'");
 
-                    b.HasKey("Id")
-                        .HasName("pk_rules");
+                    b.HasKey("Id");
 
                     b.ToTable("rules");
                 });
@@ -1970,8 +1940,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("type")
                         .HasColumnType("tinyint(3) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_schools");
+                    b.HasKey("Id");
 
                     b.ToTable("schools");
                 });
@@ -1997,8 +1966,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_settings");
+                    b.HasKey("Id");
 
                     b.ToTable("settings");
                 });
@@ -2052,8 +2020,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("visible")
                         .HasColumnType("tinyint(1) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_sports");
+                    b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique()
@@ -2091,8 +2058,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "latin1")
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_states");
+                    b.HasKey("Id");
 
                     b.HasIndex("Abbrev")
                         .IsUnique()
@@ -2163,8 +2129,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_staticpicks");
+                    b.HasKey("Id");
 
                     b.ToTable("staticpicks");
                 });
@@ -2198,8 +2163,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("team")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_suppicks");
+                    b.HasKey("Id");
 
                     b.HasIndex("Draft", "Pick")
                         .HasName("draft_pick");
@@ -2239,8 +2203,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("team")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_team_draft_analysis");
+                    b.HasKey("Id");
 
                     b.ToTable("team_draft_analysis");
                 });
@@ -2311,8 +2274,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("type")
                         .HasColumnType("tinyint(3) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_teams");
+                    b.HasKey("Id");
 
                     b.HasIndex("Successor")
                         .HasName("successor");
@@ -2377,8 +2339,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("team")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_teams_previous_names");
+                    b.HasKey("Id");
 
                     b.ToTable("teams_previous_names");
                 });
@@ -2398,8 +2359,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("trans")
                         .HasColumnType("int(10) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_tradecheck");
+                    b.HasKey("Id");
 
                     b.HasIndex("Trans", "Check")
                         .HasName("trans");
@@ -2437,8 +2397,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("type")
                         .HasColumnType("tinyint(3) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_trades");
+                    b.HasKey("Id");
 
                     b.ToTable("trades");
                 });
@@ -2507,8 +2466,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("type")
                         .HasColumnType("tinyint(3) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_tradetransactions");
+                    b.HasKey("Id");
 
                     b.HasIndex("From")
                         .HasName("from");
@@ -2551,8 +2509,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user_id")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_auth_tokens");
+                    b.HasKey("Id");
 
                     b.ToTable("user_auth_tokens");
                 });
@@ -2586,7 +2543,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("VotingUserId", "OwnerUserId", "DraftId")
-                        .HasName("primary");
+                        .HasName("PRIMARY");
 
                     b.HasIndex("OwnerUserId", "DraftId")
                         .HasName("owner_user_id");
@@ -2649,8 +2606,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("videos")
                         .HasColumnType("int(10) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_gamification_calculation");
+                    b.HasKey("Id");
 
                     b.ToTable("user_gamification_calculation");
                 });
@@ -2673,8 +2629,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("point")
                         .HasColumnType("int(11)");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_gamification_points");
+                    b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique()
@@ -2716,8 +2671,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user_round_limit")
                         .HasColumnType("tinyint(1)");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_mock_drafts");
+                    b.HasKey("Id");
 
                     b.HasIndex("DraftId", "UserId")
                         .IsUnique()
@@ -2749,8 +2703,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user_id")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_mock_drafts_contest");
+                    b.HasKey("Id");
 
                     b.ToTable("user_mock_drafts_contest");
                 });
@@ -2787,8 +2740,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "latin1")
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_player_rankings");
+                    b.HasKey("Id");
 
                     b.ToTable("user_player_rankings");
                 });
@@ -2883,8 +2835,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("weight")
                         .HasColumnType("smallint(5) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_players");
+                    b.HasKey("Id");
 
                     b.ToTable("user_players");
                 });
@@ -2916,8 +2867,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user_round_limit")
                         .HasColumnType("tinyint(1)");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_redrafts");
+                    b.HasKey("Id");
 
                     b.HasIndex("DraftId", "UserId")
                         .IsUnique()
@@ -2974,8 +2924,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "latin1")
                         .HasAnnotation("MySql:Collation", "latin1_swedish_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_team_draft_analysis");
+                    b.HasKey("Id");
 
                     b.ToTable("user_team_draft_analysis");
                 });
@@ -2999,8 +2948,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user_team_draft_analysis_id")
                         .HasColumnType("int(10) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_team_draft_analysis_picks");
+                    b.HasKey("Id");
 
                     b.ToTable("user_team_draft_analysis_picks");
                 });
@@ -3047,8 +2995,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_user_team_picks");
+                    b.HasKey("Id");
 
                     b.ToTable("user_team_picks");
                 });
@@ -3091,8 +3038,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_userranks");
+                    b.HasKey("Id");
 
                     b.HasIndex("Draft", "User")
                         .HasName("draft_user");
@@ -3138,8 +3084,7 @@ namespace DraftSiteRepository.Migrations
                         .HasColumnName("user")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("Id")
-                        .HasName("pk_userranks_copy");
+                    b.HasKey("Id");
 
                     b.HasIndex("Draft", "User")
                         .HasName("draft_user");
@@ -3292,8 +3237,7 @@ namespace DraftSiteRepository.Migrations
                         .HasAnnotation("MySql:CharSet", "utf8")
                         .HasAnnotation("MySql:Collation", "utf8_general_ci");
 
-                    b.HasKey("Id")
-                        .HasName("pk_users");
+                    b.HasKey("Id");
 
                     b.HasIndex("Username")
                         .IsUnique()
@@ -3306,25 +3250,20 @@ namespace DraftSiteRepository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsEnabled")
-                        .HasColumnName("is_enabled")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Value")
-                        .HasColumnName("value")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id")
-                        .HasName("pk_draft_start_types");
+                    b.HasKey("Id");
 
-                    b.ToTable("draft_start_types");
+                    b.ToTable("DraftStartTypes");
 
                     b.HasData(
                         new
@@ -3347,21 +3286,17 @@ namespace DraftSiteRepository.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Value")
-                        .HasColumnName("value")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id")
-                        .HasName("pk_draft_statuses");
+                    b.HasKey("Id");
 
-                    b.ToTable("draft_statuses");
+                    b.ToTable("DraftStatuses");
 
                     b.HasData(
                         new
@@ -3411,90 +3346,70 @@ namespace DraftSiteRepository.Migrations
             modelBuilder.Entity("DraftSiteModels.Entities.DraftTeamUser", b =>
                 {
                     b.Property<int>("DraftId")
-                        .HasColumnName("draft_id")
                         .HasColumnType("int");
 
                     b.Property<uint>("UserId")
-                        .HasColumnName("user_id")
                         .HasColumnType("int(10) unsigned");
 
                     b.Property<uint>("TeamId")
-                        .HasColumnName("team_id")
                         .HasColumnType("mediumint(8) unsigned");
 
                     b.Property<bool>("IsComputer")
-                        .HasColumnName("is_computer")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<int?>("MultiplayerDraftId")
-                        .HasColumnName("multiplayer_draft_id")
                         .HasColumnType("int");
 
-                    b.HasKey("DraftId", "UserId", "TeamId")
-                        .HasName("pk_draft_team_users");
+                    b.HasKey("DraftId", "UserId", "TeamId");
 
-                    b.HasIndex("MultiplayerDraftId")
-                        .HasName("ix_draft_team_users_multiplayer_draft_id");
+                    b.HasIndex("MultiplayerDraftId");
 
-                    b.HasIndex("TeamId")
-                        .HasName("ix_draft_team_users_team_id");
+                    b.HasIndex("TeamId");
 
-                    b.ToTable("draft_team_users");
+                    b.ToTable("DraftTeamUsers");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.DraftTeamUserPlayer", b =>
                 {
                     b.Property<int>("DraftId")
-                        .HasColumnName("draft_id")
                         .HasColumnType("int");
 
                     b.Property<uint>("UserId")
-                        .HasColumnName("user_id")
                         .HasColumnType("mediumint(8) unsigned");
 
                     b.Property<uint>("TeamId")
-                        .HasColumnName("team_id")
                         .HasColumnType("int(10) unsigned");
 
                     b.Property<uint>("PlayerId")
-                        .HasColumnName("player_id")
                         .HasColumnType("mediumint(8) unsigned");
 
-                    b.HasKey("DraftId", "UserId", "TeamId", "PlayerId")
-                        .HasName("pk_draft_team_user_players");
+                    b.HasKey("DraftId", "UserId", "TeamId", "PlayerId");
 
-                    b.HasIndex("PlayerId")
-                        .HasName("ix_draft_team_user_players_player_id");
+                    b.HasIndex("PlayerId");
 
-                    b.HasIndex("DraftId", "TeamId", "UserId")
-                        .HasName("ix_draft_team_user_players_draft_id_team_id_user_id");
+                    b.HasIndex("DraftId", "TeamId", "UserId");
 
-                    b.ToTable("draft_team_user_players");
+                    b.ToTable("DraftTeamUserPlayers");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.DraftTime", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("TimeInSeconds")
-                        .HasColumnName("time_in_seconds")
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
-                        .HasColumnName("value")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id")
-                        .HasName("pk_draft_times");
+                    b.HasKey("Id");
 
-                    b.ToTable("draft_times");
+                    b.ToTable("DraftTimes");
 
                     b.HasData(
                         new
@@ -3537,110 +3452,86 @@ namespace DraftSiteRepository.Migrations
             modelBuilder.Entity("DraftSiteModels.Entities.DraftUser", b =>
                 {
                     b.Property<int>("DraftId")
-                        .HasColumnName("draft_id")
                         .HasColumnType("int");
 
                     b.Property<uint>("UserId")
-                        .HasColumnName("user_id")
                         .HasColumnType("int(10) unsigned");
 
-                    b.HasKey("DraftId", "UserId")
-                        .HasName("pk_draft_users");
+                    b.HasKey("DraftId", "UserId");
 
-                    b.HasIndex("UserId")
-                        .HasName("ix_draft_users_user_id");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("draft_users");
+                    b.ToTable("DraftUsers");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.MultiplayerDraft", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("int");
 
                     b.Property<int>("DraftStartTypeId")
-                        .HasColumnName("draft_start_type_id")
                         .HasColumnType("int");
 
                     b.Property<int>("DraftStatusId")
-                        .HasColumnName("draft_status_id")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsComputerTeams")
-                        .HasColumnName("is_computer_teams")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsMultiSelect")
-                        .HasColumnName("is_multi_select")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsPublic")
-                        .HasColumnName("is_public")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
                     b.Property<uint>("OwnerId")
-                        .HasColumnName("owner_id")
                         .HasColumnType("int(10) unsigned");
 
                     b.Property<int>("PickTimeId")
-                        .HasColumnName("pick_time_id")
                         .HasColumnType("int");
 
                     b.Property<int>("RoundCount")
-                        .HasColumnName("round_count")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("StartTime")
-                        .HasColumnName("start_time")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("password")
-                        .HasColumnName("password")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.HasKey("Id")
-                        .HasName("pk_multi_player_drafts");
+                    b.HasKey("Id");
 
-                    b.HasIndex("DraftStartTypeId")
-                        .HasName("ix_multi_player_drafts_draft_start_type_id");
+                    b.HasIndex("DraftStartTypeId");
 
-                    b.HasIndex("DraftStatusId")
-                        .HasName("ix_multi_player_drafts_draft_status_id");
+                    b.HasIndex("DraftStatusId");
 
-                    b.HasIndex("OwnerId")
-                        .HasName("ix_multi_player_drafts_owner_id");
+                    b.HasIndex("OwnerId");
 
-                    b.HasIndex("PickTimeId")
-                        .HasName("ix_multi_player_drafts_pick_time_id");
+                    b.HasIndex("PickTimeId");
 
-                    b.ToTable("multi_player_drafts");
+                    b.ToTable("MultiPlayerDrafts");
                 });
 
             modelBuilder.Entity("DraftSiteModels.Entities.DraftTeamUser", b =>
                 {
                     b.HasOne("DraftSiteModels.Entities.MultiplayerDraft", null)
                         .WithMany("DraftTeamUsers")
-                        .HasForeignKey("MultiplayerDraftId")
-                        .HasConstraintName("fk_draft_team_users_multi_player_drafts_multiplayer_draft_id");
+                        .HasForeignKey("MultiplayerDraftId");
 
                     b.HasOne("DraftSiteModels.DraftSite.Teams", "Team")
                         .WithMany("DraftTeamUsers")
                         .HasForeignKey("TeamId")
-                        .HasConstraintName("fk_draft_team_users_teams_team_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftUser", "DraftUser")
                         .WithMany("DraftTeamUsers")
                         .HasForeignKey("DraftId", "UserId")
-                        .HasConstraintName("fk_draft_team_users_draft_users_draft_id_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -3650,14 +3541,12 @@ namespace DraftSiteRepository.Migrations
                     b.HasOne("DraftSiteModels.DraftSite.Players", "Player")
                         .WithMany("DraftTeamUserPlayers")
                         .HasForeignKey("PlayerId")
-                        .HasConstraintName("fk_draft_team_user_players_players_player_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftTeamUser", "DraftTeamUser")
                         .WithMany("DraftTeamUserPlayers")
                         .HasForeignKey("DraftId", "TeamId", "UserId")
-                        .HasConstraintName("fk_draft_team_user_players_draft_team_users_draft_id_team_id_us~")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -3667,14 +3556,12 @@ namespace DraftSiteRepository.Migrations
                     b.HasOne("DraftSiteModels.Entities.MultiplayerDraft", "Draft")
                         .WithMany("DraftUsers")
                         .HasForeignKey("DraftId")
-                        .HasConstraintName("fk_draft_users_multi_player_drafts_draft_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.DraftSite.Users", "User")
                         .WithMany("DraftUsers")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_draft_users_users_user_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -3684,28 +3571,24 @@ namespace DraftSiteRepository.Migrations
                     b.HasOne("DraftSiteModels.Entities.DraftStartType", "DraftStartType")
                         .WithMany("Drafts")
                         .HasForeignKey("DraftStartTypeId")
-                        .HasConstraintName("fk_multi_player_drafts_draft_start_types_draft_start_type_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftStatus", "DraftStatus")
                         .WithMany("Drafts")
                         .HasForeignKey("DraftStatusId")
-                        .HasConstraintName("fk_multi_player_drafts_draft_statuses_draft_status_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.DraftSite.Users", "Owner")
                         .WithMany("MultiPlayerDrafts")
                         .HasForeignKey("OwnerId")
-                        .HasConstraintName("fk_multi_player_drafts_users_owner_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DraftSiteModels.Entities.DraftTime", "PickTime")
                         .WithMany("Drafts")
                         .HasForeignKey("PickTimeId")
-                        .HasConstraintName("fk_multi_player_drafts_draft_times_pick_time_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

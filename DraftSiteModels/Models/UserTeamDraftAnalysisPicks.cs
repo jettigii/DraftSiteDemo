@@ -5,9 +5,9 @@ namespace DraftSiteModels.DraftSite
 {
     public partial class UserTeamDraftAnalysisPicks
     {
-        public uint Id { get; set; }
-        public uint UserTeamDraftAnalysisId { get; set; }
-        public uint PositionId { get; set; }
-        public uint Order { get; set; }
+        public int Id { get; set; }
+        public int UserTeamDraftAnalysisId { get; set; }
+        public int PositionId { get; set; }
+        public int Order { get; set; }
     }
 }

@@ -6,9 +6,9 @@ namespace DraftSiteModels.DraftSite
     public partial class PicksTemp
     {
         public ulong Id { get; set; }
-        public uint Round { get; set; }
+        public int Round { get; set; }
         public ushort Pick { get; set; }
-        public uint Team { get; set; }
+        public int Team { get; set; }
         public byte Type { get; set; }
         public string Typename { get; set; }
         public byte[] Comments { get; set; }

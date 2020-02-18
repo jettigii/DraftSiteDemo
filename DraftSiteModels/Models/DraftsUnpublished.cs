@@ -5,10 +5,10 @@ namespace DraftSiteModels.DraftSite
 {
     public partial class DraftsUnpublished
     {
-        public uint Id { get; set; }
-        public uint DraftId { get; set; }
-        public uint SportId { get; set; }
-        public uint UserId { get; set; }
+        public int Id { get; set; }
+        public int DraftId { get; set; }
+        public int SportId { get; set; }
+        public int UserId { get; set; }
         public byte Steps { get; set; }
         public byte[] PostVars { get; set; }
         public DateTime Lastupdate { get; set; }

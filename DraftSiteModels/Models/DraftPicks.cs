@@ -5,11 +5,11 @@ namespace DraftSiteModels.DraftSite
 {
     public partial class DraftPicks
     {
-        public uint DraftId { get; set; }
-        public uint RoundId { get; set; }
+        public int DraftId { get; set; }
+        public int RoundId { get; set; }
         public ushort Order { get; set; }
         public ushort Rank { get; set; }
-        public uint TeamId { get; set; }
+        public int TeamId { get; set; }
         public byte Type { get; set; }
         public string TypeDesc { get; set; }
     }

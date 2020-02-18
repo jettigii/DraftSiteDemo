@@ -5,8 +5,8 @@ namespace DraftSiteModels.DraftSite
 {
     public partial class Permissions
     {
-        public uint Id { get; set; }
-        public uint Admin { get; set; }
+        public int Id { get; set; }
+        public int Admin { get; set; }
         public byte Players { get; set; }
         public byte PlayersMedia { get; set; }
         public byte Sports { get; set; }
