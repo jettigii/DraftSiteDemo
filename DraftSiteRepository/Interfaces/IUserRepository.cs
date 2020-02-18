@@ -1,4 +1,4 @@
-﻿using DraftSiteModels.DraftSite;
+﻿using DraftSiteModels.DraftSiteModels;
 using System.Threading.Tasks;
 
 namespace DraftSiteRepository.Interfaces

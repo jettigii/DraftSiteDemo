@@ -1,5 +1,4 @@
-﻿using DraftSiteModels.DraftSite;
-using DraftSiteModels.Entities;
+﻿using DraftSiteModels.DraftSiteModels;
 using DraftSiteRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;

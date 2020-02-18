@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using DraftSiteModels.DraftSite;
 using DraftSiteModels.Entities;
 using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
@@ -10,7 +9,7 @@ namespace DraftSiteModels.Maps
     {
         public DraftSiteProfile()
         {
-            CreateMap<Users, DraftSiteUserViewModel>();
+            //CreateMap<Users, DraftSiteUserViewModel>();
 
             CreateMap<MultiplayerDraft, DraftViewModel>()
                 .ForMember(destination => destination.Username, opts => opts.MapFrom(source => source.Owner.Username))

@@ -1,14 +1,15 @@
 using AutoMapper;
-using DraftSiteApi.Hubs;
-using DraftSiteModels.HubModels;
-using DraftSiteModels.Maps;
 using DraftSiteRepository;
-using DraftSiteRepository.Interfaces;
-using DraftSiteRepository.Repositories;
-using DraftSiteService.Interfaces;
-using DraftSiteService.Services;
-using FiniTechSolutions.Interfaces;
-using FiniTechSolutions.Services;
+//using DraftSiteApi.Hubs;
+//using DraftSiteModels.HubModels;
+//using DraftSiteModels.Maps;
+//using DraftSiteRepository;
+//using DraftSiteRepository.Interfaces;
+//using DraftSiteRepository.Repositories;
+//using DraftSiteService.Interfaces;
+//using DraftSiteService.Services;
+//using FiniTechSolutions.Interfaces;
+//using FiniTechSolutions.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,16 +49,16 @@ namespace DraftSiteApi
             services.AddDbContext<DraftSiteContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddAutoMapper(typeof(DraftSiteProfile));
+            //services.AddAutoMapper(typeof(DraftSiteProfile));
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IDraftService, DraftService>();
-            services.AddScoped<IUserLobbyMappingService, UserLobbyMappingService>();
-            
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IDraftRepository, DraftRepository>();
+            //services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IDraftService, DraftService>();
+            //services.AddScoped<IUserLobbyMappingService, UserLobbyMappingService>();
 
-            services.AddScoped<IPasswordService, PasswordService>();
+            //services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<IDraftRepository, DraftRepository>();
+
+            //services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddCors(options =>
             {
@@ -94,7 +95,7 @@ namespace DraftSiteApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<PreDraftLobbyHub>("/hubs/preDraftLobby");
+                //endpoints.MapHub<PreDraftLobbyHub>("/hubs/preDraftLobby");
             });
         }
     }

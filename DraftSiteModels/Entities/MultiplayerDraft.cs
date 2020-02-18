@@ -1,4 +1,4 @@
-﻿using DraftSiteModels.DraftSite;
+﻿using DraftSiteModels.DraftSiteModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -41,6 +41,6 @@ namespace DraftSiteModels.Entities
 
         public IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }
 
-        public IEnumerable<DraftUser> DraftUsers { get; set; }
+        public IEnumerable<Users> Users { get; set; }
     }
 }
