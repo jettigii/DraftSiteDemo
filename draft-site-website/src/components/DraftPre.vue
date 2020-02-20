@@ -103,16 +103,21 @@ import PreDraftLobbyHub from "../hubs/pre-draft-lobby-hub.js";
 
 export default {
   props: {
-    draftId: Number
+    draftId: Number,
+    password: String
   },
   async mounted() {
     this.preDraftLobbyHub = new PreDraftLobbyHub(this);
     await this.preDraftLobbyHub.start();
-    await this.preDraftLobbyHub.enterPreDraftLobby(this, this.draftId);
+    this.preDraftLobbyHub = await this.preDraftLobbyHub.enterPreDraftLobby(
+      this,
+      this.draftId,
+      this.password
+    );
   },
   data() {
     return {
-      preDraftLobbyHub: ""
+      preDraftLobby: {}
     };
   },
   components: {

@@ -25,11 +25,13 @@ namespace DraftSiteModels.Maps
 
             CreateMap<DraftTime, DraftTimeViewModel>();
 
-            CreateMap<DraftStartType, DraftStartTypeViewModel>();
-            
+            CreateMap<DraftStartType, DraftStartTypeViewModel>();            
 
             CreateMap<DraftStatus, DraftStatusViewModel>();
 
+            CreateMap<Players, DraftPlayerViewModel>();
+            
+            CreateMap<Teams, DraftTeamSummaryViewModel>();
         }
     }
 }

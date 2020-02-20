@@ -37,6 +37,7 @@ namespace DraftSiteService.Services
             draftEntity.PickTimeId = draftTime.Id;
             draftEntity.OwnerId = Convert.ToUInt32(draft.UserId);
             draftEntity.DraftStatusId = 1;
+            draftEntity.password = _passwordService.Hash(draftEntity.password);
 
             DateTime.TryParse(draft.StartTime, out var startTime);
             draftEntity.StartTime = startTime;
@@ -75,7 +76,7 @@ namespace DraftSiteService.Services
 
             return new DraftDataViewModel()
             {
-                DraftStartTimes = _mapper.Map<List<DraftStartTypeViewModel>>(draftStartTypes),
+                DraftStartTypes = _mapper.Map<List<DraftStartTypeViewModel>>(draftStartTypes),
                 DraftStatuses = _mapper.Map<List<DraftStatusViewModel>>(draftStatuses),
                 DraftTimes = _mapper.Map<List<DraftTimeViewModel>>(draftTimes),
             };

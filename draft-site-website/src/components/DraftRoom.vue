@@ -1,6 +1,10 @@
 <template>
   <div>
-    <component v-bind:is="draftComponent" :draftId="draftId" />
+    <component
+      v-bind:is="draftComponent"
+      :draftId="draftId"
+      :password="password"
+    />
   </div>
 </template>
 
@@ -10,6 +14,7 @@ import PreDraftLobby from "./DraftPre.vue";
 export default {
   props: {
     draftId: Number,
+    password: String,
     status: String
   },
   components: {

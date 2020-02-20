@@ -1,6 +1,7 @@
 ﻿using DraftSiteModels.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DraftSiteModels.DraftSiteModels
 {
@@ -10,6 +11,8 @@ namespace DraftSiteModels.DraftSiteModels
         public string Lastname { get; set; }
         public string Firstname { get; set; }
         public byte Status { get; set; }
+
+        [NotMapped]
         public DateTime? Dob { get; set; }
         public string Age { get; set; }
         public byte Heightf { get; set; }
@@ -39,10 +42,16 @@ namespace DraftSiteModels.DraftSiteModels
         public sbyte? Fantasy { get; set; }
         public int? FantasyTeam { get; set; }
         public string FantasyPositions { get; set; }
+
+        [NotMapped]
         public DateTime Lastupdate { get; set; }
+
+        [NotMapped]
         public DateTime? Lastactivity { get; set; }
         public uint? CreatedBy { get; set; }
         public uint? LastModifiedBy { get; set; }
+
+        [NotMapped]
         public DateTime? CreatedAt { get; set; }
         public virtual IEnumerable<DraftTeamUserPlayer> DraftTeamUserPlayers { get; set; }
     }

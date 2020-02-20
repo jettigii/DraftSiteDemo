@@ -28,7 +28,7 @@ export default new Router({
       component: home
     },
     {
-      path: "/draftRoom/:draftId",
+      path: "/draftRoom/:draftId/:password?",
       name: "draftRoom",
       component: draftRoom,
       props: true

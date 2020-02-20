@@ -4,7 +4,7 @@ namespace DraftSiteModels.ViewModels
 {
     public class DraftDataViewModel
     {
-        public List<DraftStartTypeViewModel> DraftStartTimes { get; set; }
+        public List<DraftStartTypeViewModel> DraftStartTypes { get; set; }
         
         public List<DraftStatusViewModel> DraftStatuses { get; set; }
 

@@ -18,31 +18,29 @@
         </template>
       </b-table>
     </div>
-    <div>
-      <b-modal
-        id="modal-password"
-        ref="modal"
-        title="Submit draft password"
-        @show="resetModal"
-        @hidden="resetModal"
-        @ok="enterDraft"
-      >
-        <form ref="form" @submit.stop.prevent="enter">
-          <b-form-group
-            label="Password"
-            label-for="password-input"
-            invalid-feedback="Password is required"
-          >
-            <b-form-input
-              id="password-input"
-              v-model="password"
-              :state="passwordState"
-              required
-            ></b-form-input>
-          </b-form-group>
-        </form>
-      </b-modal>
-    </div>
+    <b-modal
+      id="modal-password-id"
+      ref="modal-password-ref"
+      title="Submit draft password"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <form ref="form" @submit.stop.prevent="handleOk">
+        <b-form-group
+          label="Password"
+          label-for="password-input"
+          invalid-feedback="Password is required"
+        >
+          <b-form-input
+            id="password-input"
+            v-model="password"
+            :state="passwordState"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
   </div>
 </template>
 
@@ -54,6 +52,7 @@ export default {
     return {
       password: "",
       passwordState: null,
+      selectedRow: null,
       draftFields: [
         { key: "name" },
         { key: "roundCount" },
@@ -63,7 +62,8 @@ export default {
         { key: "isComputerTeams", label: "Computer Players Allowed" },
         { key: "isPublic" },
         { key: "username", label: "Manager" }
-      ]
+      ],
+      modalName: "modal-password-ref"
     };
   },
   async mounted() {
@@ -74,14 +74,50 @@ export default {
       loadDraftLobby: "draft/loadDraftLobby"
     }),
     enterDraft: function(row) {
-      if (row.isPublic) {
+      this.selectedRow = row;
+      // eslint-disable-next-line no-debugger
+      // debugger;
+      if (this.selectedRow.isPublic) {
         this.$router.push({
           name: "draftRoom",
           params: {
-            draftId: row.id,
-            status: row.draftStatus
+            draftId: this.selectedRow.id,
+            status: this.selectedRow.draftStatus
           }
         });
+      } else {
+        // eslint-disable-next-line no-debugger
+        // debugger;
+        this.$refs["modal-password-ref"].show();
+        // eslint-disable-next-line no-debugger
+        // debugger;
+      }
+    },
+    handleOk(e) {
+      e.preventDefault();
+
+      this.$nextTick(() => {
+        this.$bvModal.hide(this.modalName);
+      });
+
+      if (!this.password) {
+        // Todo Brian add alert that you must provide password
+      }
+
+      // eslint-disable-next-line no-debugger
+      // debugger;
+
+      if (this.selectedRow.id && this.selectedRow.draftStatus)
+        this.$router.push({
+          name: "draftRoom",
+          params: {
+            draftId: this.selectedRow.id,
+            password: this.password,
+            status: this.selectedRow.draftStatus
+          }
+        });
+      else {
+        // Todo Brian add alert that there was an error, though this should never happen
       }
     },
     resetModal() {

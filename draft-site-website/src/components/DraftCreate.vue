@@ -1,6 +1,6 @@
 <template>
   <div class="DraftCreate blur" style="width:100%;height:100%">
-    <DraftSettings @updateSettings="createNewDraft" />
+    <DraftSettings @update-settings="createNewDraft" />
   </div>
 </template>
 

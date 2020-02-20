@@ -18,6 +18,7 @@ namespace DraftSiteApi.Hubs
         public PreDraftLobbyHub(IDraftService draftService)
         {
             _draftService = draftService;
+            _connections = new ConcurrentBag<HubUser>();
         }
 
         public async Task SendMessage(string user, string message)
@@ -34,13 +35,14 @@ namespace DraftSiteApi.Hubs
                     ConnectionId = Context.ConnectionId,
                     DraftId = draftLobbyRequest.DraftId,
                     Username = Context.User.Identity.Name,
-                };
+                };                
+
+                var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftLobbyRequest.DraftId, user.Username, draftLobbyRequest.Password);
+                _connections.Add(user);
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, draftLobbyRequest.DraftId.ToString());
                 await Clients.Group(draftLobbyRequest.DraftId.ToString()).SendAsync("receiveChatMessage", user.Username + " has joined the lobby.");
 
-                var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftLobbyRequest.DraftId, user.Username, draftLobbyRequest.Password);
-                _connections.Add(user);
                 return preDraftLobbyData;
             }
             catch (Exception ex)
