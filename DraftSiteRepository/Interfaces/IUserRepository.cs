@@ -7,7 +7,7 @@ namespace DraftSiteRepository.Interfaces
     {
         Task<UserAuthTokens> Authenticate(string token);
 
-        Task<Users> GetUserById(int id);
+        Task<Users> GetUserById(uint id);
 
         Task<Users> GetUserByUsername(string username);
     }

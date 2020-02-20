@@ -165,7 +165,7 @@ export default {
     }),
     async onSubmit(evt) {
       evt.preventDefault();
-      this.$emit("updateSettings");
+      this.$emit("update-settings", this.createDraftObject());
     },
     onReset() {
       this.draftName = "";
@@ -173,6 +173,18 @@ export default {
       this.isPublic = false;
       this.draftTimeSelected = {};
       this.draftRoundSelected = {};
+    },
+    createDraftObject: function() {
+      return {
+        isComputerTeams: this.isComputerTeams,
+        isPublic: this.isPublic,
+        isMultiSelect: this.isMultiSelect,
+        name: this.draftName,
+        password: this.password,
+        pickTime: this.pickTime,
+        roundCount: this.roundCount,
+        startTime: this.startTime
+      };
     }
   },
   computed: {

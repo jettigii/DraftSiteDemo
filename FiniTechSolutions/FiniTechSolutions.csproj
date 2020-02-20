@@ -4,13 +4,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="ServiceInterfaces\**" />
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="ServiceInterfaces\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="ServiceInterfaces\**" />
-    <None Remove="Services\**" />
-  </ItemGroup>
-
 </Project>

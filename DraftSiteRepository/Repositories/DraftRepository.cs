@@ -1,6 +1,7 @@
-﻿using DraftSiteModels.DraftSite;
+﻿using DraftSiteModels.DraftSiteModels;
 using DraftSiteModels.Entities;
 using DraftSiteRepository.Interfaces;
+using DraftSiteRepository.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -32,9 +33,10 @@ namespace DraftSiteRepository.Repositories
 
         public async Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, int teamId)
         {
+            // TODO: THIS METHOD NEEDS MULTIPLAYERDRAFTID AS INPUT
             var draftTeamUser = await _context
                 .DraftTeamUsers
-                .SingleOrDefaultAsync(dtu => dtu.DraftId == draftId && dtu.TeamId == teamId && dtu.UserId == userId);
+                .SingleOrDefaultAsync(dtu => dtu.MultiPlayerDraftId == userId);
 
             _context.DraftTeamUsers.Remove(draftTeamUser);
             await _context.SaveChangesAsync();

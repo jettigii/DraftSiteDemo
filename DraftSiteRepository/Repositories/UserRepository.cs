@@ -1,5 +1,6 @@
 ﻿using DraftSiteModels.DraftSiteModels;
 using DraftSiteRepository.Interfaces;
+using DraftSiteRepository.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace DraftSiteRepository.Repositories
             return user;
         }
 
-        public async Task<Users> GetUserById(int id)
+        public async Task<Users> GetUserById(uint id)
         {
             var userEntity = await _context.Users.SingleOrDefaultAsync(user => user.Id == id);
             return userEntity;

@@ -18,7 +18,8 @@ namespace DraftSiteService.Services
         }
         public async Task<DraftSiteUserViewModel> Authenticate(string token)
         {
-            var user = await _userRepository.Authenticate(token);
+            var userAuthToken = await _userRepository.Authenticate(token);
+            var user = await _userRepository.GetUserById(userAuthToken.UserId);
             var userViewModel = _mapper.Map<DraftSiteUserViewModel>(user);
             return userViewModel;
         }

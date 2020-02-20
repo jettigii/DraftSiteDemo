@@ -1,15 +1,13 @@
 using AutoMapper;
-using DraftSiteRepository;
-//using DraftSiteApi.Hubs;
-//using DraftSiteModels.HubModels;
-//using DraftSiteModels.Maps;
-//using DraftSiteRepository;
-//using DraftSiteRepository.Interfaces;
-//using DraftSiteRepository.Repositories;
-//using DraftSiteService.Interfaces;
-//using DraftSiteService.Services;
-//using FiniTechSolutions.Interfaces;
-//using FiniTechSolutions.Services;
+using DraftSiteApi.Hubs;
+using DraftSiteModels.Maps;
+using DraftSiteRepository.Interfaces;
+using DraftSiteRepository.Models;
+using DraftSiteRepository.Repositories;
+using DraftSiteService.Interfaces;
+using DraftSiteService.Services;
+using FiniTechSolutions.Interfaces;
+using FiniTechSolutions.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,8 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
-using System.Threading.Tasks;
 
 namespace DraftSiteApi
 {
@@ -47,18 +45,28 @@ namespace DraftSiteApi
                 });
 
             services.AddDbContext<DraftSiteContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
+                        mySqlOptions =>
+                        {
+                            mySqlOptions.ServerVersion(new Version(5, 7, 17), ServerType.MySql)
+                            .EnableRetryOnFailure(
+                            maxRetryCount: 10,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null);
+                        });
+            });
 
-            //services.AddAutoMapper(typeof(DraftSiteProfile));
+            services.AddAutoMapper(typeof(DraftSiteProfile));
 
-            //services.AddScoped<IUserService, UserService>();
-            //services.AddScoped<IDraftService, DraftService>();
-            //services.AddScoped<IUserLobbyMappingService, UserLobbyMappingService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDraftService, DraftService>();
+            services.AddScoped<IUserLobbyMappingService, UserLobbyMappingService>();
 
-            //services.AddScoped<IUserRepository, UserRepository>();
-            //services.AddScoped<IDraftRepository, DraftRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDraftRepository, DraftRepository>();
 
-            //services.AddScoped<IPasswordService, PasswordService>();
+            services.AddScoped<IPasswordService, PasswordService>();
 
             services.AddCors(options =>
             {
@@ -95,7 +103,7 @@ namespace DraftSiteApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapHub<PreDraftLobbyHub>("/hubs/preDraftLobby");
+                endpoints.MapHub<PreDraftLobbyHub>("/hubs/preDraftLobby");
             });
         }
     }

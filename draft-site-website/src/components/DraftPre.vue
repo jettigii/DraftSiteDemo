@@ -53,7 +53,7 @@
           class="draftSettings"
           style="width:100%;height:100%;border-width: 2px 0px 0px 0px;border-style: solid;border-color:#212931;padding:10px;"
         >
-          <DraftSettings @updateSettings="updateSettings" />
+          <DraftSettings @update-settings="updateSettings" />
         </div>
         <!-- TODO: Brian, This doesn't look right here with the divs -->
       </div>
@@ -102,9 +102,13 @@ import DraftSettings from "./DraftSettings.vue";
 import PreDraftLobbyHub from "../hubs/pre-draft-lobby-hub.js";
 
 export default {
+  props: {
+    draftId: Number
+  },
   async mounted() {
-    // await this.loadPreDraftLobby();
-    this.preDraftLobbyHub = PreDraftLobbyHub;
+    this.preDraftLobbyHub = new PreDraftLobbyHub(this);
+    await this.preDraftLobbyHub.start();
+    await this.preDraftLobbyHub.enterPreDraftLobby(this, this.draftId);
   },
   data() {
     return {
@@ -117,7 +121,11 @@ export default {
   methods: {
     ...mapActions({
       updateSettings: "draft/updateSettings"
-    })
+    }),
+    receiveMessage(message) {
+      // eslint-disable-next-line no-console
+      console.log(message);
+    }
   },
   computed: {
     ...mapState({

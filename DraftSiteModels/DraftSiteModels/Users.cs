@@ -33,7 +33,7 @@ namespace DraftSiteModels.DraftSiteModels
         public string TwitterHandle { get; set; }
         public string FacebookUsername { get; set; }
 
-        public IEnumerable<MultiplayerDraft> MultiPlayerDrafts { get; set; }
-        public IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }        
+        public virtual IEnumerable<MultiplayerDraft> MultiPlayerDrafts { get; set; }
+        public virtual IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }
     }
 }

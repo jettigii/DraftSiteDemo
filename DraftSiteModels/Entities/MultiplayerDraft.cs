@@ -1,4 +1,5 @@
 ﻿using DraftSiteModels.DraftSiteModels;
+using MySql.Data.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,13 +26,13 @@ namespace DraftSiteModels.Entities
         [Range(typeof(int), "1", "7")]
         public int RoundCount { get; set; }
 
-        public DateTimeOffset StartTime { get; set; }
+        public DateTime StartTime { get; set; }
 
         public string password { get; set; }
 
         public virtual Users Owner { get; set; }
 
-        public int OwnerId { get; set; }
+        public uint OwnerId { get; set; }
 
         public virtual DraftStatus DraftStatus { get; set; }
         public int DraftStatusId { get; set; }
@@ -39,8 +40,6 @@ namespace DraftSiteModels.Entities
         public virtual DraftStartType DraftStartType { get; set; }
         public int DraftStartTypeId { get; set; }
 
-        public IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }
-
-        public IEnumerable<Users> Users { get; set; }
+        public virtual IEnumerable<DraftTeamUser> DraftTeamUsers { get; set; }
     }
 }

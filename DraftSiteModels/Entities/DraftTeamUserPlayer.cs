@@ -8,6 +8,6 @@ namespace DraftSiteModels.Entities
         public int DraftTeamUserId { get; set; }
 
         public virtual Players Player { get; set; }
-        public int PlayerId { get; set; }
+        public uint PlayerId { get; set; }
     }
 }

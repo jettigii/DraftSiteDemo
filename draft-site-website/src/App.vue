@@ -38,7 +38,9 @@ export default {
     };
   },
   async mounted() {
-    await this.authenticate("abc");
+    await this.authenticate(
+      "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
+    );
     this.user = this.userData;
   },
   methods: {

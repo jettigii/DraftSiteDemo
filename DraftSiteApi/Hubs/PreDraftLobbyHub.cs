@@ -3,6 +3,7 @@ using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
 using DraftSiteService.Interfaces;
 using Microsoft.AspNetCore.SignalR;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -26,19 +27,27 @@ namespace DraftSiteApi.Hubs
 
         public async Task<PreDraftViewModel> EnterPreDraftLobby(PreDraftInputModel draftLobbyRequest)
         {
-            var user = new HubUser()
+            try
             {
-                ConnectionId = Context.ConnectionId,
-                DraftId = draftLobbyRequest.DraftId,
-                Username = Context.User.Identity.Name,
-            };
+                var user = new HubUser()
+                {
+                    ConnectionId = Context.ConnectionId,
+                    DraftId = draftLobbyRequest.DraftId,
+                    Username = Context.User.Identity.Name,
+                };
 
-            await Groups.AddToGroupAsync(Context.ConnectionId, draftLobbyRequest.DraftId.ToString());
-            await Clients.Group(draftLobbyRequest.DraftId.ToString()).SendAsync("receiveChatMessage", user.Username + " has joined the lobby.");
+                await Groups.AddToGroupAsync(Context.ConnectionId, draftLobbyRequest.DraftId.ToString());
+                await Clients.Group(draftLobbyRequest.DraftId.ToString()).SendAsync("receiveChatMessage", user.Username + " has joined the lobby.");
 
-            var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftLobbyRequest.DraftId, user.Username, draftLobbyRequest.Password);
-            _connections.Add(user);
-            return preDraftLobbyData;
+                var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftLobbyRequest.DraftId, user.Username, draftLobbyRequest.Password);
+                _connections.Add(user);
+                return preDraftLobbyData;
+            }
+            catch (Exception ex)
+            {
+                await Clients.Client(Context.ConnectionId).SendAsync("receiveChatMessage", "Lobby join error.");
+            }
+            return null;
         }
 
         // select team - create DraftTeamUser - send team update

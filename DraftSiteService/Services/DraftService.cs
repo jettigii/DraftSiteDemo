@@ -5,6 +5,8 @@ using DraftSiteModels.ViewModels;
 using DraftSiteRepository.Interfaces;
 using DraftSiteService.Interfaces;
 using FiniTechSolutions.Interfaces;
+using MySql.Data;
+using MySql.Data.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,10 +35,10 @@ namespace DraftSiteService.Services
 
             var draftTime = await GetDraftTimeFromSeconds(draft.PickTime);
             draftEntity.PickTimeId = draftTime.Id;
-            draftEntity.OwnerId = draft.UserId;
+            draftEntity.OwnerId = Convert.ToUInt32(draft.UserId);
             draftEntity.DraftStatusId = 1;
 
-            DateTimeOffset.TryParse(draft.StartTime, out var startTime);
+            DateTime.TryParse(draft.StartTime, out var startTime);
             draftEntity.StartTime = startTime;
 
             // TODO Create draft players to allow for custom players or removal of players.
@@ -83,9 +85,12 @@ namespace DraftSiteService.Services
         {
             var draft = await _draftRepository.GetDraft(draftId);
 
-            if (!_passwordService.Check(draft.password, password))
+            if (!string.IsNullOrWhiteSpace(draft.password))
             {
-                throw new Exception("Incorrect Password");
+                if (!_passwordService.Check(draft.password, password))
+                {
+                    throw new Exception("Incorrect Password");
+                }
             }
 
             var preDraftLobbyViewModel = _mapper.Map<PreDraftViewModel>(draft);
@@ -134,7 +139,8 @@ namespace DraftSiteService.Services
         {
             var user = await _userRepository.GetUserByUsername(username);
             var teamEntity = _mapper.Map<DraftTeamUser>(teamSelection);
-            teamEntity.UserId = Convert.ToInt32(user.Id);
+            // TODO: THIS NEEDS FIXED
+            //teamEntity.UserId = Convert.ToInt32(user.Id);
             await _draftRepository.CreateDraftTeamUser(Convert.ToInt32(user.Id), teamEntity);
             return await GetTeams(); throw new NotImplementedException();
         }
