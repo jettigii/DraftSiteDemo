@@ -106,18 +106,18 @@ export default {
     draftId: Number,
     password: String
   },
-  async mounted() {
-    this.preDraftLobbyHub = new PreDraftLobbyHub(this);
-    await this.preDraftLobbyHub.start();
-    this.preDraftLobbyHub = await this.preDraftLobbyHub.enterPreDraftLobby(
-      this,
+  mounted: async function() {
+    this.preDraftLobbyHub = new PreDraftLobbyHub();
+    await this.preDraftLobbyHub.start(this);
+
+    this.preDraftLobby = await this.preDraftLobbyHub.enterPreDraftLobby(
       this.draftId,
       this.password
     );
   },
   data() {
     return {
-      preDraftLobby: {}
+      preDraftLobby: null
     };
   },
   components: {

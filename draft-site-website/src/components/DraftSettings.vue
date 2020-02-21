@@ -154,7 +154,7 @@ export default {
       ]
     };
   },
-  async mounted() {
+  mounted: async function() {
     await this.loadDraftData();
     this.draftLookups = this.draftData;
   },

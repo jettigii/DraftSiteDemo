@@ -94,19 +94,16 @@ namespace DraftSiteService.Services
                 }
             }
 
-            var preDraftLobbyViewModel = _mapper.Map<PreDraftViewModel>(draft);
-
-            if (draft.Owner.Username == username)
+            PreDraftViewModel preDraftViewModel = new PreDraftViewModel()
             {
-                preDraftLobbyViewModel.IsOwner = true;
-            }
+                Draft = _mapper.Map<DraftViewModel>(draft),
+                IsOwner = draft.Owner.Username == username,
+                // TODO These players need to be DraftPlayerUserViewModel
+                DraftPlayers = await GetPlayers(),
+                DraftTeams = await GetTeams()
+            };      
 
-            preDraftLobbyViewModel.DraftPlayers = await GetPlayers();
-
-            // TODO These players need to be DraftPlayerUserViewModel
-            preDraftLobbyViewModel.DraftTeams = await GetTeams();
-
-            return preDraftLobbyViewModel;
+            return preDraftViewModel;
         }
 
         public async Task<DraftViewModel> UpdateDraftSettings(DraftInputModel draft)

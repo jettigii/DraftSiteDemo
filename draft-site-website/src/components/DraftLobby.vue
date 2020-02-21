@@ -35,6 +35,7 @@
           <b-form-input
             id="password-input"
             v-model="password"
+            type="password"
             :state="passwordState"
             required
           ></b-form-input>
@@ -66,7 +67,7 @@ export default {
       modalName: "modal-password-ref"
     };
   },
-  async mounted() {
+  mounted: async function() {
     await this.loadDraftLobby();
   },
   methods: {
@@ -75,8 +76,6 @@ export default {
     }),
     enterDraft: function(row) {
       this.selectedRow = row;
-      // eslint-disable-next-line no-debugger
-      // debugger;
       if (this.selectedRow.isPublic) {
         this.$router.push({
           name: "draftRoom",
@@ -86,11 +85,7 @@ export default {
           }
         });
       } else {
-        // eslint-disable-next-line no-debugger
-        // debugger;
         this.$refs["modal-password-ref"].show();
-        // eslint-disable-next-line no-debugger
-        // debugger;
       }
     },
     handleOk(e) {
@@ -103,9 +98,6 @@ export default {
       if (!this.password) {
         // Todo Brian add alert that you must provide password
       }
-
-      // eslint-disable-next-line no-debugger
-      // debugger;
 
       if (this.selectedRow.id && this.selectedRow.draftStatus)
         this.$router.push({

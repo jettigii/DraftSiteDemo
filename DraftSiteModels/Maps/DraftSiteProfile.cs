@@ -29,9 +29,11 @@ namespace DraftSiteModels.Maps
 
             CreateMap<DraftStatus, DraftStatusViewModel>();
 
-            CreateMap<Players, DraftPlayerViewModel>();
-            
-            CreateMap<Teams, DraftTeamSummaryViewModel>();
+            CreateMap<Players, DraftPlayerViewModel>()
+                .ForMember(destination => destination.PlayerName, opts => opts.MapFrom(source => $"{source.Lastname}, {source.Firstname}"));
+
+            CreateMap<Teams, DraftTeamSummaryViewModel>()
+                .ForMember(destination => destination.TeamName, opts => opts.MapFrom(source => $"{source.Name}"));
         }
     }
 }

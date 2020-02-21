@@ -4,28 +4,31 @@ const preDraftLobbyHubRoute = "preDraftLobby/";
 let connection;
 
 class PreDraftLobbyHub {
-  constructor(that) {
+  constructor() {
     connection = new HubConnectionBuilder()
       .withUrl(process.env.VUE_APP_HUB + preDraftLobbyHubRoute)
       .configureLogging(LogLevel.Information)
       .build();
+  }
 
+  async start(that) {
     connection.on("receiveChatMessage", message => {
       that.receiveMessage(message);
     });
-  }
 
-  async start() {
     await connection.start().catch(function() {});
   }
 
-  async enterPreDraftLobby(that, draftId, password) {
+  async enterPreDraftLobby(draftId, password) {
     // eslint-disable-next-line no-console
     console.log(connection);
-    return connection.invoke("enterPreDraftLobby", {
+    const preDraftLobby = await connection.invoke("enterPreDraftLobby", {
       draftId,
       password
     });
+    // eslint-disable-next-line no-console
+    console.log(preDraftLobby);
+    return preDraftLobby;
   }
 }
 

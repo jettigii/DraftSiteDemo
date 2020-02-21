@@ -37,7 +37,7 @@ export default {
       user: {}
     };
   },
-  async mounted() {
+  mounted: async function() {
     await this.authenticate(
       "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
     );
