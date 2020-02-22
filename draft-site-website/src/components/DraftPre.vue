@@ -106,15 +106,13 @@ export default {
     draftId: Number,
     password: String
   },
-    this.preDraftLobby = await this.preDraftLobbyHub.enterPreDraftLobby(
-    this.preDraftLobbyHub = new PreDraftLobbyHub(this);
-    await this.preDraftLobbyHub.start();
+  mounted: async function() {
+    this.preDraftLobbyHub = new PreDraftLobbyHub();
+    await this.preDraftLobbyHub.start(this);
     this.preDraftLobbyHub = await this.preDraftLobbyHub.enterPreDraftLobby(
-      this,
       this.draftId,
       this.password
     );
-    };
   },
   data() {
     return {
@@ -130,8 +128,6 @@ export default {
     }),
     receiveMessage(message) {
       // eslint-disable-next-line no-console
-      console.log(message);
-    }
       console.log(message);
     }
   },

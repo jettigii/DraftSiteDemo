@@ -4,6 +4,7 @@ using DraftSiteRepository.Interfaces;
 using DraftSiteRepository.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DraftSiteRepository.Repositories
@@ -80,7 +81,10 @@ namespace DraftSiteRepository.Repositories
 
         public async Task<List<Players>> GetPlayers()
         {
-            var players = await _context.Players.ToListAsync();
+            var players = await _context.Players
+                .Where(player => player.Draftclass == "2020" && player.Sport == 1 )
+                .ToListAsync();
+
             return players;
         }
 
@@ -92,7 +96,9 @@ namespace DraftSiteRepository.Repositories
 
         public async Task<List<Teams>> GetTeams()
         {
-            var players = await _context.Teams.ToListAsync();
+            var players = await _context.Teams
+                .Where(team => team.Sport == 1 && team.Active == 1)
+                .ToListAsync();
             return players;
         }
 
