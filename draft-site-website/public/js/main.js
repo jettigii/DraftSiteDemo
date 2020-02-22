@@ -261,21 +261,6 @@
 
 //Manual date switcher for: DraftCreate.vue
 function startDateSwitch() {  
-	//Get todays date
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth()+1; //January is 0!
-	var yyyy = today.getFullYear();
- 	if(dd<10){
-        dd='0'+dd
-    } 
-    if(mm<10){
-        mm='0'+mm
-    } 
-
-	today = yyyy+'-'+mm+'-'+dd;
-	document.getElementById("tpManualDate").setAttribute("min", today);
-
 	if(document.getElementById('rdoDraftStartMan').checked == true) { 
 		document.getElementById("lblManDate").style.display = "block";
 		document.getElementById("tpManualDate").style.display = "block";
@@ -284,33 +269,6 @@ function startDateSwitch() {
 		document.getElementById("lblManDate").style.display = "none";
 		document.getElementById("tpManualDate").style.display = "none";
 	}
-}
-
-// Toggle draft settings display
-function draftSettingsSwitch() {  
-	if (document.getElementById("draftSettingsArrowToggle").style.width != "100%") {
-		//Collapsed
-		document.getElementById("preGrid").style.gridTemplateColumns = "98.4% 1.6%";
-		document.getElementById("draftSettingsArrowToggle").style.width = "100%";
-		document.getElementById("btnStartDraft").style.display = "none";
-		document.getElementById("open-button").style.right = "3.5%";
-		document.getElementById("chatForm").style.right = "3.5%";
-		document.getElementById("draftSettingsArrow").style.classList.remove("fa-angle-left");
-		document.getElementById("draftSettingsArrow").style.classList.add("fa-angle-right");
-		
-	}
-	else  {
-		//Open
-		document.getElementById("preGrid").style.gridTemplateColumns = "80% 20%";
-		document.getElementById("draftSettingsArrowToggle").style.width = "8%";
-		document.getElementById("btnStartDraft").style.display = "block";
-		document.getElementById("open-button").style.right = "22%";
-		document.getElementById("chatForm").style.right = "22%";
-		document.getElementById("draftSettingsArrow").style.classList.add("fa-angle-left");
-		document.getElementById("draftSettingsArrow").style.classList.remove("fa-angle-right");
-		
-	}
-		
 }
 
 // Show team area
@@ -345,4 +303,4 @@ function openForm() {
 	else
 		document.getElementById("chatForm").style.display = "block";
 }
-
+  
