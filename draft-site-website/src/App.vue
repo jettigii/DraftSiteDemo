@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
 
     <!-- Nav -->
@@ -7,8 +7,9 @@
       <ul class="links">
         <li class="active"><router-link to="home">Draft Logo</router-link></li>
 
-        <li><router-link to="/lobby">Draft Lobby</router-link></li>
-        <li><router-link to="/createDraft">Create Draft</router-link></li>
+        <li ><router-link to="lobby">Draft Lobby</router-link></li>
+        <li ><router-link to="createDraft">Create Draft</router-link></li>
+        <li ><router-link to="preDraft">Pre Draft</router-link></li>
       </ul>
       {{ user.username }}
     </nav>
@@ -24,7 +25,9 @@
         <li>Designed by: FiniTech Inc.</li>
       </ul>
     </div>
+
   </div>
+
 </template>
 
 <script>
@@ -37,10 +40,8 @@ export default {
       user: {}
     };
   },
-  mounted: async function() {
-    await this.authenticate(
-      "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
-    );
+  async mounted() {
+    await this.authenticate("abc");
     this.user = this.userData;
   },
   methods: {
