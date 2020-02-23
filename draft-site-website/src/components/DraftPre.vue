@@ -116,7 +116,8 @@ export default {
   },
   data() {
     return {
-      preDraftLobby: {}
+      preDraftLobby: {},
+      message: ""
     };
   },
   components: {
@@ -129,6 +130,9 @@ export default {
     receiveMessage(message) {
       // eslint-disable-next-line no-console
       console.log(message);
+    },
+    sendMessage: async function() {
+      await this.preDraftLobbyHub.sendMessage(this.message);
     }
   },
   computed: {

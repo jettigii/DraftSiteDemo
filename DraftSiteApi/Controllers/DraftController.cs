@@ -44,7 +44,7 @@ namespace DraftSiteApi.Controllers
             {
                 int.TryParse(HttpContext.User.Claims.Single(claim => claim.Type == ClaimTypes.SerialNumber).Value, out var userId);
                 draft.UserId = userId;
-                var draftViewModel = await _draftService.CreateDraft(draft);
+                var draftViewModel = await _draftService.CreateDraftAsync(draft);
                 return Ok(draftViewModel);
             }
             catch

@@ -23,5 +23,12 @@ namespace DraftSiteService.Services
             var userViewModel = _mapper.Map<DraftSiteUserViewModel>(user);
             return userViewModel;
         }
+
+        public async Task<DraftSiteUserViewModel> GetUserByUsername(string username)
+        {
+            var user = await _userRepository.GetUserByUsername(username);
+            var userViewModel = _mapper.Map<DraftSiteUserViewModel>(user);
+            return userViewModel;
+        }
     }
 }

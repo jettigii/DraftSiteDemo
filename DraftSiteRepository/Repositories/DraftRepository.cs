@@ -25,7 +25,17 @@ namespace DraftSiteRepository.Repositories
             return draft;
         }
 
-        public async Task<DraftTeamUser> CreateDraftTeamUser(int userId, DraftTeamUser user)
+        public async Task CreateDraftPlayers(List<DraftTeamUserPlayer> draftTeamUserPlayers)
+        {
+            await _context.DraftTeamUserPlayers.AddRangeAsync(draftTeamUserPlayers);
+        }
+
+        public async Task CreateDraftTeams(List<DraftTeamUser> draftTeamUsers)
+        {
+            await _context.DraftTeamUsers.AddRangeAsync(draftTeamUsers);
+        }
+
+        public async Task<DraftTeamUser> CreateDraftTeamUser(DraftTeamUser user)
         {
             await _context.DraftTeamUsers.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -54,6 +64,25 @@ namespace DraftSiteRepository.Repositories
                 .Include(draft => draft.DraftStatus)
                 .SingleOrDefaultAsync(draft => draft.Id == id);
             return draft;
+        }
+
+        public async Task<List<DraftTeamUser>> GetDraftTeamsAsync(int draftId)
+        {
+            var draftTeams = await _context.DraftTeamUsers
+                .Where(draftTeamUser => draftTeamUser.MultiPlayerDraftId == draftId)
+                .ToListAsync();
+
+            return draftTeams;
+        }
+
+        public async Task<List<DraftTeamUserPlayer>> GetDraftPlayersAsync(int draftId)
+        {
+            var draftTeams = await _context.DraftTeamUserPlayers
+                .Include(draftTeamUserPlayer => draftTeamUserPlayer.DraftTeamUser)
+                .Where(draftTeamUserPlayer => draftTeamUserPlayer.DraftTeamUser.MultiPlayerDraftId == draftId)
+                .ToListAsync();
+
+            return draftTeams;
         }
 
         public async Task<List<MultiplayerDraft>> GetDrafts()

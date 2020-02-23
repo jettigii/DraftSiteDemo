@@ -5,8 +5,6 @@ using DraftSiteModels.ViewModels;
 using DraftSiteRepository.Interfaces;
 using DraftSiteService.Interfaces;
 using FiniTechSolutions.Interfaces;
-using MySql.Data;
-using MySql.Data.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +27,7 @@ namespace DraftSiteService.Services
             _mapper = mapper;
         }
 
-        public async Task<DraftViewModel> CreateDraft(DraftInputModel draft)
+        public async Task<DraftViewModel> CreateDraftAsync(DraftInputModel draft)
         {
             var draftEntity = _mapper.Map<MultiplayerDraft>(draft);
 
@@ -44,11 +42,20 @@ namespace DraftSiteService.Services
 
             // TODO Create draft players to allow for custom players or removal of players.
             var newDraft = await _draftRepository.CreateDraft(draftEntity);
+
+            var draftTeams = await GetTeams();
+            var draftTeamUsers = _mapper.Map<List<DraftTeamUser>>(draftTeams);
+            await _draftRepository.CreateDraftTeams(draftTeamUsers);
+
+            var draftPlayers = await GetPlayers();
+            var draftTeamUserPlayers = _mapper.Map<List<DraftTeamUserPlayer>>(draftPlayers);
+            await _draftRepository.CreateDraftPlayers(draftTeamUserPlayers);
+
             var draftViewModel = _mapper.Map<DraftViewModel>(newDraft);
             return draftViewModel;
         }
 
-        public async Task<DraftViewModel> GetDraft(int id)
+        public async Task<DraftViewModel> GetDraftAsync(int id)
         {
             var draft = await _draftRepository.GetDraft(id);
             var draftViewModel = _mapper.Map<DraftViewModel>(draft);
@@ -94,21 +101,25 @@ namespace DraftSiteService.Services
                 }
             }
 
+            var draftPlayers = await GetDraftPlayersAsync(draftId);
+            var draftTeams = await GetDraftTeamsAsync(draftId);
+
             PreDraftViewModel preDraftViewModel = new PreDraftViewModel()
             {
                 Draft = _mapper.Map<DraftViewModel>(draft),
                 IsOwner = draft.Owner.Username == username,
                 // TODO These players need to be DraftPlayerUserViewModel
-                DraftPlayers = await GetPlayers(),
-                DraftTeams = await GetTeams()
-            };      
+                DraftPlayers = draftPlayers,
+                DraftTeams = draftTeams
+            };
 
             return preDraftViewModel;
         }
 
-        public async Task<DraftViewModel> UpdateDraftSettings(DraftInputModel draft)
+        public async Task<DraftViewModel> UpdateDraftSettings(int draftId, DraftInputModel draft)
         {
             var draftEntity = _mapper.Map<MultiplayerDraft>(draft);
+            draftEntity.Id = draftId;
             var updatedDraft = await _draftRepository.UpdateDraftSettings(draftEntity);
             var preDraftLobbyViewModel = _mapper.Map<DraftViewModel>(updatedDraft);
             return preDraftLobbyViewModel;
@@ -126,20 +137,32 @@ namespace DraftSiteService.Services
             return _mapper.Map<List<DraftTeamSummaryViewModel>>(teams);
         }
 
-        public async Task<List<DraftTeamSummaryViewModel>> DeselectTeam(string username, int draftId, int teamId)
+        public async Task<List<DraftPlayerViewModel>> GetDraftPlayersAsync(int draftId)
         {
-            var user = await _userRepository.GetUserByUsername(username);
-            await _draftRepository.DeleteDraftTeamUser(Convert.ToInt32(user.Id), draftId, teamId);
+            var players = await _draftRepository.GetDraftPlayersAsync(draftId);
+            var playerViewModels = _mapper.Map<List<DraftPlayerViewModel>>(players);
+            return playerViewModels;
+        }
+
+        public async Task<List<DraftTeamSummaryViewModel>> GetDraftTeamsAsync(int draftId)
+        {
+            var teams = await _draftRepository.GetTeams();
+            return _mapper.Map<List<DraftTeamSummaryViewModel>>(teams);
+        }
+
+        public async Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, TeamChoiceInputModel teamSelection)
+        {
+            await _draftRepository.DeleteDraftTeamUser(userId, teamSelection.DraftId, teamSelection.TeamId);
             return await GetTeams();
         }
 
-        public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(string username, TeamChoiceInputModel teamSelection)
+        public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, TeamChoiceInputModel teamSelection)
         {
-            var user = await _userRepository.GetUserByUsername(username);
             var teamEntity = _mapper.Map<DraftTeamUser>(teamSelection);
+            teamEntity.UserId = Convert.ToUInt32(userId);
             // TODO: THIS NEEDS FIXED
             //teamEntity.UserId = Convert.ToInt32(user.Id);
-            await _draftRepository.CreateDraftTeamUser(Convert.ToInt32(user.Id), teamEntity);
+            await _draftRepository.CreateDraftTeamUser(teamEntity);
             return await GetTeams(); throw new NotImplementedException();
         }
     }

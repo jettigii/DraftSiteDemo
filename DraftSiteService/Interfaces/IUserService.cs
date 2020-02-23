@@ -6,5 +6,6 @@ namespace DraftSiteService.Interfaces
     public interface IUserService
     {
         Task<DraftSiteUserViewModel> Authenticate(string token);
+        Task<DraftSiteUserViewModel> GetUserByUsername(string username);
     }
 }

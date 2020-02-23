@@ -7,9 +7,9 @@ namespace DraftSiteService.Interfaces
 {
     public interface IDraftService
     {
-        Task<DraftViewModel> CreateDraft(DraftInputModel draft);
+        Task<DraftViewModel> CreateDraftAsync(DraftInputModel draft);
 
-        Task<List<DraftTeamSummaryViewModel>> DeselectTeam(string username, int draftId, int teamId);
+        Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, TeamChoiceInputModel teamSelection);
 
         Task<DraftDataViewModel> GetDraftLookups();
 
@@ -17,8 +17,13 @@ namespace DraftSiteService.Interfaces
 
         Task<List<DraftViewModel>> GetUserLobby();
 
-        Task<List<DraftTeamSummaryViewModel>> SelectTeam(string username, TeamChoiceInputModel teamSelection);
+        Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, TeamChoiceInputModel teamSelection);
 
-        Task<DraftViewModel> UpdateDraftSettings(DraftInputModel draft);        
+        Task<DraftViewModel> UpdateDraftSettings(int draftId, DraftInputModel draft);
+
+        Task<List<DraftPlayerViewModel>> GetPlayers();
+
+        Task<List<DraftTeamSummaryViewModel>> GetTeams();
+
     }
 }
