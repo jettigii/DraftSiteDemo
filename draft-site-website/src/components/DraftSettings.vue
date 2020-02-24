@@ -1,11 +1,16 @@
 <template>
-  <div id="main" style="background-color: rgba(0, 0, 0, 0); width:100%;text-align:left;">
+  <div
+    id="main"
+    style="background-color: rgba(0, 0, 0, 0); width:100%;text-align:left;"
+  >
     <div style="padding:6%;">
       <div>
         <b-form @submit="onSubmit" @reset="onReset">
           <div class="modal-body">
             <div class="actions">
-              <h5 class="modal-title" style="text-align:left;">Draft Settings</h5>
+              <h5 class="modal-title" style="text-align:left;">
+                Draft Settings
+              </h5>
               <label for="txtName">Name</label>
               <b-form-input
                 type="text"
@@ -64,7 +69,6 @@
             </b-form-checkbox>
 
             <div v-show="!isPublic" style="font-size:14pt;height:40px;">
-              
               <b-form-input
                 style="font-size:14pt;height:40px;width:60%;"
                 type="password"
@@ -72,7 +76,6 @@
                 id="txtPassword"
                 v-model="password"
                 placeholder="password"
-                
               ></b-form-input>
             </div>
 
@@ -119,8 +122,12 @@
               inline="true"
             >
             </datetime> -->
-            <datetime id="startTime" type="datetime" v-model="datetime12" use12-hour></datetime>
-            
+            <datetime
+              id="startTime"
+              type="datetime"
+              v-model="datetime"
+              use12-hour
+            ></datetime>
           </div>
 
           <!-- Submit and reset Buttons -->
@@ -141,7 +148,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 // import datetime from "vuejs-datetimepicker";
-import { Datetime } from 'vue-datetime';
+import { Datetime } from "vue-datetime";
 
 export default {
   components: {
@@ -172,7 +179,8 @@ export default {
       options: [
         { item: "Manual", name: "Manual" },
         { item: "Automatic", name: "Automatic", notEnabled: true }
-      ]
+      ],
+      datetime: null
     };
   },
   mounted: async function() {
@@ -217,9 +225,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 @media only screen and (max-width: 600px) {
-  
 }
 </style>

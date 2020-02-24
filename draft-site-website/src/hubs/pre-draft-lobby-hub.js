@@ -17,11 +17,15 @@ class PreDraftLobbyHub {
     });
 
     connection.on("receiveSettingsUpdate", settings => {
-      that.recieveSettings(settings);
+      that.receiveSettings(settings);
     });
 
     connection.on("receiveTeamsUpdate", teams => {
-      that.recieveSettings(teams);
+      that.receiveTeams(teams);
+    });
+
+    connection.on("receiveDraftStatus", draftStatus => {
+      that.receiveDraftStatus(draftStatus);
     });
 
     await connection.start().catch(function() {});
@@ -47,6 +51,8 @@ class PreDraftLobbyHub {
     console.log(preDraftLobby);
     return preDraftLobby;
   }
+
+  async startDraft() {}
 }
 
 export default PreDraftLobbyHub;

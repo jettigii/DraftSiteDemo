@@ -40,6 +40,10 @@ namespace DraftSiteModels.Maps
                 .ForMember(destination => destination.TeamId, opts => opts.MapFrom(source => source.TeamId));
 
             CreateMap<DraftTeamUser, DraftTeamSummaryViewModel>();
+
+            CreateMap<Teams, DraftTeamSummaryViewModel>();
+
+            CreateMap<Players, DraftPlayerViewModel>();
         }
     }
 }

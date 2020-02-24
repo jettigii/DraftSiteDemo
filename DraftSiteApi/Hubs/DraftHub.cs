@@ -31,7 +31,6 @@ namespace DraftSiteApi.Hubs
             await Clients.All.SendAsync("ReceiveMessage", author, message);
         }
 
-
         protected async Task<HubUser> EnterDraft(int draftId)
         {
             var dbUser = await _userService.GetUserByUsername(Context.User.Identity.Name);
