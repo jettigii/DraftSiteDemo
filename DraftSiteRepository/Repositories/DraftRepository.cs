@@ -156,6 +156,17 @@ namespace DraftSiteRepository.Repositories
             return entity;
         }
 
+        public async Task<DraftTeamUser> GetDraftTeamAsync(int draftId, int teamId)
+        {
+            var draftTeam = await _context.DraftTeamUsers
+                .SingleAsync(draftTeamUser => draftTeamUser.MultiPlayerDraftId == draftId && draftTeamUser.TeamId == teamId);
 
+            return draftTeam;
+        }
+
+        public Task<List<DraftTeamUser>> GetDraftTeamPickOrderAsync(int draftId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

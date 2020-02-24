@@ -1,6 +1,6 @@
 ﻿namespace DraftSiteModels.InputModels
 {
-    public class PlayerChoiceTeamModel
+    public class PlayerChoiceInputModel
     {
         public int PlayerId { get; set; }
     }

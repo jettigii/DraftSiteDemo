@@ -11,13 +11,15 @@ namespace DraftSiteService.Interfaces
 
         Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, TeamChoiceInputModel teamSelection);
 
+        Task<DraftViewModel> GetDraft(int draftId);
+
         Task<DraftDataViewModel> GetDraftLookups();
 
         Task<PreDraftViewModel> GetPreDraftLobby(int draftId, string username, string password);
 
         Task<List<DraftViewModel>> GetUserLobby();
 
-        Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, TeamChoiceInputModel teamSelection);
+        Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection);
 
         Task<DraftViewModel> UpdateDraftSettings(int draftId, DraftInputModel draft);
 
@@ -25,5 +27,11 @@ namespace DraftSiteService.Interfaces
 
         Task<List<DraftTeamSummaryViewModel>> GetTeams();
 
+        Task<List<DraftTeamSummaryViewModel>> GetDraftTeamsAsync(int draftId);
+
+        Task<List<DraftPlayerViewModel>> GetDraftPlayersAsync(int draftId);
+
+        Task<List<DraftTeamSummaryViewModel>> SelectPlayer(int userId, int draftId, int teamId, PlayerChoiceInputModel playerSelection);
+        Task StartDraftAsync(int draftId);
     }
 }

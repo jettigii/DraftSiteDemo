@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DraftSiteModels.Entities;
+using DraftSiteModels.HubModels;
 using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
 using DraftSiteRepository.Interfaces;
@@ -16,14 +17,12 @@ namespace DraftSiteService.Services
     {
         private readonly IPasswordService _passwordService;
         private readonly IDraftRepository _draftRepository;
-        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public DraftService(IPasswordService passwordService, IDraftRepository draftRepository, IUserRepository userRepository, IMapper mapper)
+        public DraftService(IPasswordService passwordService, IDraftRepository draftRepository, IMapper mapper)
         {
             _passwordService = passwordService;
             _draftRepository = draftRepository;
-            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -40,7 +39,6 @@ namespace DraftSiteService.Services
             DateTime.TryParse(draft.StartTime, out var startTime);
             draftEntity.StartTime = startTime;
 
-            // TODO Create draft players to allow for custom players or removal of players.
             var newDraft = await _draftRepository.CreateDraft(draftEntity);
 
             var draftTeams = await GetTeams();
@@ -100,15 +98,14 @@ namespace DraftSiteService.Services
                     throw new Exception("Incorrect Password");
                 }
             }
-
-            var draftPlayers = await GetDraftPlayersAsync(draftId);
+            
             var draftTeams = await GetDraftTeamsAsync(draftId);
+            var draftPlayers = await GetDraftPlayersAsync(draftId);
 
             PreDraftViewModel preDraftViewModel = new PreDraftViewModel()
             {
                 Draft = _mapper.Map<DraftViewModel>(draft),
                 IsOwner = draft.Owner.Username == username,
-                // TODO These players need to be DraftPlayerUserViewModel
                 DraftPlayers = draftPlayers,
                 DraftTeams = draftTeams
             };
@@ -156,14 +153,53 @@ namespace DraftSiteService.Services
             return await GetTeams();
         }
 
-        public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, TeamChoiceInputModel teamSelection)
+        public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection)
         {
-            var teamEntity = _mapper.Map<DraftTeamUser>(teamSelection);
-            teamEntity.UserId = Convert.ToUInt32(userId);
-            // TODO: THIS NEEDS FIXED
-            //teamEntity.UserId = Convert.ToInt32(user.Id);
-            await _draftRepository.CreateDraftTeamUser(teamEntity);
-            return await GetTeams(); throw new NotImplementedException();
+            var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
+            var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UserId == userId);
+            var draft = await _draftRepository.GetDraft(draftId);
+
+            if (draft.IsMultiSelect || teamUsers.Any())
+            {
+                var teamEntity = _mapper.Map<DraftTeamUser>(teamSelection);
+                teamEntity.UserId = Convert.ToUInt32(userId);
+                // TODO: THIS NEEDS FIXED
+                //teamEntity.UserId = Convert.ToInt32(user.Id);
+                await _draftRepository.CreateDraftTeamUser(teamEntity);
+                return await GetTeams(); throw new NotImplementedException();
+            }
+            else
+            {
+                throw new Exception("Only one team may be selected.");
+            }
+        }
+
+        public async Task<List<DraftTeamSummaryViewModel>> SelectPlayer(int userId, int draftId, int teamId, PlayerChoiceInputModel playerSelection)
+        {
+            //var draftTeamPlayerUser = _draftRepository.CreateDraftTeamPlayerUser(userId, teamId, draftId, playerSelection.PlayerId);
+            //var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
+            //var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UserId == userId);
+            //var draft = await _draftRepository.GetDraft(draftId);
+            return new List<DraftTeamSummaryViewModel>();
+
+        }
+
+        public async Task<DraftViewModel> GetDraft(int draftId)
+        {
+            var draft = await _draftRepository.GetDraft(draftId);
+            var draftViewModel = _mapper.Map<DraftViewModel>(draft);
+            return draftViewModel;
+        }
+
+        public async Task StartDraftAsync(int draftId)
+        {
+            var draft = GetDraftAsync(draftId);
+            var draftTeamPickOrder = _draftRepository.GetDraftTeamPickOrderAsync(draftId);
+
+            //var draftHubModel = new DraftHubModel()
+            //{
+            //    ActiveTeamId
+            //};
         }
     }
-}
+    }

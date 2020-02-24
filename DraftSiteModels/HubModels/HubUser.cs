@@ -11,6 +11,8 @@ namespace DraftSiteModels.HubModels
         
         public int UserId { get; set; }
 
+        public int TeamId { get; set; }
+
         public string Username { get; set; }
     }
 }
