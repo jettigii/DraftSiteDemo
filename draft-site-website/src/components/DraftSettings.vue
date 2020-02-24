@@ -1,10 +1,11 @@
 <template>
-  <div id="main" style="background-color: rgba(0, 0, 0, 0); width:100%">
-    <div class="centerIt">
-      <div class="modal-content">
+  <div id="main" style="background-color: rgba(0, 0, 0, 0); width:100%;text-align:left;">
+    <div style="padding:6%;">
+      <div>
         <b-form @submit="onSubmit" @reset="onReset">
           <div class="modal-body">
             <div class="actions">
+              <h5 class="modal-title" style="text-align:left;">Draft Settings</h5>
               <label for="txtName">Name</label>
               <b-form-input
                 type="text"
@@ -12,6 +13,10 @@
                 id="txtName"
                 v-model="draftName"
                 placeholder="Name"
+                pattern="[A-Za-z0-9]{3,24}"
+                title="Must be 3 to 24 characters and contain only letters and numbers only, no punctuation or special characters"
+                required
+                style="font-size:14pt;height:40px;"
               ></b-form-input>
             </div>
             <br />
@@ -21,9 +26,11 @@
             >
               <label for="draftRoundSelected">Draft Rounds</label>
               <b-form-select
+                required
                 v-model="roundCount"
                 :options="draftRounds"
                 id="draftRoundSelected"
+                style="font-size:14pt;height:40px;"
               ></b-form-select>
             </div>
 
@@ -36,10 +43,12 @@
             >
               <label for="draftRoundSelected">Draft Time</label>
               <b-form-select
+                required
                 v-model="pickTime"
                 :options="draftLookups.draftTimes"
                 value-field="timeInSeconds"
                 text-field="value"
+                style="font-size:14pt;height:40px;"
               ></b-form-select>
             </div>
 
@@ -50,17 +59,20 @@
               name="is-public-check-button"
               switch
               size="sm"
-              ><label>Public?</label>
+              value="true"
+              ><label>Public draft?</label>
             </b-form-checkbox>
 
-            <div v-show="!isPublic">
-              <label for="txtPassword">Password</label>
+            <div v-show="!isPublic" style="font-size:14pt;height:40px;">
+              
               <b-form-input
+                style="font-size:14pt;height:40px;width:60%;"
                 type="password"
                 name="txtPassword"
                 id="txtPassword"
                 v-model="password"
                 placeholder="password"
+                
               ></b-form-input>
             </div>
 
@@ -94,14 +106,21 @@
               value-field="item"
               text-field="name"
               disabled-field="notEnabled"
+              style="font-size:14pt;height:40px;"
             >
             </b-form-radio-group>
 
-            <datetime
+            <!-- <datetime
+              id="startTime"
+              v-show="selected"
               format="YYYY-MM-DD h:i:s"
               width="300px"
               v-model="startTime"
-            ></datetime>
+              inline="true"
+            >
+            </datetime> -->
+            <datetime id="startTime" type="datetime" v-model="datetime12" use12-hour></datetime>
+            
           </div>
 
           <!-- Submit and reset Buttons -->
@@ -121,11 +140,13 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import datetime from "vuejs-datetimepicker";
+// import datetime from "vuejs-datetimepicker";
+import { Datetime } from 'vue-datetime';
 
 export default {
   components: {
-    datetime
+    // datetime
+    datetime: Datetime
   },
   data() {
     return {
@@ -196,21 +217,9 @@ export default {
 </script>
 
 <style scoped>
-.centerIt {
-  display: inline-block;
-  margin: 0 auto;
-  padding: 3px;
-  width: 60%;
-  text-align: left;
-}
+
 
 @media only screen and (max-width: 600px) {
-  .centerIt {
-    display: inline-block;
-    margin: 0 auto;
-    padding: 3px;
-    width: 90%;
-    text-align: left;
-  }
+  
 }
 </style>

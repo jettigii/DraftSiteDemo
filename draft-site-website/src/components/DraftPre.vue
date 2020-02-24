@@ -1,7 +1,7 @@
 <template>
-  <div class="DraftPre" style="width:100%;height:100%;">
+  <div class="DraftPre" style="width:100%;height:100%;overflow: hidden;">
     <div id="main" style="width:100%;height:100%;">
-      <div class="grid-container" style="width:100%;height:100%;padding:0px;">
+      <div id="preGrid" class="grid-container" style="width:100%;height:100%;padding:0px;">
         <div class="mainArea">
           <!-- MAIN SWITCHING AREA -->
           <div
@@ -23,7 +23,7 @@
               PLAYERS
             </div>
           </div>
-          <!-- TOP SWITCHING BUTTONS -->
+          <!-- TOP SWITCHING BUTTONS (TEAMS | PLAYERS)-->
           <div
             class="teamPlayersLabelArea"
             style="width:100%;height:100%;padding:0px;border-width: 2px 2px 2px 2px;border-style: solid;border-color:#212931;"
@@ -51,15 +51,28 @@
         <!-- DRAFT SETTINGS -->
         <div
           class="draftSettings"
-          style="width:100%;height:100%;border-width: 2px 0px 0px 0px;border-style: solid;border-color:#212931;padding:10px;"
+          id="draftSettings"
+          style="width:100%;height:100%;border-width: 2px 0px 0px 0px;border-style: solid;border-color:#212931;"
         >
-          <DraftSettings @update-settings="updateSettings" />
+          <div id="draftSettingsArrowToggle" style="height:100%;width:8%;float:left;background-color:#7E94A9;">
+              <button class="" style="height:100%;width:100%;color:white;border:none;background:none;padding:0;" onclick="draftSettingsSwitch()" id="btnSettingsToggle">
+                <i style="height:100%;width:100%;margin: 0;top: 50%;color:white;" id="draftSettingsArrow" class="fas fa-angle-right"></i>
+              </button>
+          </div>
+
+          <!-- <div style="float:right;width:80%;height:40px;"> -->
+            <div id="draftSettingsContent" style="width:100%;height:100%;">
+              <!-- DRAFT SETTINGS CONTENT -->
+              <DraftSettings style="width:100%;height:100%;" @update-settings="updateSettings" />
+              <button id="btnStartDraft" class="button primary" style="width:18.4%;position:absolute;bottom:0px;right:0px;">Start Draft</button>
+          </div>
+
         </div>
-        <!-- TODO: Brian, This doesn't look right here with the divs -->
       </div>
       <!-- CHAT -->
       <div id="chatMenu" class="box">
         <button
+          id="open-button"
           class="open-button button fit small primary"
           onclick="openForm()"
         >
@@ -163,9 +176,7 @@ export default {
   grid-area: mainArea;
 }
 
-.teamPlayersArea {
-  grid-area: teamPlayersArea;
-}
+.teamPlayersArea { grid-area: teamPlayersArea; }
 
 .teamPlayersLabelArea {
   display: grid;
@@ -175,26 +186,21 @@ export default {
   grid-area: teamPlayersLabelArea;
 }
 
-.teamLabelArea {
-  grid-area: teamLabelArea;
-}
+.teamLabelArea { grid-area: teamLabelArea; }
 
-.playerLabelArea {
-  grid-area: playerLabelArea;
-}
+.playerLabelArea { grid-area: playerLabelArea; }
 
-.draftSettings {
-  grid-area: draftSettings;
-}
+.draftSettings { grid-area: draftSettings; }
+
 
 /* CHAT WINDOW */
 /* The popup chat - hidden by default */
 .chat-popup {
-  width: 280px;
-  display: none;
+   width: 280px;
+   display: none;
   position: fixed;
   bottom: 48px;
-  right: 2%;
+  right: 22%;
   /* margin-bottom: 0px; */
   z-index: 1;
 }
@@ -205,7 +211,7 @@ export default {
   cursor: pointer;
   position: fixed;
   bottom: 0%;
-  right: 2%;
+  right: 22%;
   width: 280px;
   height: 48px;
   z-index: 99;
@@ -249,7 +255,7 @@ export default {
 .containerMessage img.right {
   float: right;
   margin-left: 20px;
-  margin-right: 0;
+  margin-right:0;
 }
 
 .user-right {

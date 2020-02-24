@@ -1,6 +1,12 @@
 <template>
   <div class="DraftCreate blur" style="width:100%;height:100%">
-    <DraftSettings @update-settings="createNewDraft" />
+
+    <div class="centerIt">
+      <div class="modal-content">
+        <DraftSettings @update-settings="createNewDraft" />
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -29,5 +35,22 @@ export default {
   background-image: url("../assets/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+}
+.centerIt {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 3px;
+  width: 60%;
+  text-align: left;
+}
+
+@media only screen and (max-width: 600px) {
+  .centerIt {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 3px;
+    width: 90%;
+    text-align: left;
+  }
 }
 </style>
