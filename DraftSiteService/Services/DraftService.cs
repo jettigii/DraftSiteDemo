@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DraftSiteModels.Entities;
+using DraftSiteModels.HubModels;
 using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
 using DraftSiteRepository.Interfaces;
@@ -98,14 +99,14 @@ namespace DraftSiteService.Services
                 }
             }
 
-            var draftPlayers = await GetDraftPlayersAsync(draftId);
+            //var draftPlayers = await GetDraftPlayersAsync(draftId);
             var draftTeams = await GetDraftTeamsAsync(draftId);
 
             PreDraftViewModel preDraftViewModel = new PreDraftViewModel()
             {
                 Draft = _mapper.Map<DraftViewModel>(draft),
                 IsOwner = draft.Owner.Username == username,
-                DraftPlayers = draftPlayers,
+                //DraftPlayers = draftPlayers,
                 DraftTeams = draftTeams
             };
 
@@ -171,7 +172,34 @@ namespace DraftSiteService.Services
             {
                 throw new Exception("Only one team may be selected.");
             }
+        }
+
+        public async Task<List<DraftTeamSummaryViewModel>> SelectPlayer(int userId, int draftId, int teamId, PlayerChoiceInputModel playerSelection)
+        {
+            //var draftTeamPlayerUser = _draftRepository.CreateDraftTeamPlayerUser(userId, teamId, draftId, playerSelection.PlayerId);
+            //var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
+            //var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UserId == userId);
+            //var draft = await _draftRepository.GetDraft(draftId);
+            return new List<DraftTeamSummaryViewModel>();
 
         }
+
+        public async Task<DraftViewModel> GetDraft(int draftId)
+        {
+            var draft = await _draftRepository.GetDraft(draftId);
+            var draftViewModel = _mapper.Map<DraftViewModel>(draft);
+            return draftViewModel;
+        }
+
+        public async Task StartDraftAsync(int draftId)
+        {
+            var draft = GetDraftAsync(draftId);
+            var draftTeamPickOrder = _draftRepository.GetDraftTeamPickOrderAsync(draftId);
+
+            //var draftHubModel = new DraftHubModel()
+            //{
+            //    ActiveTeamId
+            //};
+        }
     }
-}
+    }

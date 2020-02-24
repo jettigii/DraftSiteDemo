@@ -163,5 +163,10 @@ namespace DraftSiteRepository.Repositories
 
             return draftTeam;
         }
+
+        public Task<List<DraftTeamUser>> GetDraftTeamPickOrderAsync(int draftId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -35,5 +35,6 @@ namespace DraftSiteRepository.Interfaces
         Task<List<DraftTeamUserPlayer>> GetDraftPlayersAsync(int draftId);
 
         Task<List<DraftTeamUser>> GetDraftTeamsAsync(int draftId);
+        Task<List<DraftTeamUser>> GetDraftTeamPickOrderAsync(int draftId);
     }
 }

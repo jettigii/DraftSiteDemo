@@ -2,6 +2,7 @@
 using DraftSiteService.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace DraftSiteApi.Hubs
             _connections = new ConcurrentBag<HubUser>();
         }
 
-        public async Task SendMessage(string message)
+        public async Task SendUserMessage(string message)
         {
             await SendMessage(Context.User.Identity.Name, message);
         }
@@ -44,6 +45,11 @@ namespace DraftSiteApi.Hubs
             };
 
             return user;
+        }
+
+        protected async Task<List<int>> CheckForActiveDrafts(int userId)
+        {
+            return new List<int>();
         }
     }
 }
