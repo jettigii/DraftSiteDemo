@@ -16,6 +16,14 @@ class PreDraftLobbyHub {
       that.receiveMessage(message);
     });
 
+    connection.on("receiveSettingsUpdate", settings => {
+      that.recieveSettings(settings);
+    });
+
+    connection.on("receiveTeamsUpdate", teams => {
+      that.recieveSettings(teams);
+    });
+
     await connection.start().catch(function() {});
   }
 
@@ -26,6 +34,15 @@ class PreDraftLobbyHub {
       draftId,
       password
     });
+    // eslint-disable-next-line no-console
+    console.log(preDraftLobby);
+    return preDraftLobby;
+  }
+
+  async sendMessage(message) {
+    // eslint-disable-next-line no-console
+    console.log(connection);
+    const preDraftLobby = await connection.invoke("sendMessage", message);
     // eslint-disable-next-line no-console
     console.log(preDraftLobby);
     return preDraftLobby;

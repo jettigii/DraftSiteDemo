@@ -98,15 +98,15 @@ namespace DraftSiteService.Services
                     throw new Exception("Incorrect Password");
                 }
             }
-
-            //var draftPlayers = await GetDraftPlayersAsync(draftId);
+            
             var draftTeams = await GetDraftTeamsAsync(draftId);
+            var draftPlayers = await GetDraftPlayersAsync(draftId);
 
             PreDraftViewModel preDraftViewModel = new PreDraftViewModel()
             {
                 Draft = _mapper.Map<DraftViewModel>(draft),
                 IsOwner = draft.Owner.Username == username,
-                //DraftPlayers = draftPlayers,
+                DraftPlayers = draftPlayers,
                 DraftTeams = draftTeams
             };
 
