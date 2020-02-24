@@ -148,7 +148,7 @@ namespace DraftSiteRepository.Models
             modelBuilder.Entity<DraftTeamUser>()
                 .HasOne(entity => entity.User)
                 .WithMany(foreignEntity => foreignEntity.DraftTeamUsers)
-                .HasForeignKey(entity => entity.UserId);
+                .HasForeignKey(entity => entity.UsersId);
 
             modelBuilder.Entity<DraftTeamUserPlayer>()
                 .HasOne(entity => entity.DraftTeamUser)
@@ -168,7 +168,7 @@ namespace DraftSiteRepository.Models
             modelBuilder.Entity<Users>()
                 .HasMany(entity => entity.DraftTeamUsers)
                 .WithOne(foreignEntity => foreignEntity.User)
-                .HasForeignKey(entity => entity.UserId);
+                .HasForeignKey(entity => entity.UsersId);
 
             modelBuilder.Entity<DraftStartType>().HasData(DraftStartTypeData.DraftStartTypes);
             modelBuilder.Entity<DraftStatus>().HasData(DraftStatusData.DraftStatuses);

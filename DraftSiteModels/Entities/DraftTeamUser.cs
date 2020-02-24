@@ -11,7 +11,7 @@ namespace DraftSiteModels.Entities
         public int MultiPlayerDraftId { get; set; }
 
         public virtual Users User { get; set; }
-        public uint UserId { get; set; }
+        public uint UsersId { get; set; }
 
         public virtual Teams Team { get; set; }
         public uint TeamId { get; set; }

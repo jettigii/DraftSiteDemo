@@ -1,6 +1,6 @@
 ﻿namespace DraftSiteModels.ViewModels
 {
-    public class UserChatMessage
+    public class ChatMessageViewModel
     {
         public string Username { get; set; }
 
