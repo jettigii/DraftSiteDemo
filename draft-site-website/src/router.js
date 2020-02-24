@@ -5,6 +5,7 @@ import createDraft from "./components/DraftCreate.vue";
 import home from "./components/Home.vue";
 import preDraft from "./components/DraftPre.vue";
 import draftRoom from "./components/DraftRoom.vue";
+import MultiDraftPick from "./components/MultiDraftPick.vue";
 
 Vue.use(Router);
 
@@ -37,6 +38,11 @@ export default new Router({
       path: "/preDraft",
       name: "preDraft",
       component: preDraft
+    },
+    {
+      path: "/MultiDraftPick",
+      name: "MultiDraftPick",
+      component: MultiDraftPick
     },
     {
       path: "*",

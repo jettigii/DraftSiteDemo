@@ -6,21 +6,39 @@
           <!-- MAIN SWITCHING AREA -->
           <div
             class="teamPlayersArea"
-            style="border-width: 0px 2px 0px 2px;border-style: solid;border-color:#949494;"
           >
+          <!-- style="border-width: 0px 2px 0px 2px;border-style: solid;border-color:#949494;" -->
             <!-- TEAMS -->
             <div
               id="teamArea"
-              style="display:block;background-color:#F5F5F5;height:100%;"
+              class="teamPlayerAreas"
             >
-              TEAMS
+              <div class="DraftCreate blur" style="width:100%;height:100%;">
+                <br>
+                <div class="centerIt" style="height:100%;">
+                  <div class="modal-content" style="height:90%;display: inline-block;overflow-y:auto;">
+                    <!-- <h3 style="text-align:center;">Teams</h3> -->
+                    <DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems />
+                    <DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems />
+                  </div>
+                </div>
+              </div>
             </div>
             <!-- PLAYERS -->
             <div
               id="playersArea"
-              style="display:none;background-color:#F5F5F5;height:100%;"
+              class="teamPlayerAreas"
             >
-              PLAYERS
+              <div class="DraftCreate blur" style="width:100%;height:100%;">
+                <br>
+                <div class="centerIt" style="height:100%;">
+                  <div class="modal-content" style="height:90%;display: inline-block;overflow-y:auto;">
+                    <!-- <h3 style="text-align:center;">Players</h3> -->
+                    <DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems />
+                    <DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <!-- TOP SWITCHING BUTTONS (TEAMS | PLAYERS)-->
@@ -31,7 +49,7 @@
             <div class="teamLabelArea" style="">
               <a
                 href="#"
-                class="button fit "
+                class="button fit primary"
                 onclick="teamSwitch()"
                 id="btnTeamSwitch"
                 >Teams</a
@@ -40,7 +58,7 @@
             <div class="playerLabelArea">
               <a
                 href="#"
-                class="button fit primary"
+                class="button fit "
                 onclick="playerSwitch()"
                 id="btnPlayerSwitch"
                 >Players</a
@@ -64,17 +82,18 @@
             <div id="draftSettingsContent" style="width:100%;height:100%;">
               <!-- DRAFT SETTINGS CONTENT -->
               <DraftSettings style="width:100%;height:100%;" @update-settings="updateSettings" />
-              <button id="btnStartDraft" class="button primary" style="width:18.4%;position:absolute;bottom:0px;right:0px;">Start Draft</button>
+              <button id="btnStartDraft" class="button primary" style="width:18.4%;position:absolute;bottom:0px;right:0px;"><router-link to="home">Start Draft</router-link></button>
           </div>
 
         </div>
       </div>
       <!-- CHAT -->
-      <div id="chatMenu" class="box">
+      <div id="chatMenu" class="box" > 
         <button
           id="open-button"
           class="open-button button fit small primary"
           onclick="openForm()"
+          
         >
           Group Chat <i class="fas fa-angle-up"></i>
         </button>
@@ -83,7 +102,8 @@
             <h5>Group Chat</h5>
 
             <div style="overflow: auto;max-height: 420px;"></div>
-
+              <!-- Messages go here -->
+              <ChatBubble @update-settings="updateSettings" />
             <div
               style="background-color:white;height:40px;margin:5px;width:100%;"
             >
@@ -112,7 +132,10 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import DraftSettings from "./DraftSettings.vue";
+import ChatBubble from "./ChatBubble.vue";
 import PreDraftLobbyHub from "../hubs/pre-draft-lobby-hub.js";
+import DraftPrePlayerItems from "./DraftPrePlayerItems.vue";
+import DraftPreTeamItems from "./DraftPreTeamItems.vue";
 
 export default {
   props: {
@@ -134,7 +157,10 @@ export default {
     };
   },
   components: {
-    DraftSettings
+    DraftSettings,
+    ChatBubble,
+    DraftPrePlayerItems,
+    DraftPreTeamItems
   },
   methods: {
     ...mapActions({
@@ -207,7 +233,7 @@ export default {
 
 .open-button {
   /* padding: 16px 20px; */
-  border: none;
+  border-width: 2px;border-style: solid;border-color:#212931;
   cursor: pointer;
   position: fixed;
   bottom: 0%;
@@ -267,4 +293,23 @@ export default {
   float: left;
   color: #999;
 }
+
+/* background */
+.teamPlayerAreas {
+  /* background-image: url("../assets/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover; */
+  background-color: #212931;
+  display:block;
+  height:100%;
+}
+
+.centerIt {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 3px;
+  width: 90%;
+  text-align: left;
+}
+
 </style>

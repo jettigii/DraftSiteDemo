@@ -127,11 +127,13 @@
               type="datetime"
               v-model="datetime"
               use12-hour
+              style="font-size:12pt;height:14px;"
             ></datetime>
           </div>
-
+          <br>
           <!-- Submit and reset Buttons -->
-          <div class="modal-footer">
+          <!-- <div class="modal-footer"> -->
+          <div>
             <ul class="actions">
               <li>
                 <input type="submit" value="Create" class="primary" />
