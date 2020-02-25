@@ -25,14 +25,18 @@ namespace DraftSiteRepository.Repositories
             return draft;
         }
 
-        public async Task CreateDraftPlayers(List<DraftTeamUserPlayer> draftTeamUserPlayers)
+        public async Task<List<DraftTeamUserPlayer>> CreateDraftPlayers(List<DraftTeamUserPlayer> draftTeamUserPlayers)
         {
             await _context.DraftTeamUserPlayers.AddRangeAsync(draftTeamUserPlayers);
+            await _context.SaveChangesAsync();
+            return draftTeamUserPlayers;
         }
 
-        public async Task CreateDraftTeams(List<DraftTeamUser> draftTeamUsers)
+        public async Task<List<DraftTeamUser>> CreateDraftTeams(List<DraftTeamUser> draftTeamUsers)
         {
             await _context.DraftTeamUsers.AddRangeAsync(draftTeamUsers);
+            await _context.SaveChangesAsync();
+            return draftTeamUsers;
         }
 
         public async Task<DraftTeamUser> CreateDraftTeamUser(DraftTeamUser user)

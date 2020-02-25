@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DraftSiteModels.Entities;
-using DraftSiteModels.HubModels;
 using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
 using DraftSiteRepository.Interfaces;
@@ -41,12 +40,22 @@ namespace DraftSiteService.Services
 
             var newDraft = await _draftRepository.CreateDraft(draftEntity);
 
-            var draftTeams = await GetTeams();
+            var draftTeams = await _draftRepository.GetTeams();
             var draftTeamUsers = _mapper.Map<List<DraftTeamUser>>(draftTeams);
+            draftTeamUsers.Select(draftTeamUser =>
+            {
+                draftTeamUser.MultiPlayerDraftId = newDraft.Id;
+                return draftTeamUser;
+            }).ToList();
             await _draftRepository.CreateDraftTeams(draftTeamUsers);
 
-            var draftPlayers = await GetPlayers();
+            var draftPlayers = await _draftRepository.GetPlayers();
             var draftTeamUserPlayers = _mapper.Map<List<DraftTeamUserPlayer>>(draftPlayers);
+            draftTeamUserPlayers.Select(draftTeamUserPlayer =>
+            {
+                draftTeamUserPlayer.DraftTeamUser = draftTeamUsers.FirstOrDefault();
+                return draftTeamUserPlayer;
+            }).ToList();
             await _draftRepository.CreateDraftPlayers(draftTeamUserPlayers);
 
             var draftViewModel = _mapper.Map<DraftViewModel>(newDraft);
@@ -98,7 +107,7 @@ namespace DraftSiteService.Services
                     throw new Exception("Incorrect Password");
                 }
             }
-            
+
             var draftTeams = await GetDraftTeamsAsync(draftId);
             var draftPlayers = await GetDraftPlayersAsync(draftId);
 
@@ -156,13 +165,13 @@ namespace DraftSiteService.Services
         public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection)
         {
             var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
-            var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UserId == userId);
+            var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UsersId == userId);
             var draft = await _draftRepository.GetDraft(draftId);
 
             if (draft.IsMultiSelect || teamUsers.Any())
             {
                 var teamEntity = _mapper.Map<DraftTeamUser>(teamSelection);
-                teamEntity.UserId = Convert.ToUInt32(userId);
+                teamEntity.UsersId = Convert.ToUInt32(userId);
                 // TODO: THIS NEEDS FIXED
                 //teamEntity.UserId = Convert.ToInt32(user.Id);
                 await _draftRepository.CreateDraftTeamUser(teamEntity);
@@ -202,4 +211,4 @@ namespace DraftSiteService.Services
             //};
         }
     }
-    }
+}

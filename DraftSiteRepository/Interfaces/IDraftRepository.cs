@@ -29,8 +29,8 @@ namespace DraftSiteRepository.Interfaces
 
         Task<MultiplayerDraft> UpdateDraftSettings(MultiplayerDraft draft);
         Task<DraftTeamUser> GetDraftTeamAsync(int draftId, int teamId);
-        Task CreateDraftTeams(List<DraftTeamUser> draftTeamUsers);
-        Task CreateDraftPlayers(List<DraftTeamUserPlayer> draftTeamUserPlayers);
+        Task<List<DraftTeamUser>> CreateDraftTeams(List<DraftTeamUser> draftTeamUsers);
+        Task<List<DraftTeamUserPlayer>> CreateDraftPlayers(List<DraftTeamUserPlayer> draftTeamUserPlayers);
 
         Task<List<DraftTeamUserPlayer>> GetDraftPlayersAsync(int draftId);
 

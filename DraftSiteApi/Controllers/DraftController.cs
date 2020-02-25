@@ -3,6 +3,7 @@ using DraftSiteService.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -47,7 +48,7 @@ namespace DraftSiteApi.Controllers
                 var draftViewModel = await _draftService.CreateDraftAsync(draft);
                 return Ok(draftViewModel);
             }
-            catch
+            catch (Exception ex)
             {
                 return BadRequest();
             }
