@@ -4,6 +4,7 @@
       v-bind:is="draftComponent"
       :draftId="draftId"
       :password="password"
+      @draftStatusChange="draftStatusChange"
     />
   </div>
 </template>
@@ -31,6 +32,11 @@ export default {
       } else {
         return "PreDraftLobby";
       }
+    }
+  },
+  methods: {
+    draftStatusChange(newStatus) {
+      this.status = newStatus;
     }
   }
 };

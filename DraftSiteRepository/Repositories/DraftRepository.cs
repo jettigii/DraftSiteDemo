@@ -83,6 +83,7 @@ namespace DraftSiteRepository.Repositories
         {
             var draftTeams = await _context.DraftTeamUserPlayers
                 .Include(draftTeamUserPlayer => draftTeamUserPlayer.DraftTeamUser)
+                .Include(draftTeamUserPlayer => draftTeamUserPlayer.Player)
                 .Where(draftTeamUserPlayer => draftTeamUserPlayer.DraftTeamUser.MultiPlayerDraftId == draftId)
                 .ToListAsync();
 

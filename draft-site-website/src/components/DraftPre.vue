@@ -1,41 +1,51 @@
 <template>
   <div class="DraftPre" style="width:100%;height:100%;overflow: hidden;">
     <div id="main" style="width:100%;height:100%;">
-      <div id="preGrid" class="grid-container" style="width:100%;height:100%;padding:0px;">
+      <div
+        id="preGrid"
+        class="grid-container"
+        style="width:100%;height:100%;padding:0px;"
+      >
         <div class="mainArea">
           <!-- MAIN SWITCHING AREA -->
-          <div
-            class="teamPlayersArea"
-          >
-          <!-- style="border-width: 0px 2px 0px 2px;border-style: solid;border-color:#949494;" -->
+          <div class="teamPlayersArea">
+            <!-- style="border-width: 0px 2px 0px 2px;border-style: solid;border-color:#949494;" -->
             <!-- TEAMS -->
-            <div
-              id="teamArea"
-              class="teamPlayerAreas"
-            >
+            <div id="teamArea" class="teamPlayerAreas">
               <div class="DraftCreate blur" style="width:100%;height:100%;">
-                <br>
+                <br />
                 <div class="centerIt" style="height:100%;">
-                  <div class="modal-content" style="height:90%;display: inline-block;overflow-y:auto;">
+                  <div
+                    class="modal-content"
+                    style="height:90%;display: inline-block;overflow-y:auto;"
+                  >
                     <!-- <h3 style="text-align:center;">Teams</h3> -->
-                    <DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems />
-                    <DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems /><DraftPreTeamItems />
+                    <draft-team-component
+                      v-for="item in preDraftLobby.draftTeams"
+                      :key="item.teamName"
+                      :teamName="item.teamName"
+                      :teamOwner="item.teamOwnerUser"
+                    ></draft-team-component>
                   </div>
                 </div>
               </div>
             </div>
             <!-- PLAYERS -->
-            <div
-              id="playersArea"
-              class="teamPlayerAreas"
-            >
+            <div id="playersArea" class="teamPlayerAreas">
               <div class="DraftCreate blur" style="width:100%;height:100%;">
-                <br>
+                <br />
                 <div class="centerIt" style="height:100%;">
-                  <div class="modal-content" style="height:90%;display: inline-block;overflow-y:auto;">
+                  <div
+                    class="modal-content"
+                    style="height:90%;display: inline-block;overflow-y:auto;"
+                  >
                     <!-- <h3 style="text-align:center;">Players</h3> -->
-                    <DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems />
-                    <DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems /><DraftPrePlayerItems />
+                    <draft-player-component
+                      v-for="item in preDraftLobby.draftPlayers"
+                      :key="item.playerName"
+                      :playerName="item.playerName"
+                      :playerCollege="item.playerCollege"
+                    ></draft-player-component>
                   </div>
                 </div>
               </div>
@@ -72,28 +82,51 @@
           id="draftSettings"
           style="width:100%;height:100%;border-width: 2px 0px 0px 0px;border-style: solid;border-color:#212931;"
         >
-          <div id="draftSettingsArrowToggle" style="height:100%;width:8%;float:left;background-color:#7E94A9;">
-              <button class="" style="height:100%;width:100%;color:white;border:none;background:none;padding:0;" onclick="draftSettingsSwitch()" id="btnSettingsToggle">
-                <i style="height:100%;width:100%;margin: 0;top: 50%;color:white;" id="draftSettingsArrow" class="fas fa-angle-right"></i>
-              </button>
+          <div
+            id="draftSettingsArrowToggle"
+            style="height:100%;width:8%;float:left;background-color:#7E94A9;"
+          >
+            <button
+              class=""
+              style="height:100%;width:100%;color:white;border:none;background:none;padding:0;"
+              onclick="draftSettingsSwitch()"
+              id="btnSettingsToggle"
+            >
+              <i
+                style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
+                id="draftSettingsArrow"
+                class="fas fa-angle-right"
+              ></i>
+            </button>
           </div>
 
           <!-- <div style="float:right;width:80%;height:40px;"> -->
-            <div id="draftSettingsContent" style="width:100%;height:100%;">
-              <!-- DRAFT SETTINGS CONTENT -->
-              <DraftSettings style="width:100%;height:100%;" @update-settings="updateSettings" />
-              <button id="btnStartDraft" class="button primary" style="width:18.4%;position:absolute;bottom:0px;right:0px;"><router-link to="home">Start Draft</router-link></button>
+          <div id="draftSettingsContent" style="width:100%;height:100%;">
+            <!-- DRAFT SETTINGS CONTENT -->
+            <DraftSettings
+              ref="draftSettings"
+              style="width:100%;height:100%;"
+              :draft="preDraftLobby.draft"
+              :is-owner="preDraftLobby.isOwner"
+              @update-settings="updateSettings"
+            />
+            <button
+              id="btnStartDraft"
+              class="button primary"
+              style="width:18.4%;position:absolute;bottom:0px;right:0px;"
+              onclick="startDraft()"
+            >
+              Start Draft
+            </button>
           </div>
-
         </div>
       </div>
       <!-- CHAT -->
-      <div id="chatMenu" class="box" > 
+      <div id="chatMenu" class="box">
         <button
           id="open-button"
           class="open-button button fit small primary"
           onclick="openForm()"
-          
         >
           Group Chat <i class="fas fa-angle-up"></i>
         </button>
@@ -102,8 +135,8 @@
             <h5>Group Chat</h5>
 
             <div style="overflow: auto;max-height: 420px;"></div>
-              <!-- Messages go here -->
-              <ChatBubble @update-settings="updateSettings" />
+            <!-- Messages go here -->
+            <ChatBubble @update-settings="updateSettings" />
             <div
               style="background-color:white;height:40px;margin:5px;width:100%;"
             >
@@ -134,8 +167,8 @@ import { mapActions, mapState } from "vuex";
 import DraftSettings from "./DraftSettings.vue";
 import ChatBubble from "./ChatBubble.vue";
 import PreDraftLobbyHub from "../hubs/pre-draft-lobby-hub.js";
-import DraftPrePlayerItems from "./DraftPrePlayerItems.vue";
-import DraftPreTeamItems from "./DraftPreTeamItems.vue";
+import DraftPlayerComponent from "./DraftPlayerComponent.vue";
+import DraftTeamComponent from "./DraftTeamComponent.vue";
 
 export default {
   props: {
@@ -145,10 +178,11 @@ export default {
   mounted: async function() {
     this.preDraftLobbyHub = new PreDraftLobbyHub();
     await this.preDraftLobbyHub.start(this);
-    this.preDraftLobbyHub = await this.preDraftLobbyHub.enterPreDraftLobby(
+    this.preDraftLobby = await this.preDraftLobbyHub.enterPreDraftLobby(
       this.draftId,
       this.password
     );
+    this.$refs.draftSettings.loadSettings(this.preDraftLobby.draft);
   },
   data() {
     return {
@@ -159,8 +193,8 @@ export default {
   components: {
     DraftSettings,
     ChatBubble,
-    DraftPrePlayerItems,
-    DraftPreTeamItems
+    DraftPlayerComponent,
+    DraftTeamComponent
   },
   methods: {
     ...mapActions({
@@ -172,6 +206,9 @@ export default {
     },
     sendMessage: async function() {
       await this.preDraftLobbyHub.sendMessage(this.message);
+    },
+    startDraft: function() {
+      this.$emit("draftStatusChange", "In Progress");
     }
   },
   computed: {
@@ -202,7 +239,9 @@ export default {
   grid-area: mainArea;
 }
 
-.teamPlayersArea { grid-area: teamPlayersArea; }
+.teamPlayersArea {
+  grid-area: teamPlayersArea;
+}
 
 .teamPlayersLabelArea {
   display: grid;
@@ -212,18 +251,23 @@ export default {
   grid-area: teamPlayersLabelArea;
 }
 
-.teamLabelArea { grid-area: teamLabelArea; }
+.teamLabelArea {
+  grid-area: teamLabelArea;
+}
 
-.playerLabelArea { grid-area: playerLabelArea; }
+.playerLabelArea {
+  grid-area: playerLabelArea;
+}
 
-.draftSettings { grid-area: draftSettings; }
-
+.draftSettings {
+  grid-area: draftSettings;
+}
 
 /* CHAT WINDOW */
 /* The popup chat - hidden by default */
 .chat-popup {
-   width: 280px;
-   display: none;
+  width: 280px;
+  display: none;
   position: fixed;
   bottom: 48px;
   right: 22%;
@@ -233,7 +277,9 @@ export default {
 
 .open-button {
   /* padding: 16px 20px; */
-  border-width: 2px;border-style: solid;border-color:#212931;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #212931;
   cursor: pointer;
   position: fixed;
   bottom: 0%;
@@ -281,7 +327,7 @@ export default {
 .containerMessage img.right {
   float: right;
   margin-left: 20px;
-  margin-right:0;
+  margin-right: 0;
 }
 
 .user-right {
@@ -300,8 +346,8 @@ export default {
   background-repeat: no-repeat;
   background-size: cover; */
   background-color: #212931;
-  display:block;
-  height:100%;
+  display: block;
+  height: 100%;
 }
 
 .centerIt {
@@ -311,5 +357,4 @@ export default {
   width: 90%;
   text-align: left;
 }
-
 </style>

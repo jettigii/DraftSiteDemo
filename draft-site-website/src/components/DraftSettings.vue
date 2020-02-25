@@ -68,7 +68,7 @@
               ><label>Public draft?</label>
             </b-form-checkbox>
 
-            <div v-show="!isPublic" style="font-size:14pt;height:40px;">
+            <div v-show="showPassword" style="font-size:14pt;height:40px;">
               <b-form-input
                 style="font-size:14pt;height:40px;width:60%;"
                 type="password"
@@ -130,7 +130,7 @@
               style="font-size:12pt;height:14px;"
             ></datetime>
           </div>
-          <br>
+          <br />
           <!-- Submit and reset Buttons -->
           <!-- <div class="modal-footer"> -->
           <div>
@@ -157,6 +157,10 @@ export default {
     // datetime
     datetime: Datetime
   },
+  props: {
+    draft: Object,
+    isOwner: Boolean
+  },
   data() {
     return {
       draftLookups: {},
@@ -174,7 +178,7 @@ export default {
       isMultiSelect: false,
       draftName: "",
       password: "",
-      pickTime: {},
+      pickTime: "",
       roundCount: 1,
       startTime: "",
       selected: "Manual",
@@ -216,12 +220,28 @@ export default {
         roundCount: this.roundCount,
         startTime: this.startTime
       };
+    },
+    loadSettings(draftSettings) {
+      // Finish setting properties here.
+      this.draftName = draftSettings.name;
+      this.isComputerTeams = draftSettings.isComputerTeams;
+      this.isPublic = draftSettings.isPublic;
+      this.roundCount = draftSettings.roundCount;
+      this.pickTime = draftSettings.pickTime;
+      this.startTime = draftSettings.startTime;
     }
   },
   computed: {
     ...mapState({
       draftData: state => state.draft.draftLookups
-    })
+    }),
+    showPassword() {
+      if (this.draft) {
+        return !this.draft.isPublic && this.isOwner && !this.isPublic;
+      } else {
+        return this.isPublic;
+      }
+    }
   }
 };
 </script>

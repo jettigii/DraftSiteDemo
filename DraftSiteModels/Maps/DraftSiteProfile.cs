@@ -40,13 +40,13 @@ namespace DraftSiteModels.Maps
                 .ForMember(destination => destination.TeamId, opts => opts.MapFrom(source => source.TeamId));
 
             CreateMap<DraftTeamUser, DraftTeamSummaryViewModel>();
+            CreateMap<DraftTeamUserPlayer, DraftPlayerViewModel>()
+                .ForMember(destination => destination.PlayerName, opts => opts.MapFrom(source => $"{source.Player.Lastname}, {source.Player.Firstname}"))                ;
 
-            CreateMap<Teams, DraftTeamSummaryViewModel>();
             CreateMap<Teams, DraftTeamUser>()
                 .ForMember(destination => destination.TeamId, opts => opts.MapFrom(source => source.Id))
                 .ForMember(destination => destination.Id, opts => opts.Ignore());
 
-            CreateMap<Players, DraftPlayerViewModel>();
             CreateMap<Players, DraftTeamUserPlayer>()
                 .ForMember(destination => destination.PlayerId, opts => opts.MapFrom(source => source.Id));
         }
