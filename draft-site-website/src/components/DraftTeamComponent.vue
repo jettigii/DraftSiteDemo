@@ -1,22 +1,19 @@
 <template>
+<div style="margin:25px;display: inline-block;">
   <b-card
-    title="Team Name"
     img-src="https://picsum.photos/300/100/"
     img-alt="Image"
     img-top
     tag="article"
-    style="max-width: 240px;max-height: 100px;margin:25px;display: inline-block;"
+    style="max-width: 240px;max-height: 200px;"
     class="mb-2"
   >
-    <!-- <b-card-text style="text-align:center;">
-         Player Description
-      </b-card-text> -->
-    <!-- <b-button href="#" variant="primary">+</b-button> -->
-    <ul>
-      <li>{{ teamName }}</li>
-      <li>{{ teamOwner }}</li>
-    </ul>
+    <b-card-text>
+          <p><span style="text-align:center;font-size:20px;"><strong>{{ teamName }}</strong></span><br>
+          <span style="text-align:center;font-size:16px;">{{ teamOwner }}</span></p>
+      </b-card-text>
   </b-card>
+</div>
 </template>
 
 <script>

@@ -26,6 +26,8 @@
                       :teamName="item.teamName"
                       :teamOwner="item.teamOwnerUser"
                     ></draft-team-component>
+                    <!-- FOR TEST -->
+                    <!-- <DraftTeamComponent teamName="the slappers" teamOwner="bobo" /><DraftTeamComponent teamName="the slappers" teamOwner="bobo" /><DraftTeamComponent teamName="the slappers" teamOwner="bobo" /><DraftTeamComponent teamName="the slappers" teamOwner="bobo" /><DraftTeamComponent teamName="the slappers" teamOwner="bobo" /> -->
                   </div>
                 </div>
               </div>
@@ -46,6 +48,8 @@
                       :playerName="item.playerName"
                       :playerCollege="item.playerCollege"
                     ></draft-player-component>
+                    <!-- FOR TEST -->
+                    <!-- <DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /><DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /><DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /><DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /><DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /> -->
                   </div>
                 </div>
               </div>
@@ -136,7 +140,7 @@
 
             <div style="overflow: auto;max-height: 420px;"></div>
             <!-- Messages go here -->
-            <ChatBubble @update-settings="updateSettings" />
+            <ChatBubble message="HEY" messageUsername="User"/>
             <div
               style="background-color:white;height:40px;margin:5px;width:100%;"
             >
@@ -151,6 +155,7 @@
                 type="submit"
                 class="btn"
                 style="float:right;width:20%;height:40px;"
+                onclick="return sendMessage()"
               >
                 <i class="fas fa-paper-plane"></i>
               </button>
@@ -342,9 +347,9 @@ export default {
 
 /* background */
 .teamPlayerAreas {
-  /* background-image: url("../assets/bg.jpg");
+  background-image: url("../assets/bg.jpg");
   background-repeat: no-repeat;
-  background-size: cover; */
+  background-size: cover;
   background-color: #212931;
   display: block;
   height: 100%;

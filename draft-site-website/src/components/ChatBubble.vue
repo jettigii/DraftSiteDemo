@@ -2,9 +2,12 @@
   <div>
                  <!-- MESSAGE EXAMPLE -->
                <div class="containerMessage">
-                 <img src="https://picsum.photos/255/255" alt="Avatar" style="width:100%;">
-                 <p>{{ message }}</p>
-                 <span class="user-right">{{ messageUsername }}</span>
+                 
+                 <p style="margin:0px;">
+                   <span style="color:grey;font-size:16px;">{{ messageUsername }}:</span>
+                   <span style="margin-left:5px;font-size:16px;">{{ message }}</span>
+                 </p>
+                 
                </div>
                <!-- MESSAGE EXAMPLE -->
   </div>
@@ -64,6 +67,7 @@ export default {
 </script>
 
 <style scoped>
+
 @media only screen and (max-width: 600px) {
 }
 /* Add styles to the form container */
@@ -78,8 +82,8 @@ export default {
   border: 2px solid #dedede;
   background-color: #f1f1f1;
   border-radius: 5px;
-  padding: 5px;
-  margin: 5px 0;
+  padding: 2px;
+  padding-left: 8px;
 }
 
 .darker {
