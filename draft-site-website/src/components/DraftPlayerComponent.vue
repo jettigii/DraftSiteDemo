@@ -27,7 +27,13 @@
 export default {
   props: {
     playerName: String,
-    playerCollege: String
+    playerCollege: String,
+    isSelected: Boolean
+  },
+  computed: {
+    isActive() {
+      return this.isSelected;
+    }
   }
 };
 </script>

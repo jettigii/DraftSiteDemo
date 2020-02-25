@@ -11,15 +11,17 @@
 
 <script>
 import PreDraftLobby from "./DraftPre.vue";
+import Draft from "./MultiDraftPick.vue";
 
 export default {
   props: {
-    draftId: Number,
+    draftId: String,
     password: String,
     status: String
   },
   components: {
-    PreDraftLobby
+    PreDraftLobby,
+    Draft
   },
   computed: {
     draftComponent: function() {

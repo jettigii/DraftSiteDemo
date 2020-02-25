@@ -25,6 +25,11 @@ export default {
   props: {
     teamName: String,
     teamOwner: String
+  },
+  computed: {
+    isActive() {
+      return this.teamOwner;
+    }
   }
 };
 </script>

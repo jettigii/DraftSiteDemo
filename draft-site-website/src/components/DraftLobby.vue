@@ -33,7 +33,7 @@
           invalid-feedback="Password is required"
         >
           <b-form-input
-            autofocus="true"
+            :autofocus="true"
             id="password-input"
             v-model="password"
             type="password"
@@ -81,7 +81,7 @@ export default {
         this.$router.push({
           name: "draftRoom",
           params: {
-            draftId: this.selectedRow.id,
+            draftId: this.selectedRow.id.toString(),
             status: this.selectedRow.draftStatus
           }
         });
@@ -104,7 +104,7 @@ export default {
         this.$router.push({
           name: "draftRoom",
           params: {
-            draftId: this.selectedRow.id,
+            draftId: this.selectedRow.id.toString(),
             password: this.password,
             status: this.selectedRow.draftStatus
           }

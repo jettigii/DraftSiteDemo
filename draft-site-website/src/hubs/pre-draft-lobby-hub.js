@@ -32,24 +32,21 @@ class PreDraftLobbyHub {
   }
 
   async enterPreDraftLobby(draftId, password) {
-    // eslint-disable-next-line no-console
-    console.log(connection);
     const preDraftLobby = await connection.invoke("enterPreDraftLobby", {
       draftId,
       password
     });
-    // eslint-disable-next-line no-console
-    console.log(preDraftLobby);
     return preDraftLobby;
   }
 
   async sendMessage(message) {
-    // eslint-disable-next-line no-console
-    console.log(connection);
     const preDraftLobby = await connection.invoke("sendMessage", message);
-    // eslint-disable-next-line no-console
-    console.log(preDraftLobby);
     return preDraftLobby;
+  }
+
+  async selectTeam(team) {
+    const response = await connection.invoke("selectTeam", team);
+    return response;
   }
 
   async startDraft() {}

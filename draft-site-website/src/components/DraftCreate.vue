@@ -1,12 +1,10 @@
 <template>
   <div class="DraftCreate blur" style="width:100%;height:100%">
-
     <div class="centerIt">
       <div class="modal-content">
-        <DraftSettings @update-settings="createNewDraft" />
+        <DraftSettings @update-settings="createNewDraft" mode="Create" />
       </div>
     </div>
-
   </div>
 </template>
 

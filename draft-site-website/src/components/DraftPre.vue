@@ -25,9 +25,8 @@
                       :key="item.teamName"
                       :teamName="item.teamName"
                       :teamOwner="item.teamOwnerUser"
+                      @click.native="selectTeam(item)"
                     ></draft-team-component>
-                    <!-- FOR TEST -->
-                    <!-- <DraftTeamComponent teamName="the slappers" teamOwner="bobo" /><DraftTeamComponent teamName="the slappers" teamOwner="bobo" /><DraftTeamComponent teamName="the slappers" teamOwner="bobo" /><DraftTeamComponent teamName="the slappers" teamOwner="bobo" /><DraftTeamComponent teamName="the slappers" teamOwner="bobo" /> -->
                   </div>
                 </div>
               </div>
@@ -48,8 +47,6 @@
                       :playerName="item.playerName"
                       :playerCollege="item.playerCollege"
                     ></draft-player-component>
-                    <!-- FOR TEST -->
-                    <!-- <DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /><DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /><DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /><DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /><DraftPlayerComponent playerName="Yo" playerCollege="Noid!" /> -->
                   </div>
                 </div>
               </div>
@@ -112,6 +109,7 @@
               style="width:100%;height:100%;"
               :draft="preDraftLobby.draft"
               :is-owner="preDraftLobby.isOwner"
+              mode="Update"
               @update-settings="updateSettings"
             />
             <button
@@ -187,7 +185,7 @@ export default {
     this.preDraftLobbyHub = new PreDraftLobbyHub();
     await this.preDraftLobbyHub.start(this);
     this.preDraftLobby = await this.preDraftLobbyHub.enterPreDraftLobby(
-      this.draftId,
+      this.draftId.toString(),
       this.password
     );
     this.$refs.draftSettings.loadSettings(this.preDraftLobby.draft);
@@ -219,6 +217,9 @@ export default {
     },
     startDraft: function() {
       this.$emit("draftStatusChange", "In Progress");
+    },
+    selectTeam: function(team) {
+      this.preDraftLobbyHub.selectTeam(team);
     }
   },
   computed: {

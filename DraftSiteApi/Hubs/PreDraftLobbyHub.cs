@@ -17,9 +17,10 @@ namespace DraftSiteApi.Hubs
         {
             try
             {
-                var user = await EnterDraft(draftLobbyRequest.DraftId);
+                var draftId = Convert.ToInt32(draftLobbyRequest.DraftId);
+                var user = await EnterDraft(draftId);
 
-                var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftLobbyRequest.DraftId, user.Username, draftLobbyRequest.Password);
+                var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftId, user.Username, draftLobbyRequest.Password);
                 _connections.Add(user);
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, draftLobbyRequest.DraftId.ToString());

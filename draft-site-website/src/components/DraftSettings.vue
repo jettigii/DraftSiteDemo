@@ -136,7 +136,7 @@
           <div>
             <ul class="actions">
               <li>
-                <input type="submit" value="Create" class="primary" />
+                <input type="submit" :value="mode" class="primary" />
               </li>
               <li><input type="reset" value="Reset" /></li>
             </ul>
@@ -159,7 +159,8 @@ export default {
   },
   props: {
     draft: Object,
-    isOwner: Boolean
+    isOwner: Boolean,
+    mode: String
   },
   data() {
     return {
