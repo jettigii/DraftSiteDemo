@@ -180,7 +180,7 @@ import DraftTeamComponent from "./DraftTeamComponent.vue";
 
 export default {
   props: {
-    draftId: Number,
+    draftId: String,
     password: String
   },
   mounted: async function() {

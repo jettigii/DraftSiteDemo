@@ -33,6 +33,7 @@
           invalid-feedback="Password is required"
         >
           <b-form-input
+            autofocus="true"
             id="password-input"
             v-model="password"
             type="password"
