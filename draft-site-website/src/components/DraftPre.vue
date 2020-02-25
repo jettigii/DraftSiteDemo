@@ -103,7 +103,7 @@
 
             <div style="overflow: auto;max-height: 420px;"></div>
               <!-- Messages go here -->
-              <ChatBubble @update-settings="updateSettings" />
+              <ChatBubble message="HEY" username="User"/>
             <div
               style="background-color:white;height:40px;margin:5px;width:100%;"
             >
@@ -118,6 +118,7 @@
                 type="submit"
                 class="btn"
                 style="float:right;width:20%;height:40px;"
+                onclick="return sendMessage()"
               >
                 <i class="fas fa-paper-plane"></i>
               </button>

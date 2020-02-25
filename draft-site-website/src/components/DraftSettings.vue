@@ -128,6 +128,7 @@
               v-model="datetime"
               use12-hour
               style="font-size:12pt;height:14px;"
+              :min-datetime="minDatetime"
             ></datetime>
           </div>
           <br>
