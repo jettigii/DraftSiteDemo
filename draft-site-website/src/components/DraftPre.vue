@@ -135,32 +135,35 @@
           Group Chat <i class="fas fa-angle-up"></i>
         </button>
         <div class="chat-popup" id="chatForm">
-          <form action="#" class="form-container">
-            <h5>Group Chat</h5>
+          <h5>Group Chat</h5>
 
-            <div style="overflow: auto;max-height: 420px;"></div>
-            <!-- Messages go here -->
-            <ChatBubble message="HEY" messageUsername="User"/>
-            <div
-              style="background-color:white;height:40px;margin:5px;width:100%;"
+          <div style="overflow: auto;max-height: 420px;"></div>
+          <!-- Messages go here -->
+          <ChatBubble
+            v-for="item in messages"
+            :key="item.id"
+            :messageUsername="item.username"
+            :message="item.message"
+          />
+          <div
+            style="background-color:white;height:40px;margin:5px;width:100%;"
+          >
+            <input
+              v-model="message"
+              type="text"
+              id="msg"
+              name="msg"
+              placeholder="Type a message.."
+              style="float:left;width:80%;height:40px;background-color:white;"
+            />
+            <button
+              class="btn"
+              style="float:right;width:20%;height:40px;"
+              @click="sendMessage()"
             >
-              <input
-                type="text"
-                id="msg"
-                name="msg"
-                placeholder="Type a message.."
-                style="float:left;width:80%;height:40px;background-color:white;"
-              />
-              <button
-                type="submit"
-                class="btn"
-                style="float:right;width:20%;height:40px;"
-                onclick="return sendMessage()"
-              >
-                <i class="fas fa-paper-plane"></i>
-              </button>
-            </div>
-          </form>
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -192,7 +195,9 @@ export default {
   data() {
     return {
       preDraftLobby: {},
-      message: ""
+      preDraftLobbyHub: {},
+      message: "",
+      messages: []
     };
   },
   components: {
@@ -206,11 +211,11 @@ export default {
       updateSettings: "draft/updateSettings"
     }),
     receiveMessage(message) {
-      // eslint-disable-next-line no-console
-      console.log(message);
+      this.messages.push(message);
     },
     sendMessage: async function() {
       await this.preDraftLobbyHub.sendMessage(this.message);
+      return false;
     },
     startDraft: function() {
       this.$emit("draftStatusChange", "In Progress");

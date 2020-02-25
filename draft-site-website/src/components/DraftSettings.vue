@@ -239,7 +239,7 @@ export default {
       if (this.draft) {
         return !this.draft.isPublic && this.isOwner && !this.isPublic;
       } else {
-        return this.isPublic;
+        return !this.isPublic;
       }
     }
   }

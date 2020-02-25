@@ -1,73 +1,26 @@
 <template>
   <div>
-                 <!-- MESSAGE EXAMPLE -->
-               <div class="containerMessage">
-                 
-                 <p style="margin:0px;">
-                   <span style="color:grey;font-size:16px;">{{ messageUsername }}:</span>
-                   <span style="margin-left:5px;font-size:16px;">{{ message }}</span>
-                 </p>
-                 
-               </div>
-               <!-- MESSAGE EXAMPLE -->
+    <!-- MESSAGE EXAMPLE -->
+    <div class="containerMessage">
+      <p style="margin:0px;">
+        <span style="color:grey;font-size:16px;">{{ messageUsername }}:</span>
+        <span style="margin-left:5px;font-size:16px;">{{ message }}</span>
+      </p>
+    </div>
+    <!-- MESSAGE EXAMPLE -->
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-
 export default {
-  components: {
-  },
-  data() {
-    return {
-      messageUsername: "",
-      message: ""
-    };
-  },
-  mounted: async function() {
-    await this.loadDraftData();
-    this.draftLookups = this.draftData;
-  },
-  methods: {
-    ...mapActions({
-      loadDraftData: "draft/loadDraftLookups",
-      createDraft: "draft/createDraft"
-    }),
-    async onSubmit(evt) {
-      evt.preventDefault();
-      this.$emit("update-settings", this.createDraftObject());
-    },
-    onReset() {
-      this.draftName = "";
-      this.hasComputerTeams = false;
-      this.isPublic = false;
-      this.draftTimeSelected = {};
-      this.draftRoundSelected = {};
-    },
-    createDraftObject: function() {
-      return {
-        isComputerTeams: this.isComputerTeams,
-        isPublic: this.isPublic,
-        isMultiSelect: this.isMultiSelect,
-        name: this.draftName,
-        password: this.password,
-        pickTime: this.pickTime,
-        roundCount: this.roundCount,
-        startTime: this.startTime
-      };
-    }
-  },
-  computed: {
-    ...mapState({
-      draftData: state => state.draft.draftLookups
-    })
+  props: {
+    messageUsername: String,
+    message: String
   }
 };
 </script>
 
 <style scoped>
-
 @media only screen and (max-width: 600px) {
 }
 /* Add styles to the form container */
@@ -108,7 +61,7 @@ export default {
 .containerMessage img.right {
   float: right;
   margin-left: 20px;
-  margin-right:0;
+  margin-right: 0;
 }
 
 .user-right {

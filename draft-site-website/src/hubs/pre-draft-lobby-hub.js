@@ -12,7 +12,7 @@ class PreDraftLobbyHub {
   }
 
   async start(that) {
-    connection.on("receiveChatMessage", message => {
+    connection.on("receiveMessage", message => {
       that.receiveMessage(message);
     });
 

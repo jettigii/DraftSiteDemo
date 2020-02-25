@@ -23,13 +23,21 @@ namespace DraftSiteApi.Hubs
                 _connections.Add(user);
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, draftLobbyRequest.DraftId.ToString());
-                await Clients.Group(draftLobbyRequest.DraftId.ToString()).SendAsync("receiveChatMessage", user.Username + " has joined the lobby.");
+
+                var alert = new ChatMessageViewModel()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Username = "System",
+                    Message = user.Username + " has joined the lobby."
+                };
+
+                await Clients.Group(draftLobbyRequest.DraftId.ToString()).SendAsync("receiveMessage", alert);
 
                 return preDraftLobbyData;
             }
             catch (Exception ex)
             {
-                await Clients.Client(Context.ConnectionId).SendAsync("receiveChatMessage", "Lobby join error.");
+                await Clients.Client(Context.ConnectionId).SendAsync("receiveMessage", "Lobby join error.");
             }
             return null;
         }

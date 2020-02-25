@@ -2,8 +2,10 @@
 using DraftSiteModels.ViewModels;
 using DraftSiteService.Interfaces;
 using Microsoft.AspNetCore.SignalR;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DraftSiteApi.Hubs
@@ -12,29 +14,26 @@ namespace DraftSiteApi.Hubs
     {
         protected readonly IDraftService _draftService;
         protected readonly IUserService _userService;
-        protected readonly ConcurrentBag<HubUser> _connections;
+        protected static readonly ConcurrentBag<HubUser> _connections = new ConcurrentBag<HubUser>();
 
         public DraftHub(IDraftService draftService, IUserService userService)
         {
             _draftService = draftService;
             _userService = userService;
-            _connections = new ConcurrentBag<HubUser>();
         }
 
-        public async Task SendUserMessage(string message)
+        public async Task SendMessage(string message)
         {
-            await SendMessage(Context.User.Identity.Name, message);
-        }
+            var user = _connections.SingleOrDefault(connection => connection.ConnectionId == Context.ConnectionId);
 
-        public async Task SendMessage(string author, string message)
-        {
-            var chatMessage = new ChatMessageViewModel()
+            var newMessage = new ChatMessageViewModel()
             {
-                Username = author,
+                Id = Guid.NewGuid().ToString(),
+                Username = user.Username,
                 Message = message
             };
 
-            await Clients.All.SendAsync("ReceiveMessage", chatMessage);
+            await Clients.Group(user.DraftId.ToString()).SendAsync("receiveMessage", newMessage);
         }
 
         protected async Task<HubUser> EnterDraft(int draftId)
