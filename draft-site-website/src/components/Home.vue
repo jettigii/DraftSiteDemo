@@ -5,6 +5,13 @@
          HOME
 
       </div>
+      <!-- FOOTER -->
+      <div id="copyright">
+         <ul>
+            <li>&copy; 2020</li>
+            <li>Designed by: FiniTech Inc.</li>
+         </ul>
+      </div>
    </div>
 </template>
 

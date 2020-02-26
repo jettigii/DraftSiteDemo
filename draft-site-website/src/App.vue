@@ -18,12 +18,13 @@
     </div>
 
     <!-- Copyright -->
-    <div id="copyright">
+    <!-- <div id="copyright">
       <ul>
         <li>&copy; 2020</li>
         <li>Designed by: FiniTech Inc.</li>
       </ul>
-    </div>
+    </div> -->
+
   </div>
 </template>
 
