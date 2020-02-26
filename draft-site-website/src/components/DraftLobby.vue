@@ -8,7 +8,7 @@
       >
         <b-table
           hover
-          :items="draftData"
+          :items="draftLobby.drafts"
           @row-clicked="enterDraft"
           :fields="draftFields"
         >
@@ -78,12 +78,15 @@
         </div>
       </div>
     </div>
-    <chat-room></chat-room>
+    <chat-room
+      ref="chatRoom"
+      :username="draftLobby.user.username"
+      @send-message="sendMessage"
+    ></chat-room>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
 import ChatRoom from "./ChatRoom.vue";
 import DraftLobbyHub from "../hubs/draft-lobby-hub.js";
 import DraftSettings from "./DraftSettings.vue";
@@ -110,13 +113,27 @@ export default {
       ],
       modalName: "modal-password-ref",
       draftLobbyHub: null,
-      drafts: []
+      draftLobby: {
+        drafts: [],
+        user: {
+          username: "Not logged in"
+        }
+      }
     };
   },
   mounted: async function() {
     this.draftLobbyHub = new DraftLobbyHub();
+    // eslint-disable-next-line no-debugger
+    // debugger;
     await this.draftLobbyHub.start(this);
-    this.drafts = await this.draftLobbyHub.getDraftLobby();
+    // eslint-disable-next-line no-debugger
+    debugger;
+    this.draftLobby = await this.draftLobbyHub.getDraftLobby(
+      "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
+    );
+    // eslint-disable-next-line no-debugger
+    debugger;
+    await this.$store.commit("user/setUser", this.draftLobby.user);
   },
   methods: {
     enterDraft: function(row) {
@@ -132,6 +149,9 @@ export default {
       // } else {
       //   this.$refs["modal-password-ref"].show();
       // }
+    },
+    receiveDraftLobbyUpdate: function(lobby) {
+      this.draftLobby.drafts = lobby;
     },
     handleOk(e) {
       e.preventDefault();
@@ -166,17 +186,12 @@ export default {
       this.drafts = await this.draftLobbyHub.getDraftLobby();
     },
     receiveMessage(message) {
-      this.ChatRoom.receiveMessage(message);
+      this.$refs.chatRoom.receiveMessage(message);
     },
     sendMessage: async function(message) {
       await this.draftLobbyHub.sendMessage(message);
       return false;
     }
-  },
-  computed: {
-    ...mapState({
-      draftData: state => state.draft.drafts
-    })
   }
 };
 </script>

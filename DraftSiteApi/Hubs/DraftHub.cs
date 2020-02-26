@@ -14,7 +14,8 @@ namespace DraftSiteApi.Hubs
     {
         protected readonly IDraftService _draftService;
         protected readonly IUserService _userService;
-        protected static readonly ConcurrentBag<HubUser> _connections = new ConcurrentBag<HubUser>();
+        protected static readonly ConcurrentDictionary<string, HubUser> _connections = new ConcurrentDictionary<string, HubUser>();
+        protected HubUser user => _connections.First(connection => Context.ConnectionId == Context.ConnectionId).Value;
 
         public DraftHub(IDraftService draftService, IUserService userService)
         {
@@ -24,8 +25,6 @@ namespace DraftSiteApi.Hubs
 
         public async Task SendMessage(string message)
         {
-            var user = _connections.SingleOrDefault(connection => connection.ConnectionId == Context.ConnectionId);
-
             var newMessage = new ChatMessageViewModel()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -42,18 +41,26 @@ namespace DraftSiteApi.Hubs
 
             var user = new HubUser()
             {
-                ConnectionId = Context.ConnectionId,
                 DraftId = draftId,
                 Username = Context.User.Identity.Name,
                 UserId = dbUser.Id
             };
-
+            
+            await Groups.AddToGroupAsync(Context.ConnectionId, user.DraftId.ToString());
+            _connections.TryAdd(Context.ConnectionId, user);
             return user;
         }
 
         protected async Task<List<int>> CheckForActiveDrafts(int userId)
         {
             return new List<int>();
+        }
+
+        public override Task OnConnectedAsync()
+        {
+            _connections.TryRemove(Context.ConnectionId, out var result);
+
+            return base.OnConnectedAsync();
         }
     }
 }

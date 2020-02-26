@@ -103,6 +103,8 @@ namespace DraftSiteApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<DraftLobbyHub>("/hubs/draftLobby");
+                endpoints.MapHub<MultiPlayerDraftHub>("/hubs/multiplayerDraftLobby");
                 endpoints.MapHub<PreDraftLobbyHub>("/hubs/preDraftLobby");
             });
         }

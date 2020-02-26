@@ -148,8 +148,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-// import datetime from "vuejs-datetimepicker";
 import { Datetime } from "vue-datetime";
 
 export default {
@@ -195,10 +193,6 @@ export default {
     this.draftLookups = this.draftData;
   },
   methods: {
-    ...mapActions({
-      loadDraftData: "draft/loadDraftLookups",
-      createDraft: "draft/createDraft"
-    }),
     async onSubmit(evt) {
       evt.preventDefault();
       this.$emit("update-settings", this.createDraftObject());
@@ -233,9 +227,6 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      draftData: state => state.draft.draftLookups
-    }),
     showPassword() {
       if (this.draft) {
         return !this.draft.isPublic && this.isOwner && !this.isPublic;
