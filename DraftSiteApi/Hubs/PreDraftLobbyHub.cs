@@ -46,14 +46,14 @@ namespace DraftSiteApi.Hubs
         public async Task SelectTeam(TeamChoiceInputModel teamSelection)
         {
             var user = _connections.SingleOrDefault(connection => connection.ConnectionId == Context.ConnectionId);
-            var teams = _draftService.SelectTeam(user.UserId, user.DraftId, teamSelection);
+            var teams = await _draftService.SelectTeam(user.UserId, user.DraftId, teamSelection);
             await Clients.Group(user.DraftId.ToString()).SendAsync("receiveTeamsUpdate", teams);
         }
 
         public async Task DeselectTeam(TeamChoiceInputModel teamSelection)
         {
             var user = _connections.SingleOrDefault(connection => connection.ConnectionId == Context.ConnectionId);
-            var teams = _draftService.DeselectTeam(user.UserId, teamSelection);
+            var teams = _draftService.DeselectTeam(user.UserId, user.DraftId, teamSelection);
             await Clients.Group(user.DraftId.ToString()).SendAsync("receiveTeamsUpdate", teams);
         }
 

@@ -152,30 +152,36 @@ namespace DraftSiteService.Services
 
         public async Task<List<DraftTeamSummaryViewModel>> GetDraftTeamsAsync(int draftId)
         {
-            var teams = await _draftRepository.GetTeams();
+            var teams = await _draftRepository.GetDraftTeamsAsync(draftId);
             return _mapper.Map<List<DraftTeamSummaryViewModel>>(teams);
         }
 
-        public async Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, TeamChoiceInputModel teamSelection)
+        public async Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection)
         {
-            await _draftRepository.DeleteDraftTeamUser(userId, teamSelection.DraftId, teamSelection.TeamId);
-            return await GetTeams();
+            var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
+            var team = teamDraftUsers.SingleOrDefault(teamDraftUser => teamDraftUser.Team.Name == teamSelection.TeamName);
+            await _draftRepository.DeleteDraftTeamUser(userId, draftId, Convert.ToInt32(team.TeamId));
+            return await GetTeams();  
         }
 
         public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection)
         {
             var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
+            var team = teamDraftUsers.SingleOrDefault(teamDraftUser => teamDraftUser.Team.Name == teamSelection.TeamName);
             var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UsersId == userId);
             var draft = await _draftRepository.GetDraft(draftId);
 
-            if (draft.IsMultiSelect || teamUsers.Any())
+            if (draft.IsMultiSelect || !teamUsers.Any())
             {
-                var teamEntity = _mapper.Map<DraftTeamUser>(teamSelection);
-                teamEntity.UsersId = Convert.ToUInt32(userId);
-                // TODO: THIS NEEDS FIXED
-                //teamEntity.UserId = Convert.ToInt32(user.Id);
+                var teamEntity = new DraftTeamUser()
+                {
+                    UsersId = Convert.ToUInt32(userId),
+                    MultiPlayerDraftId = draftId,
+                    TeamId = team.TeamId
+                };
+
                 await _draftRepository.CreateDraftTeamUser(teamEntity);
-                return await GetTeams(); throw new NotImplementedException();
+                return await GetTeams();
             }
             else
             {

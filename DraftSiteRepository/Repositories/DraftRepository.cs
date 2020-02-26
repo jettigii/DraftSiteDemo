@@ -74,6 +74,7 @@ namespace DraftSiteRepository.Repositories
         {
             var draftTeams = await _context.DraftTeamUsers
                 .Where(draftTeamUser => draftTeamUser.MultiPlayerDraftId == draftId)
+                .Include(draftTeamUser => draftTeamUser.Team)
                 .ToListAsync();
 
             return draftTeams;
@@ -164,6 +165,7 @@ namespace DraftSiteRepository.Repositories
         public async Task<DraftTeamUser> GetDraftTeamAsync(int draftId, int teamId)
         {
             var draftTeam = await _context.DraftTeamUsers
+                .Include(draftTeamUser => draftTeamUser.User)
                 .SingleAsync(draftTeamUser => draftTeamUser.MultiPlayerDraftId == draftId && draftTeamUser.TeamId == teamId);
 
             return draftTeam;

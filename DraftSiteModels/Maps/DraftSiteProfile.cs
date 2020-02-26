@@ -36,10 +36,12 @@ namespace DraftSiteModels.Maps
                 .ForMember(destination => destination.TeamName, opts => opts.MapFrom(source => $"{source.Name}"));
 
             CreateMap<TeamChoiceInputModel, DraftTeamUser>()
-                .ForMember(destination => destination.MultiPlayerDraftId, opts => opts.MapFrom(source => source.DraftId))
-                .ForMember(destination => destination.TeamId, opts => opts.MapFrom(source => source.TeamId));
+                .ForMember(destination => destination.TeamId, opts => opts.MapFrom(source => source.TeamName));
 
-            CreateMap<DraftTeamUser, DraftTeamSummaryViewModel>();
+            CreateMap<DraftTeamUser, DraftTeamSummaryViewModel>()
+                .ForMember(destination => destination.TeamName, opts => opts.MapFrom(source => source.Team.Name))
+                .ForMember(destination => destination.TeamOwnerUser, opts => opts.MapFrom(source => source.User.Username));
+
             CreateMap<DraftTeamUserPlayer, DraftPlayerViewModel>()
                 .ForMember(destination => destination.PlayerName, opts => opts.MapFrom(source => $"{source.Player.Lastname}, {source.Player.Firstname}"))                ;
 

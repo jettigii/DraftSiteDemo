@@ -45,7 +45,9 @@ class PreDraftLobbyHub {
   }
 
   async selectTeam(team) {
-    const response = await connection.invoke("selectTeam", team);
+    const response = await connection.invoke("selectTeam", {
+      TeamName: team.teamName
+    });
     return response;
   }
 

@@ -9,7 +9,7 @@ namespace DraftSiteService.Interfaces
     {
         Task<DraftViewModel> CreateDraftAsync(DraftInputModel draft);
 
-        Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, TeamChoiceInputModel teamSelection);
+        Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection);
 
         Task<DraftViewModel> GetDraft(int draftId);
 

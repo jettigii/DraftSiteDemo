@@ -14,7 +14,11 @@
     </nav>
 
     <div style="width:100%; height:100%; padding-top: 100px;">
-      <router-view />
+      <b-tabs content-class="mt-3">
+        <b-tab title="Main Lobby" active>
+          <draft-lobby></draft-lobby>
+        </b-tab>
+      </b-tabs>
     </div>
 
     <!-- Copyright -->
@@ -29,9 +33,13 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import DraftLobby from "./components/DraftLobby.vue";
 
 export default {
   name: "app",
+  components: {
+    DraftLobby
+  },
   data() {
     return {
       user: {}
