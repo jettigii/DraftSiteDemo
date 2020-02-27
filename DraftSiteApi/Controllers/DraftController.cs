@@ -58,7 +58,7 @@ namespace DraftSiteApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetDraftLookups()
         {
-            var draftData = await _draftService.GetDraftLookups();
+            var draftData = await _draftService.GetDraftLookupsAsync();
             return Ok(draftData);
         }
     }

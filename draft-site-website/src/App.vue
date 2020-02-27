@@ -6,9 +6,7 @@
     <nav id="nav">
       <ul class="links">
         <li class="active"><router-link to="home">Draft Logo</router-link></li>
-
         <li><router-link to="/lobby">Draft Lobby</router-link></li>
-        <li><router-link to="/createDraft">Create Draft</router-link></li>
       </ul>
       {{ userData.username }}
     </nav>

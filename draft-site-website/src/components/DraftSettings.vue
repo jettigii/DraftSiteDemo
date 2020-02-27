@@ -50,7 +50,7 @@
               <b-form-select
                 required
                 v-model="pickTime"
-                :options="draftLookups.draftTimes"
+                :options="lookups.draftTimes"
                 value-field="timeInSeconds"
                 text-field="value"
                 style="font-size:14pt;height:40px;"
@@ -158,11 +158,11 @@ export default {
   props: {
     draft: Object,
     isOwner: Boolean,
-    mode: String
+    mode: String,
+    lookups: Object
   },
   data() {
     return {
-      draftLookups: {},
       draftRounds: [
         { value: 1, text: 1 },
         { value: 2, text: 2 },
@@ -187,10 +187,6 @@ export default {
       ],
       datetime: null
     };
-  },
-  mounted: async function() {
-    await this.loadDraftData();
-    this.draftLookups = this.draftData;
   },
   methods: {
     async onSubmit(evt) {

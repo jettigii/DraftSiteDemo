@@ -16,8 +16,6 @@ export default class DraftLobbyHub extends DraftHub {
   }
 
   async getDraftLobby(token) {
-    // eslint-disable-next-line no-debugger
-    debugger;
     var lobby = await this.connection.invoke("GetUserLobby", { Token: token });
     return lobby;
   }

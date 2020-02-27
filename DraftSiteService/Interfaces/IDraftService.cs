@@ -13,7 +13,7 @@ namespace DraftSiteService.Interfaces
 
         Task<DraftViewModel> GetDraft(int draftId);
 
-        Task<DraftDataViewModel> GetDraftLookups();
+        Task<DraftDataViewModel> GetDraftLookupsAsync();
 
         Task<PreDraftViewModel> GetPreDraftLobby(int draftId, string username, string password);
 

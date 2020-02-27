@@ -26,9 +26,12 @@ namespace DraftSiteApi.Hubs
                     drafts = new List<DraftViewModel>();
                 }
 
+                var lookups = await _draftService.GetDraftLookupsAsync();
+
                 var userLobby = new DraftLobbyViewModel()
                 {
                     Drafts =  drafts,
+                    Lookups = lookups,
                     User = new DraftSiteUserViewModel()
                     {
                         Id = authenticatedUser.Id,

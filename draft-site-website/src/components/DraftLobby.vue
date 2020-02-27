@@ -74,7 +74,11 @@
         <!-- <div style="float:right;width:80%;height:40px;"> -->
         <div id="draftSettingsContent" style="width:100%;height:100%;">
           <!-- DRAFT SETTINGS CONTENT -->
-          <draft-settings @update-settings="createDraft" mode="Create" />
+          <draft-settings
+            @update-settings="createDraft"
+            mode="Create"
+            :lookups="draftLobby.lookups"
+          />
         </div>
       </div>
     </div>
@@ -115,6 +119,7 @@ export default {
       draftLobbyHub: null,
       draftLobby: {
         drafts: [],
+        lookups: {},
         user: {
           username: "Not logged in"
         }
@@ -123,16 +128,10 @@ export default {
   },
   mounted: async function() {
     this.draftLobbyHub = new DraftLobbyHub();
-    // eslint-disable-next-line no-debugger
-    // debugger;
     await this.draftLobbyHub.start(this);
-    // eslint-disable-next-line no-debugger
-    debugger;
     this.draftLobby = await this.draftLobbyHub.getDraftLobby(
       "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
     );
-    // eslint-disable-next-line no-debugger
-    debugger;
     await this.$store.commit("user/setUser", this.draftLobby.user);
   },
   methods: {
