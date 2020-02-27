@@ -1,12 +1,35 @@
 <template>
+<div>
+  <div id="btnDraftMobileMenu">
+    <button class="primary button" onclick="DraftMobileMenuClick()">
+      <i id="btnDraftMobileMenuIcon" class="fas fa-bars"></i>
+    </button>
+  </div>
   <div
-    id="main"
-    style="background-color: rgba(0, 0, 0, 0); width:100%;text-align:left;"
+    id="DraftSettings"
   >
-    <div style="padding:6%;">
-      <div>
-        <b-form @submit="onSubmit" @reset="onReset">
-          <div class="modal-body">
+  
+        <div
+          id="draftSettingsArrowToggle"
+          style="height:100%;width:8%;float:left;background-color:#7E94A9;"
+        >
+          <button
+            class=""
+            style="height:100%;width:100%;color:white;border:none;background:none;padding:0;"
+            onclick="draftSettingsSwitch()"
+            id="btnSettingsToggle"
+          >
+            <i
+              style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
+              id="draftSettingsArrow"
+              class="fas fa-angle-right"
+            ></i>
+          </button>
+        </div>
+
+      <div id="draftSettingsContent">
+        <b-form id="draftSettingsContentForm" @submit="onSubmit" @reset="onReset">
+          <div class="">
             <div class="actions">
               <h5 class="modal-title" style="text-align:left;">
                 Draft Settings
@@ -130,7 +153,7 @@
               style="font-size:12pt;height:14px;"
             ></datetime>
           </div>
-          <br />
+          <br /><br />
           <!-- Submit and reset Buttons -->
           <!-- <div class="modal-footer"> -->
           <div>
@@ -144,7 +167,7 @@
         </b-form>
       </div>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -248,6 +271,59 @@ export default {
 </script>
 
 <style scoped>
+#DraftSettings {
+  display: block;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 9%;
+  background-color: rgb(255, 255, 255); 
+  width:20%;
+  height: 98%;
+  text-align:left;
+  padding:0%;
+}
+
+#draftSettingsArrowToggle {
+  display: block;
+}
+#btnDraftMobileMenu {
+  display: none;
+}
+
+#draftSettingsContent {
+  padding-left: 50px;
+  padding-top: 2%;
+  padding-right: 4%;
+  height: 100%;
+}
+
+.fullscreenIt {
+  position: fixed;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#draftSettingsContentForm {
+  margin-bottom: 50%;
+}
+
 @media only screen and (max-width: 600px) {
+  #DraftSettings {
+    display: none;
+  }
+  #draftSettingsArrowToggle {
+    display: none;
+  }
+  #btnDraftMobileMenu {
+    position: fixed;
+    right: 1%;
+    top: 1%;
+    display: block;
+    z-index: 99;
+    /* background-color: aliceblue; */
+    color: white;
+  }
 }
 </style>

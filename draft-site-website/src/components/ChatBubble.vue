@@ -3,8 +3,8 @@
     <!-- MESSAGE EXAMPLE -->
     <div class="containerMessage">
       <p style="margin:0px;">
-        <span style="color:grey;font-size:16px;">{{ messageUsername }}:</span>
-        <span style="margin-left:5px;font-size:16px;">{{ message }}</span>
+        <span style="color:grey;">{{ messageUsername }}:</span>
+        <span style="margin-left:5px;">{{ message }}</span>
       </p>
     </div>
     <!-- MESSAGE EXAMPLE -->
@@ -37,6 +37,8 @@ export default {
   border-radius: 5px;
   padding: 2px;
   padding-left: 8px;
+  font-size:16px;
+  margin-bottom: 1px;
 }
 
 .darker {
@@ -72,5 +74,19 @@ export default {
 .user-left {
   float: left;
   color: #999;
+}
+
+@media only screen and (max-width: 600px) {
+  /* CHAT MESSAGES */
+.containerMessage {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 2px;
+  padding-left: 8px;
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
 }
 </style>

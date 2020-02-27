@@ -253,32 +253,25 @@ function draftSettingsSwitch() {
     document.getElementById("draftSettingsArrowToggle").style.width != "100%"
   ) {
     //Collapsed
-    document.getElementById("preGrid").style.gridTemplateColumns = "98.4% 1.6%";
+    // document.getElementById("preGrid").style.gridTemplateColumns = "98.4% 1.6%";
     document.getElementById("draftSettingsArrowToggle").style.width = "100%";
+    document.getElementById("DraftSettings").style.width = "1.6%";
     // document.getElementById("btnStartDraft").style.display = "none";
     document.getElementById("draftSettingsContent").style.display = "none";
-    // document.getElementById("open-button").style.right = "3.5%";
-    // document.getElementById("chatForm").style.right = "3.5%";
-    document
-      .getElementById("draftSettingsArrow")
-      .style.classList.remove("fa-angle-left");
-    document
-      .getElementById("draftSettingsArrow")
-      .style.classList.add("fa-angle-right");
+    document.getElementById("open-button").style.right = "3.5%";
+    document.getElementById("chatForm").style.right = "3.5%";
+    document.getElementById("draftSettingsArrow").className = "fas fa-angle-left";
+    
   } else {
     //Open
-    document.getElementById("preGrid").style.gridTemplateColumns = "80% 20%";
+    // document.getElementById("preGrid").style.gridTemplateColumns = "80% 20%";
     document.getElementById("draftSettingsArrowToggle").style.width = "8%";
+    document.getElementById("DraftSettings").style.width = "20%";
     // document.getElementById("btnStartDraft").style.display = "block";
     document.getElementById("draftSettingsContent").style.display = "block";
-    // document.getElementById("open-button").style.right = "22%";
-    // document.getElementById("chatForm").style.right = "22%";
-    document
-      .getElementById("draftSettingsArrow")
-      .style.classList.add("fa-angle-left");
-    document
-      .getElementById("draftSettingsArrow")
-      .style.classList.remove("fa-angle-right");
+    document.getElementById("open-button").style.right = "22%";
+    document.getElementById("chatForm").style.right = "22%";
+    document.getElementById("draftSettingsArrow").className = "fas fa-angle-right";
   }
 }
 
@@ -309,7 +302,30 @@ function playerSwitch() {
 
 // chat window open-close
 function openForm() {
-  if (document.getElementById("chatForm").style.display == "block")
+  if (document.getElementById("chatForm").style.display == "block") {
     document.getElementById("chatForm").style.display = "none";
-  else document.getElementById("chatForm").style.display = "block";
+    document.getElementById("groupChatArrow").className = "fas fa-angle-up";
+  }
+  else {
+    document.getElementById("chatForm").style.display = "block";
+    document.getElementById("groupChatArrow").className = "fas fa-angle-down";
+  }
+}
+
+function DraftMobileMenuClick() {
+  if (document.getElementById("DraftSettings").style.display == "block") {
+    // collapse
+    document.getElementById("DraftSettings").style.display = "none";
+    document.getElementById("btnDraftMobileMenuIcon").className = "fas fa-bars";
+
+  } else {
+    // display
+    document.getElementById("DraftSettings").style.display = "block";
+    document.getElementById("btnDraftMobileMenuIcon").className = "fas fa-times";
+    document.getElementById("DraftSettings").style.right = "0";
+    document.getElementById("DraftSettings").style.top = "5%";
+    document.getElementById("DraftSettings").style.width = "100%";
+    document.getElementById("DraftSettings").style.height = "100%";
+    document.getElementById("DraftSettings").style.padding = "5%";
+  }
 }

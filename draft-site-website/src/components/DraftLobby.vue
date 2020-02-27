@@ -48,35 +48,14 @@
           </b-form-group>
         </form>
       </b-modal>
-      <div
-        class="draftSettings"
-        id="draftSettings"
-        style="width:100%;height:100%;border-width: 2px 0px 0px 0px;border-style: solid;border-color:#212931;"
-      >
-        <div
-          id="draftSettingsArrowToggle"
-          style="height:100%;width:8%;float:left;background-color:#7E94A9;"
-        >
-          <button
-            class=""
-            style="height:100%;width:100%;color:white;border:none;background:none;padding:0;"
-            onclick="draftSettingsSwitch()"
-            id="btnSettingsToggle"
-          >
-            <i
-              style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
-              id="draftSettingsArrow"
-              class="fas fa-angle-right"
-            ></i>
-          </button>
-        </div>
+      
 
         <!-- <div style="float:right;width:80%;height:40px;"> -->
-        <div id="draftSettingsContent" style="width:100%;height:100%;">
+        <!-- <div id="draftSettingsContent" style="width:100%;height:100%;"> -->
           <!-- DRAFT SETTINGS CONTENT -->
           <draft-settings @update-settings="createDraft" mode="Create" />
-        </div>
-      </div>
+        <!-- </div> -->
+      <!-- </div> -->
     </div>
     <chat-room></chat-room>
   </div>

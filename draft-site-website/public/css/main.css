@@ -8,7 +8,8 @@
 */
 html, body {
 	height: 100%;
-	background-color:#1E252D;
+	/* background-color:#1E252D; */
+	background-color:rgb(255, 255, 255);
 }
 
 html, body, div, span, applet, object,
