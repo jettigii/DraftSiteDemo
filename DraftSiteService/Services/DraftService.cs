@@ -82,7 +82,7 @@ namespace DraftSiteService.Services
             return draftTimes.Single(draftTime => draftTime.TimeInSeconds == seconds);
         }
 
-        public async Task<DraftDataViewModel> GetDraftLookups()
+        public async Task<DraftDataViewModel> GetDraftLookupsAsync()
         {
             var draftTimes = await _draftRepository.GetDraftTimes();
             var draftStatuses = await _draftRepository.GetDraftStatuses();

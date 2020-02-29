@@ -8,7 +8,7 @@
       >
         <b-table
           hover
-          :items="draftData"
+          :items="draftLobby.drafts"
           @row-clicked="enterDraft"
           :fields="draftFields"
         >
@@ -53,19 +53,25 @@
         <!-- <div style="float:right;width:80%;height:40px;"> -->
         <!-- <div id="draftSettingsContent" style="width:100%;height:100%;"> -->
           <!-- DRAFT SETTINGS CONTENT -->
-          <draft-settings @update-settings="createDraft" mode="Create" />
-        <!-- </div> -->
-      <!-- </div> -->
+          <draft-settings
+            @update-settings="createDraft"
+            mode="Create"
+            :lookups="draftLobby.lookups"
+          />
     </div>
-    <chat-room></chat-room>
+    <chat-room
+      ref="chatRoom"
+      :username="draftLobby.user.username"
+      @send-message="sendMessage"
+    ></chat-room>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
 import ChatRoom from "./ChatRoom.vue";
 import DraftLobbyHub from "../hubs/draft-lobby-hub.js";
 import DraftSettings from "./DraftSettings.vue";
+import UserService from "../services/user-service.js";
 
 export default {
   components: {
@@ -89,13 +95,27 @@ export default {
       ],
       modalName: "modal-password-ref",
       draftLobbyHub: null,
-      drafts: []
+      draftLobby: {
+        drafts: [],
+        lookups: {},
+        user: {
+          username: "Not logged in"
+        }
+      }
     };
   },
   mounted: async function() {
+    const userService = new UserService();
+    await userService.authenticate(
+      "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
+    );
+
     this.draftLobbyHub = new DraftLobbyHub();
     await this.draftLobbyHub.start(this);
-    this.drafts = await this.draftLobbyHub.getDraftLobby();
+    this.draftLobby = await this.draftLobbyHub.getDraftLobby(
+      "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
+    );
+    await this.$store.commit("user/setUser", this.draftLobby.user);
   },
   methods: {
     enterDraft: function(row) {
@@ -111,6 +131,9 @@ export default {
       // } else {
       //   this.$refs["modal-password-ref"].show();
       // }
+    },
+    receiveDraftLobbyUpdate: function(lobby) {
+      this.draftLobby.drafts = lobby;
     },
     handleOk(e) {
       e.preventDefault();
@@ -145,17 +168,12 @@ export default {
       this.drafts = await this.draftLobbyHub.getDraftLobby();
     },
     receiveMessage(message) {
-      this.ChatRoom.receiveMessage(message);
+      this.$refs.chatRoom.receiveMessage(message);
     },
     sendMessage: async function(message) {
       await this.draftLobbyHub.sendMessage(message);
       return false;
     }
-  },
-  computed: {
-    ...mapState({
-      draftData: state => state.draft.drafts
-    })
   }
 };
 </script>

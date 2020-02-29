@@ -1,7 +1,9 @@
 import UserService from "../../services/user-service.js";
 
 const state = {
-  user: null
+  user: {
+    username: "Not logged in"
+  }
 };
 
 // actions

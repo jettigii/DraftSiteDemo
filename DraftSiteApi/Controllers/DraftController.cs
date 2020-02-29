@@ -23,41 +23,42 @@ namespace DraftSiteApi.Controllers
             _draftService = draftService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUserLobby()
-        {
-            try
-            {
-                int.TryParse(HttpContext.User.Claims.Single(claim => claim.Type == ClaimTypes.SerialNumber).Value, out var userId);
-                var userLobby = await _draftService.GetUserLobby();
-                return Ok(userLobby);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetUserLobby()
+        //{
+        //    try
+        //    {
+        //        int.TryParse(HttpContext.User.Claims.Single(claim => claim.Type == ClaimTypes.SerialNumber).Value, out var userId);
+        //        var userLobby = await _draftService.GetUserLobby();
+        //        return Ok(userLobby);
+        //    }
+        //    catch
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> CreateDraft([FromBody]DraftInputModel draft)
-        {
-            try
-            {
-                int.TryParse(HttpContext.User.Claims.Single(claim => claim.Type == ClaimTypes.SerialNumber).Value, out var userId);
-                draft.UserId = userId;
-                var draftViewModel = await _draftService.CreateDraftAsync(draft);
-                return Ok(draftViewModel);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest();
-            }
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateDraft([FromBody]DraftInputModel draft)
+        //{
+        //    try
+        //    {
+        //        int.TryParse(HttpContext.User.Claims.Single(claim => claim.Type == ClaimTypes.SerialNumber).Value, out var userId);
+        //        draft.UserId = userId;
+        //        var draftViewModel = await _draftService.CreateDraftAsync(draft);
+        //        return Ok(draftViewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
         [HttpGet("lookups")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetDraftLookups()
         {
-            var draftData = await _draftService.GetDraftLookups();
+            var draftData = await _draftService.GetDraftLookupsAsync();
             return Ok(draftData);
         }
     }

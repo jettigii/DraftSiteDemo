@@ -89,8 +89,7 @@ import ChatBubble from "./ChatBubble.vue";
 
 export default {
   props: {
-    draftId: String,
-    password: String
+    username: String
   },
   data() {
     return {
@@ -106,7 +105,7 @@ export default {
       this.messages.push(message);
     },
     sendMessage: async function() {
-      this.$emit("sendMessage", this.message);
+      this.$emit("send-message", this.message);
       return false;
     }
   },

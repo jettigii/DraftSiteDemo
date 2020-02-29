@@ -2,9 +2,7 @@
 using DraftSiteModels.InputModels;
 using DraftSiteService.Interfaces;
 using Microsoft.AspNetCore.SignalR;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,14 +12,13 @@ namespace DraftSiteApi.Hubs
     {
         private ConcurrentDictionary<int, DraftHubModel> _drafts;
 
-        public MultiPlayerDraftHub(IDraftService draftService, IUserService userService) : base(draftService, userService) 
+        public MultiPlayerDraftHub(IDraftService draftService, IUserService userService) : base(draftService, userService)
         {
             _drafts = new ConcurrentDictionary<int, DraftHubModel>();
         }
 
         public async Task SelectPlayer(PlayerChoiceInputModel playerSelection)
         {
-            var user = _connections.SingleOrDefault(connection => connection.ConnectionId == Context.ConnectionId);
             var draft = _drafts.SingleOrDefault(d => d.Key == user.DraftId).Value;
             await _draftService.SelectPlayer(user.UserId, user.DraftId, draft.ActiveTeamId, playerSelection);
 
