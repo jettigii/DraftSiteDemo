@@ -94,6 +94,7 @@
 import ChatRoom from "./ChatRoom.vue";
 import DraftLobbyHub from "../hubs/draft-lobby-hub.js";
 import DraftSettings from "./DraftSettings.vue";
+import UserService from "../services/user-service.js";
 
 export default {
   components: {
@@ -127,6 +128,11 @@ export default {
     };
   },
   mounted: async function() {
+    const userService = new UserService();
+    await userService.authenticate(
+      "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
+    );
+
     this.draftLobbyHub = new DraftLobbyHub();
     await this.draftLobbyHub.start(this);
     this.draftLobby = await this.draftLobbyHub.getDraftLobby(

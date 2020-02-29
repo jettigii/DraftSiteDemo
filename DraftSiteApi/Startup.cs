@@ -77,7 +77,7 @@ namespace DraftSiteApi
                       .AllowAnyMethod()
                       .AllowCredentials()
                       // Todo Make configurable
-                      .WithOrigins("http://draftsite.com", "http://localhost:8080");
+                      .WithOrigins("http://draftsite.com", "http://localhost:8080", "http://finitech-001-site4.gtempurl.com");
                 });
             });
         }

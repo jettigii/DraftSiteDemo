@@ -12,13 +12,17 @@ class UserService {
    * User Login.
    * @param {A entity Object} entity
    */
-  async authenticate(entity) {
-    const apiCall = await axios.post(this.url + authenticatePath, entity, {
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost:8080/",
-        "XMLHttpRequest.withCredentials": true
+  async authenticate(token) {
+    const apiCall = await axios.post(
+      this.url + authenticatePath,
+      { Token: token },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "http://localhost:8080/",
+          "XMLHttpRequest.withCredentials": true
+        }
       }
-    });
+    );
     return apiCall;
   }
 }
