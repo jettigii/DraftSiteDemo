@@ -160,7 +160,7 @@ namespace DraftSiteService.Services
         {
             var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
             var team = teamDraftUsers.SingleOrDefault(teamDraftUser => teamDraftUser.Team.Name == teamSelection.TeamName);
-            await _draftRepository.DeleteDraftTeamUser(userId, draftId, Convert.ToInt32(team.TeamId));
+            await _draftRepository.DeleteDraftTeamUser(userId, draftId, Convert.ToInt32(team.TeamsId));
             return await GetTeams();  
         }
 
@@ -177,7 +177,7 @@ namespace DraftSiteService.Services
                 {
                     UsersId = Convert.ToUInt32(userId),
                     MultiPlayerDraftId = draftId,
-                    TeamId = team.TeamId
+                    TeamsId = team.TeamsId
                 };
 
                 await _draftRepository.CreateDraftTeamUser(teamEntity);

@@ -14,7 +14,22 @@
     <div style="width:100%; height:100%; padding-top: 100px;">
       <b-tabs content-class="mt-3">
         <b-tab title="Main Lobby" active>
-          <draft-lobby></draft-lobby>
+          <draft-lobby @open-draft="openDraft"></draft-lobby>
+        </b-tab>
+        <b-tab v-for="tab in tabs" :key="tab.draftId">
+          <b-button
+            size="sm"
+            variant="danger"
+            class="float-right"
+            @click="closeTab(i)"
+          >
+            Close tab
+          </b-button>
+          <draft-room
+            :draftId="tab.id"
+            :password="tab.password"
+            :status="tab.draftStatus"
+          ></draft-room>
         </b-tab>
       </b-tabs>
     </div>
@@ -31,17 +46,38 @@
 
 <script>
 import { mapState } from "vuex";
+// import DraftHub from "./hubs/draft-hub.js";
 import DraftLobby from "./components/DraftLobby.vue";
+import DraftRoom from "./components/DraftRoom.vue";
 
 export default {
   name: "app",
+  data() {
+    return {
+      tabs: []
+    };
+  },
   components: {
-    DraftLobby
+    DraftLobby,
+    DraftRoom
   },
   computed: {
     ...mapState({
       userData: state => state.user.user
     })
+  },
+  methods: {
+    openDraft(row) {
+      this.tabs.push(row);
+      // focus new tab
+    },
+    closeTab(x) {
+      for (let i = 0; i < this.tabs.length; i++) {
+        if (this.tabs[i] === x) {
+          this.tabs.splice(i, 1);
+        }
+      }
+    }
   }
 };
 </script>

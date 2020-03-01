@@ -36,7 +36,7 @@ namespace DraftSiteModels.Maps
                 .ForMember(destination => destination.TeamName, opts => opts.MapFrom(source => $"{source.Name}"));
 
             CreateMap<TeamChoiceInputModel, DraftTeamUser>()
-                .ForMember(destination => destination.TeamId, opts => opts.MapFrom(source => source.TeamName));
+                .ForMember(destination => destination.TeamsId, opts => opts.MapFrom(source => source.TeamName));
 
             CreateMap<DraftTeamUser, DraftTeamSummaryViewModel>()
                 .ForMember(destination => destination.TeamName, opts => opts.MapFrom(source => source.Team.Name))
@@ -46,7 +46,7 @@ namespace DraftSiteModels.Maps
                 .ForMember(destination => destination.PlayerName, opts => opts.MapFrom(source => $"{source.Player.Lastname}, {source.Player.Firstname}"))                ;
 
             CreateMap<Teams, DraftTeamUser>()
-                .ForMember(destination => destination.TeamId, opts => opts.MapFrom(source => source.Id))
+                .ForMember(destination => destination.TeamsId, opts => opts.MapFrom(source => source.Id))
                 .ForMember(destination => destination.Id, opts => opts.Ignore());
 
             CreateMap<Players, DraftTeamUserPlayer>()

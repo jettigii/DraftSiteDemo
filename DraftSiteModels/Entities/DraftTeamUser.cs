@@ -14,7 +14,7 @@ namespace DraftSiteModels.Entities
         public uint UsersId { get; set; }
 
         public virtual Teams Team { get; set; }
-        public uint TeamId { get; set; }
+        public uint TeamsId { get; set; }
 
         public bool IsComputer { get; set; }
         public virtual IEnumerable<DraftTeamUserPlayer> DraftTeamUserPlayers { get; set; }

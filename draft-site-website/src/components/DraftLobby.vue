@@ -11,6 +11,7 @@
           :items="draftLobby.drafts"
           @row-clicked="enterDraft"
           :fields="draftFields"
+          :busy="isLoading"
         >
           <template v-slot:cell(isComputerTeams)="data">
             <b class="text-info">{{ data.value | yesno }}</b>
@@ -48,16 +49,15 @@
           </b-form-group>
         </form>
       </b-modal>
-      
 
-        <!-- <div style="float:right;width:80%;height:40px;"> -->
-        <!-- <div id="draftSettingsContent" style="width:100%;height:100%;"> -->
-          <!-- DRAFT SETTINGS CONTENT -->
-          <draft-settings
-            @update-settings="createDraft"
-            mode="Create"
-            :lookups="draftLobby.lookups"
-          />
+      <!-- <div style="float:right;width:80%;height:40px;"> -->
+      <!-- <div id="draftSettingsContent" style="width:100%;height:100%;"> -->
+      <!-- DRAFT SETTINGS CONTENT -->
+      <draft-settings
+        @update-settings="createDraft"
+        mode="Create"
+        :lookups="draftLobby.lookups"
+      />
     </div>
     <chat-room
       ref="chatRoom"
@@ -101,10 +101,12 @@ export default {
         user: {
           username: "Not logged in"
         }
-      }
+      },
+      isLoading: false
     };
   },
   mounted: async function() {
+    this.isLoading = true;
     const userService = new UserService();
     await userService.authenticate(
       "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
@@ -116,21 +118,17 @@ export default {
       "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
     );
     await this.$store.commit("user/setUser", this.draftLobby.user);
+    this.isLoading = false;
   },
   methods: {
     enterDraft: function(row) {
       this.selectedRow = row;
-      // if (this.selectedRow.isPublic) {
-      //   this.$router.push({
-      //     name: "draftRoom",
-      //     params: {
-      //       draftId: this.selectedRow.id.toString(),
-      //       status: this.selectedRow.draftStatus
-      //     }
-      //   });
-      // } else {
-      //   this.$refs["modal-password-ref"].show();
-      // }
+
+      if (!this.selectedRow.isPublic) {
+        this.$refs["modal-password-ref"].show();
+      } else {
+        this.$emit("open-draft", this.selectedRow, "");
+      }
     },
     receiveDraftLobbyUpdate: function(lobby) {
       this.draftLobby.drafts = lobby;
@@ -146,16 +144,11 @@ export default {
         // Todo Brian add alert that you must provide password
       }
 
-      if (this.selectedRow.id && this.selectedRow.draftStatus)
-        this.$router.push({
-          name: "draftRoom",
-          params: {
-            draftId: this.selectedRow.id.toString(),
-            password: this.password,
-            status: this.selectedRow.draftStatus
-          }
-        });
-      else {
+      if (this.selectedRow.id && this.selectedRow.draftStatus) {
+        this.selectedRow.password = this.password;
+        this.$emit("open-draft", this.selectedRow);
+        this.$refs["modal-password-ref"].hide();
+      } else {
         // Todo Brian add alert that there was an error, though this should never happen
       }
     },

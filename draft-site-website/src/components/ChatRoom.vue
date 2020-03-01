@@ -12,56 +12,14 @@
       <h5>Group Chat</h5>
 
       <div id="messageArea">
-      <!-- Messages go here -->
-      <ChatBubble
-        v-for="item in messages"
-        :key="item.id"
-        :messageUsername="item.username"
-        :message="item.message"
-      />
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-      <ChatBubble messageUsername="holy" message="cow"/>
-      <ChatBubble messageUsername="holy" message="wow"/>
-      <ChatBubble messageUsername="holy" message="meow?"/>
-    </div>
+        <!-- Messages go here -->
+        <ChatBubble
+          v-for="item in messages"
+          :key="item.id"
+          :messageUsername="item.username"
+          :message="item.message"
+        />
+      </div>
 
       <div id="sendMessageArea">
         <input
@@ -174,69 +132,67 @@ export default {
   position: fixed;
   bottom: 45px;
   width: 100%;
-  background-color:white;
-  height:40px;
-  margin:5px;
-  width:280px;
+  background-color: white;
+  height: 40px;
+  margin: 5px;
+  width: 280px;
   right: 21.7%;
   z-index: 50;
 }
 
 @media only screen and (max-width: 600px) {
+  #chatMenu {
+    width: 100%;
+    height: 100%;
+  }
+  .chat-popup {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: none;
+    position: fixed;
+    bottom: 64px;
+    right: 0;
+    padding-top: 20%;
+    max-height: 100%;
+    /* margin-bottom: 0px; */
+    z-index: 50;
+    background-color: #212931;
+  }
 
-#chatMenu{
-  width: 100%;
-  height: 100%;
-}
-.chat-popup {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  display: none;
-  position: fixed;
-  bottom: 64px;
-  right:0;
-  padding-top: 20%;
-  max-height: 100%;
-  /* margin-bottom: 0px; */
-  z-index: 50;
-  background-color: #212931;
-}
+  .open-button {
+    /* padding: 16px 20px; */
+    border-width: 2px;
+    border-style: solid;
+    border-color: #212931;
+    cursor: pointer;
+    position: fixed;
+    bottom: 0%;
+    right: 0;
+    width: 100%;
+    height: 64px;
+    z-index: 99;
+  }
 
-.open-button {
-  /* padding: 16px 20px; */
-  border-width: 2px;
-  border-style: solid;
-  border-color: #212931;
-  cursor: pointer;
-  position: fixed;
-  bottom: 0%;
-  right:0;
-  width: 100%;
-  height: 64px;
-  z-index: 99;
-}
+  #sendMessageArea {
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    height: 50px;
+    margin: 5px;
+    width: 100%;
+    font-size: 26px;
+  }
 
-#sendMessageArea {
-  position: fixed;
-  bottom: 60px;
-  left: 0;
-  width: 100%;
-  background-color:white;
-  height:50px;
-  margin:5px;
-  width:100%;
-  font-size: 26px;
-}
-
-#messageArea {
-  width: 100%;
-  max-height: 100%;
-  overflow-y: auto;
-  padding: 4%;
-  padding-top: 5%;
-  padding-bottom: 15%;
-}
-
+  #messageArea {
+    width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 4%;
+    padding-top: 5%;
+    padding-bottom: 15%;
+  }
 }
 </style>

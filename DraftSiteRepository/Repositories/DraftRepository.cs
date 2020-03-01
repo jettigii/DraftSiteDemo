@@ -166,7 +166,7 @@ namespace DraftSiteRepository.Repositories
         {
             var draftTeam = await _context.DraftTeamUsers
                 .Include(draftTeamUser => draftTeamUser.User)
-                .SingleAsync(draftTeamUser => draftTeamUser.MultiPlayerDraftId == draftId && draftTeamUser.TeamId == teamId);
+                .SingleAsync(draftTeamUser => draftTeamUser.MultiPlayerDraftId == draftId && draftTeamUser.TeamsId == teamId);
 
             return draftTeam;
         }

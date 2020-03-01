@@ -178,7 +178,7 @@ import DraftTeamComponent from "./DraftTeamComponent.vue";
 
 export default {
   props: {
-    draftId: String,
+    draftId: Number,
     password: String
   },
   mounted: async function() {
@@ -188,6 +188,8 @@ export default {
       this.draftId.toString(),
       this.password
     );
+    // eslint-disable-next-line no-debugger
+    debugger;
     this.$refs.draftSettings.loadSettings(this.preDraftLobby.draft);
   },
   data() {

@@ -15,7 +15,7 @@ import Draft from "./MultiDraftPick.vue";
 
 export default {
   props: {
-    draftId: String,
+    draftId: Number,
     password: String,
     status: String
   },

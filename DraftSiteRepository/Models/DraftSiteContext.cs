@@ -143,7 +143,7 @@ namespace DraftSiteRepository.Models
             modelBuilder.Entity<DraftTeamUser>()
                 .HasOne(entity => entity.Team)
                 .WithMany(foreignEntity => foreignEntity.DraftTeamUsers)
-                .HasForeignKey(entity => entity.TeamId);
+                .HasForeignKey(entity => entity.TeamsId);
 
             modelBuilder.Entity<DraftTeamUser>()
                 .HasOne(entity => entity.User)
