@@ -109,6 +109,7 @@
               style="width:100%;height:100%;"
               :draft="preDraftLobby.draft"
               :is-owner="preDraftLobby.isOwner"
+              :lookups="preDraftLobby.lookups"
               mode="Update"
               @update-settings="updateSettings"
             />
@@ -179,7 +180,8 @@ import DraftTeamComponent from "./DraftTeamComponent.vue";
 export default {
   props: {
     draftId: Number,
-    password: String
+    password: String,
+    lookups: Object
   },
   mounted: async function() {
     this.preDraftLobbyHub = new PreDraftLobbyHub();

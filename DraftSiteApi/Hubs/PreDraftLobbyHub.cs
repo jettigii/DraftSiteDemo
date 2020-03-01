@@ -19,6 +19,7 @@ namespace DraftSiteApi.Hubs
                 var user = await EnterDraft(draftId);
 
                 var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftId, user.Username, draftLobbyRequest.Password);
+                preDraftLobbyData.Lookups = await _draftService.GetDraftLookupsAsync();
                 _connections.TryAdd(Context.ConnectionId, user);
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, draftLobbyRequest.DraftId.ToString());

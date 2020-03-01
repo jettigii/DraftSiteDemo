@@ -16,7 +16,7 @@
         <b-tab title="Main Lobby" active>
           <draft-lobby @open-draft="openDraft"></draft-lobby>
         </b-tab>
-        <b-tab v-for="tab in tabs" :key="tab.draftId">
+        <b-tab v-for="tab in tabs" :key="tab.Id" :title="tab.id.toString()">
           <b-button
             size="sm"
             variant="danger"

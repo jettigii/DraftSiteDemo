@@ -13,5 +13,6 @@ namespace DraftSiteModels.ViewModels
         public DraftViewModel Draft { get; set; }
 
         public bool IsOwner { get; set; }
+        public DraftDataViewModel Lookups { get; set; }
     }
 }
