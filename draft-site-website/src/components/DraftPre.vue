@@ -186,12 +186,14 @@ export default {
   mounted: async function() {
     this.preDraftLobbyHub = new PreDraftLobbyHub();
     await this.preDraftLobbyHub.start(this);
+    // eslint-disable-next-line no-console
+    console.log(this.user);
     this.preDraftLobby = await this.preDraftLobbyHub.enterPreDraftLobby(
+      this.user.id,
       this.draftId.toString(),
       this.password
     );
-    // eslint-disable-next-line no-debugger
-    debugger;
+
     this.$refs.draftSettings.loadSettings(this.preDraftLobby.draft);
   },
   data() {
@@ -224,14 +226,17 @@ export default {
     },
     selectTeam: function(team) {
       this.preDraftLobbyHub.selectTeam(team);
+    },
+    receiveTeams: function(teams) {
+      this.preDraftLobby.draftTeams = teams;
     }
   },
   computed: {
     ...mapState({
-      username: state => state.user.username
+      user: state => state.user.user
     }),
     isOwner: function() {
-      return this.username == this.messageUsername;
+      return this.user.username == this.messageUsername;
     }
   }
 };

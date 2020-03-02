@@ -3,6 +3,7 @@ using DraftSiteModels.Entities;
 using DraftSiteRepository.Interfaces;
 using DraftSiteRepository.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,12 +47,13 @@ namespace DraftSiteRepository.Repositories
             return user;
         }
 
-        public async Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, int teamId)
+        public async Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, string teamName)
         {
-            // TODO: THIS METHOD NEEDS MULTIPLAYERDRAFTID AS INPUT
             var draftTeamUser = await _context
                 .DraftTeamUsers
-                .SingleOrDefaultAsync(dtu => dtu.MultiPlayerDraftId == userId);
+                .SingleOrDefaultAsync(dtu => dtu.MultiPlayerDraftId == draftId &&
+                 dtu.UsersId == Convert.ToUInt32(userId) &&
+                 dtu.Team.Name == teamName);
 
             _context.DraftTeamUsers.Remove(draftTeamUser);
             await _context.SaveChangesAsync();
@@ -117,7 +119,7 @@ namespace DraftSiteRepository.Repositories
         public async Task<List<Players>> GetPlayers()
         {
             var players = await _context.Players
-                .Where(player => player.Draftclass == "2020" && player.Sport == 1 )
+                .Where(player => player.Draftclass == "2020" && player.Sport == 1)
                 .ToListAsync();
 
             return players;
@@ -174,6 +176,17 @@ namespace DraftSiteRepository.Repositories
         public Task<List<DraftTeamUser>> GetDraftTeamPickOrderAsync(int draftId)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<DraftTeamUser> UpdateDraftTeamUser(DraftTeamUser user)
+        {
+            var dbUser = await _context.DraftTeamUsers.SingleOrDefaultAsync(u => u.TeamsId == user.TeamsId &&
+            u.MultiPlayerDraftId == user.MultiPlayerDraftId);
+
+            dbUser.UsersId = user.UsersId;
+            await _context.SaveChangesAsync();
+
+            return dbUser;
         }
     }
 }

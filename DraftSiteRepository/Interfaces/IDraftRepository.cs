@@ -9,9 +9,11 @@ namespace DraftSiteRepository.Interfaces
     {
         Task<MultiplayerDraft> CreateDraft(MultiplayerDraft draft);
 
-        Task<DraftTeamUser> CreateDraftTeamUser( DraftTeamUser user);
+        Task<DraftTeamUser> CreateDraftTeamUser(DraftTeamUser user);
 
-        Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, int teamId);
+        Task<DraftTeamUser> UpdateDraftTeamUser(DraftTeamUser user);
+
+        Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, string teamName);
 
         Task<MultiplayerDraft> GetDraft(int id);
 

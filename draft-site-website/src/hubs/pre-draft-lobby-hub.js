@@ -31,8 +31,9 @@ class PreDraftLobbyHub {
     await connection.start().catch(function() {});
   }
 
-  async enterPreDraftLobby(draftId, password) {
+  async enterPreDraftLobby(userId, draftId, password) {
     const preDraftLobby = await connection.invoke("enterPreDraftLobby", {
+      userId,
       draftId,
       password
     });

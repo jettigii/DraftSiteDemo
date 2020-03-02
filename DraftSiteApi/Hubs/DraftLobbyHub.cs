@@ -56,9 +56,6 @@ namespace DraftSiteApi.Hubs
                 {
                     Drafts = new List<DraftViewModel>(),
                     User = new DraftSiteUserViewModel()
-                    {
-                        Username = user.Username
-                    }
                 };
             }
         }
@@ -67,6 +64,7 @@ namespace DraftSiteApi.Hubs
         {
             try
             {
+                var user = GetHubUserByConnectionId();
                 draft.UserId = user.UserId;
                 await _draftService.CreateDraftAsync(draft);
                 await UpdateDraftLobby();

@@ -14,8 +14,8 @@ namespace DraftSiteApi.Hubs
     {
         protected readonly IDraftService _draftService;
         protected readonly IUserService _userService;
-        protected static readonly ConcurrentDictionary<string, HubUser> _connections = new ConcurrentDictionary<string, HubUser>();
-        protected HubUser user => _connections.First(connection => Context.ConnectionId == Context.ConnectionId).Value;
+        protected static readonly ConcurrentDictionary<int, List<HubUser>> _users = new ConcurrentDictionary<int, List<HubUser>>();
+        
 
         public DraftHub(IDraftService draftService, IUserService userService)
         {
@@ -25,6 +25,8 @@ namespace DraftSiteApi.Hubs
 
         public async Task SendMessage(string message)
         {
+            var user = GetHubUserByConnectionId();
+
             var newMessage = new ChatMessageViewModel()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -36,9 +38,23 @@ namespace DraftSiteApi.Hubs
         }
 
         protected async Task<HubUser> EnterDraftAsync(HubUser user)
-        {           
+        {            
+            user.connectionId = Context.ConnectionId;
+            var isConnected = _users.Keys.Any(key => key == user.UserId);
+
+            if (isConnected)
+            {
+                _users.SingleOrDefault(u => u.Key == user.UserId).Value.Add(user);
+            }
+            else
+            {
+                _users.TryAdd(user.UserId, new List<HubUser>()
+                {
+                    user
+                });
+            }
+
             await Groups.AddToGroupAsync(Context.ConnectionId, user.DraftId.ToString());
-            _connections.TryAdd(Context.ConnectionId, user);
             return user;
         }
 
@@ -49,9 +65,26 @@ namespace DraftSiteApi.Hubs
 
         public override Task OnConnectedAsync()
         {
-            _connections.TryRemove(Context.ConnectionId, out var result);
-
             return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            var hubUser = GetHubUserByConnectionId();
+            _users.Single(u => u.Key == hubUser.UserId).Value.Remove(hubUser);
+            return base.OnDisconnectedAsync(exception);
+        }
+
+        protected KeyValuePair<int, List<HubUser>> GetUser(int userId)
+        {
+            return _users.SingleOrDefault(connection => connection.Key == userId);
+        }
+        
+        protected HubUser GetHubUserByConnectionId()
+        {
+            var users = _users.SelectMany(u => u.Value).ToList();
+            var user = users.SingleOrDefault(u => u.connectionId == Context.ConnectionId);
+            return user;
         }
     }
 }

@@ -157,35 +157,41 @@ namespace DraftSiteService.Services
         }
 
         public async Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection)
-        {
-            var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
-            var team = teamDraftUsers.SingleOrDefault(teamDraftUser => teamDraftUser.Team.Name == teamSelection.TeamName);
-            await _draftRepository.DeleteDraftTeamUser(userId, draftId, Convert.ToInt32(team.TeamsId));
-            return await GetTeams();  
+        {            
+            await _draftRepository.DeleteDraftTeamUser(userId, draftId, teamSelection.TeamName);
+            return await GetDraftTeamsAsync(draftId);  
         }
 
         public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection)
         {
             var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
             var team = teamDraftUsers.SingleOrDefault(teamDraftUser => teamDraftUser.Team.Name == teamSelection.TeamName);
-            var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UsersId == userId);
-            var draft = await _draftRepository.GetDraft(draftId);
 
-            if (draft.IsMultiSelect || !teamUsers.Any())
+            if (team.DraftTeamUserPlayers == null)
             {
-                var teamEntity = new DraftTeamUser()
-                {
-                    UsersId = Convert.ToUInt32(userId),
-                    MultiPlayerDraftId = draftId,
-                    TeamsId = team.TeamsId
-                };
+                var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UsersId == userId);
+                var draft = await _draftRepository.GetDraft(draftId);
 
-                await _draftRepository.CreateDraftTeamUser(teamEntity);
-                return await GetTeams();
+                if (draft.IsMultiSelect || !teamUsers.Any())
+                {
+                    var teamEntity = new DraftTeamUser()
+                    {
+                        UsersId = Convert.ToUInt32(userId),
+                        MultiPlayerDraftId = draftId,
+                        TeamsId = team.TeamsId
+                    };
+
+                    await _draftRepository.UpdateDraftTeamUser(teamEntity);
+                    return await GetDraftTeamsAsync(draft.Id);
+                }
+                else
+                {
+                    throw new Exception("Only one team may be selected.");
+                }
             }
             else
             {
-                throw new Exception("Only one team may be selected.");
+                return await DeselectTeam(userId, draftId, teamSelection);
             }
         }
 

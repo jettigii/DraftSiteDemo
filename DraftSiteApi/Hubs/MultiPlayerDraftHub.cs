@@ -19,6 +19,7 @@ namespace DraftSiteApi.Hubs
 
         public async Task SelectPlayer(PlayerChoiceInputModel playerSelection)
         {
+            var user = GetHubUserByConnectionId();
             var draft = _drafts.SingleOrDefault(d => d.Key == user.DraftId).Value;
             await _draftService.SelectPlayer(user.UserId, user.DraftId, draft.ActiveTeamId, playerSelection);
 
