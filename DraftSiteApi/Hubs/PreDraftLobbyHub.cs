@@ -1,4 +1,5 @@
-﻿using DraftSiteModels.InputModels;
+﻿using DraftSiteModels.HubModels;
+using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
 using DraftSiteService.Interfaces;
 using Microsoft.AspNetCore.SignalR;
@@ -16,7 +17,15 @@ namespace DraftSiteApi.Hubs
             try
             {
                 var draftId = Convert.ToInt32(draftLobbyRequest.DraftId);
-                var user = await EnterDraft(draftId);
+
+                var draftUser = new HubUser()
+                {
+                    DraftId = draftId,
+                    UserId = user.UserId,
+                    Username = user.Username
+                };
+
+                await EnterDraftAsync(draftUser);
 
                 var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftId, user.Username, draftLobbyRequest.Password);
                 preDraftLobbyData.Lookups = await _draftService.GetDraftLookupsAsync();

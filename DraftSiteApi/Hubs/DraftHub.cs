@@ -35,17 +35,8 @@ namespace DraftSiteApi.Hubs
             await Clients.Group(user.DraftId.ToString()).SendAsync("receiveMessage", newMessage);
         }
 
-        protected async Task<HubUser> EnterDraft(int draftId)
-        {
-            var dbUser = await _userService.GetUserByUsername(Context.User.Identity.Name);
-
-            var user = new HubUser()
-            {
-                DraftId = draftId,
-                Username = Context.User.Identity.Name,
-                UserId = dbUser.Id
-            };
-            
+        protected async Task<HubUser> EnterDraftAsync(HubUser user)
+        {           
             await Groups.AddToGroupAsync(Context.ConnectionId, user.DraftId.ToString());
             _connections.TryAdd(Context.ConnectionId, user);
             return user;
