@@ -13,8 +13,6 @@ namespace DraftSiteRepository.Interfaces
 
         Task<DraftTeamUser> UpdateDraftTeamUser(DraftTeamUser user);
 
-        Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, string teamName);
-
         Task<MultiplayerDraft> GetDraft(int id);
 
         Task<List<MultiplayerDraft>> GetDrafts();

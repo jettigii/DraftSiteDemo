@@ -1,4 +1,5 @@
-﻿using DraftSiteModels.InputModels;
+﻿using DraftSiteModels.Entities;
+using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace DraftSiteService.Interfaces
     {
         Task<DraftViewModel> CreateDraftAsync(DraftInputModel draft);
 
-        Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection);
+        Task DeselectTeam(DraftTeamUser draftTeamUser);
 
         Task<DraftViewModel> GetDraft(int draftId);
 

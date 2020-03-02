@@ -46,21 +46,7 @@ namespace DraftSiteRepository.Repositories
             await _context.SaveChangesAsync();
             return user;
         }
-
-        public async Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, string teamName)
-        {
-            var draftTeamUser = await _context
-                .DraftTeamUsers
-                .SingleOrDefaultAsync(dtu => dtu.MultiPlayerDraftId == draftId &&
-                 dtu.UsersId == Convert.ToUInt32(userId) &&
-                 dtu.Team.Name == teamName);
-
-            _context.DraftTeamUsers.Remove(draftTeamUser);
-            await _context.SaveChangesAsync();
-
-            return draftTeamUser;
-        }
-
+        
         public async Task<MultiplayerDraft> GetDraft(int id)
         {
             var draft = await _context

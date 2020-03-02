@@ -156,10 +156,11 @@ namespace DraftSiteService.Services
             return _mapper.Map<List<DraftTeamSummaryViewModel>>(teams);
         }
 
-        public async Task<List<DraftTeamSummaryViewModel>> DeselectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection)
-        {            
-            await _draftRepository.DeleteDraftTeamUser(userId, draftId, teamSelection.TeamName);
-            return await GetDraftTeamsAsync(draftId);  
+        public async Task DeselectTeam(DraftTeamUser draftTeamUser)
+        {
+            draftTeamUser.User = null;
+            draftTeamUser.UsersId = 0;
+            await _draftRepository.UpdateDraftTeamUser(draftTeamUser);  
         }
 
         public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection)
@@ -167,7 +168,7 @@ namespace DraftSiteService.Services
             var teamDraftUsers = await _draftRepository.GetDraftTeamsAsync(draftId);
             var team = teamDraftUsers.SingleOrDefault(teamDraftUser => teamDraftUser.Team.Name == teamSelection.TeamName);
 
-            if (team.DraftTeamUserPlayers == null)
+            if (team.UsersId == 0)
             {
                 var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UsersId == userId);
                 var draft = await _draftRepository.GetDraft(draftId);
@@ -181,8 +182,7 @@ namespace DraftSiteService.Services
                         TeamsId = team.TeamsId
                     };
 
-                    await _draftRepository.UpdateDraftTeamUser(teamEntity);
-                    return await GetDraftTeamsAsync(draft.Id);
+                    await _draftRepository.UpdateDraftTeamUser(teamEntity);                    
                 }
                 else
                 {
@@ -191,8 +191,10 @@ namespace DraftSiteService.Services
             }
             else
             {
-                return await DeselectTeam(userId, draftId, teamSelection);
+                await DeselectTeam(team);
             }
+
+            return await GetDraftTeamsAsync(draftId);
         }
 
         public async Task<List<DraftTeamSummaryViewModel>> SelectPlayer(int userId, int draftId, int teamId, PlayerChoiceInputModel playerSelection)
