@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <link rel="stylesheet" href="css/main.css" />
     <noscript><link rel="stylesheet" href="css/noscript.css" /></noscript>
@@ -11,7 +11,7 @@
 
     <title>draft-site-website</title>
   </head>
-  <body class="is-preload">
+  <body class="is-preload" onload="draftSettingsSwitch()">
     <noscript>
       <strong>We're sorry but draft-site-website doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
@@ -26,5 +26,9 @@
 			<script src="./js/breakpoints.min.js"></script>
 			<script src="./js/util.js"></script>
       <script src="./js/main.js"></script>
+      <script src="vue.js"></script>
+<script src="luxon.js"></script>
+<script src="weekstart.js"></script>
+<script src="vue-datetime.js"></script>
   </body>
 </html>

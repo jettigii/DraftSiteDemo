@@ -9,7 +9,7 @@
       Group Chat <i id="groupChatArrow" class="fas fa-angle-up"></i>
     </button>
     <div class="chat-popup" id="chatForm">
-      <h5>Group Chat</h5>
+      <h5 >Group Chat</h5>
 
       <div id="messageArea">
         <!-- Messages go here -->
@@ -29,9 +29,11 @@
           name="msg"
           placeholder="Type a message.."
           style="float:left;width:80%;height:40px;background-color:white;"
+          
         />
         <button
           class="btn"
+          id="btnSendMessage"
           style="float:right;width:20%;height:40px;"
           @click="sendMessage()"
         >
@@ -63,7 +65,10 @@ export default {
       this.messages.push(message);
     },
     sendMessage: async function() {
+      //send message
       this.$emit("send-message", this.message);
+      //clear string
+      this.message = "";
       return false;
     }
   },
@@ -88,6 +93,7 @@ export default {
   overflow: hidden;
   /* margin-bottom: 0px; */
   z-index: 1;
+  background-color:rgb(187, 184, 199);
 }
 
 .open-button {

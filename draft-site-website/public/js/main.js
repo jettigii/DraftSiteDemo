@@ -260,6 +260,7 @@ function draftSettingsSwitch() {
     document.getElementById("draftSettingsContent").style.display = "none";
     document.getElementById("open-button").style.right = "3.5%";
     document.getElementById("chatForm").style.right = "3.5%";
+    document.getElementById("sendMessageArea").style.right = "3.5%";
     document.getElementById("draftSettingsArrow").className = "fas fa-angle-left";
     
   } else {
@@ -271,6 +272,7 @@ function draftSettingsSwitch() {
     document.getElementById("draftSettingsContent").style.display = "block";
     document.getElementById("open-button").style.right = "22%";
     document.getElementById("chatForm").style.right = "22%";
+    document.getElementById("sendMessageArea").style.right = "22%";
     document.getElementById("draftSettingsArrow").className = "fas fa-angle-right";
   }
 }
@@ -301,14 +303,21 @@ function playerSwitch() {
 }
 
 // chat window open-close
+var chatSwitch = 1;
 function openForm() {
-  if (document.getElementById("chatForm").style.display == "block") {
+  if (chatSwitch == 0) {
     document.getElementById("chatForm").style.display = "none";
     document.getElementById("groupChatArrow").className = "fas fa-angle-up";
+    // document.getElementById("chatForm").classList.remove("slide-in-bottom");
+    // document.getElementById("chatForm").classList.add("slide-out-bottom");
+    chatSwitch = 1;
   }
   else {
     document.getElementById("chatForm").style.display = "block";
     document.getElementById("groupChatArrow").className = "fas fa-angle-down";
+    // document.getElementById("chatForm").classList.add("slide-in-bottom");
+    // document.getElementById("chatForm").classList.remove("slide-out-bottom");
+    chatSwitch = 0;
   }
 }
 
@@ -316,11 +325,13 @@ function DraftMobileMenuClick() {
   if (document.getElementById("DraftSettings").style.display == "block") {
     // collapse
     document.getElementById("DraftSettings").style.display = "none";
+    // document.getElementById("draftSettingsContent").style.display = "none";
     document.getElementById("btnDraftMobileMenuIcon").className = "fas fa-bars";
 
   } else {
     // display
     document.getElementById("DraftSettings").style.display = "block";
+    document.getElementById("draftSettingsContent").style.display = "block";
     document.getElementById("btnDraftMobileMenuIcon").className = "fas fa-times";
     document.getElementById("DraftSettings").style.right = "0";
     document.getElementById("DraftSettings").style.top = "5%";
@@ -329,3 +340,16 @@ function DraftMobileMenuClick() {
     document.getElementById("DraftSettings").style.padding = "5%";
   }
 }
+
+function clearChatText() {
+  //clear text msg
+  document.getElementById("msgChat").input = "";
+}
+
+// send message when user presses enter
+$(document).ready(function(){
+  $('#msg').keypress(function(e){
+    if(e.keyCode==13)
+    $('#btnSendMessage').click();
+  });
+});

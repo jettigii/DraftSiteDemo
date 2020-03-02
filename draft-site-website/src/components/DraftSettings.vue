@@ -10,7 +10,7 @@
   >
   
         <div
-          id="draftSettingsArrowToggle"
+          id="draftSettingsArrowToggle" 
           style="height:100%;width:8%;float:left;background-color:#7E94A9;"
         >
           <button
@@ -150,7 +150,7 @@
               type="datetime"
               v-model="datetime"
               use12-hour
-              style="font-size:12pt;height:14px;"
+              style="font-size:12pt;height:14px;z-index:999;"
             ></datetime>
           </div>
           <br /><br />
@@ -306,7 +306,7 @@ export default {
   #btnDraftMobileMenu {
     position: fixed;
     right: 1%;
-    top: 1%;
+    top: 6%;
     display: block;
     z-index: 99;
     /* background-color: aliceblue; */

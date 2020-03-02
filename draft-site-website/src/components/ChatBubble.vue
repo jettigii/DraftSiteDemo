@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- MESSAGE EXAMPLE -->
-    <div class="containerMessage">
+    <div class="containerMessage slide-in-elliptic-left-fwd">
       <p style="margin:0px;">
         <span style="color:grey;">{{ messageUsername }}:</span>
         <span style="margin-left:5px;">{{ message }}</span>
