@@ -1,34 +1,35 @@
 <template>
-<div>
-  <div id="btnDraftMobileMenu">
-    <button class="primary button" onclick="DraftMobileMenuClick()">
-      <i id="btnDraftMobileMenuIcon" class="fas fa-bars"></i>
-    </button>
-  </div>
-  <div
-    id="DraftSettings"
-  >
-  
-        <div
-          id="draftSettingsArrowToggle"
-          style="height:100%;width:8%;float:left;background-color:#7E94A9;"
+  <div>
+    <div id="btnDraftMobileMenu">
+      <button class="primary button" onclick="DraftMobileMenuClick()">
+        <i id="btnDraftMobileMenuIcon" class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div id="DraftSettings">
+      <div
+        id="draftSettingsArrowToggle"
+        style="height:100%;width:8%;float:left;background-color:#7E94A9;"
+      >
+        <button
+          class=""
+          style="height:100%;width:100%;color:white;border:none;background:none;padding:0;"
+          onclick="draftSettingsSwitch()"
+          id="btnSettingsToggle"
         >
-          <button
-            class=""
-            style="height:100%;width:100%;color:white;border:none;background:none;padding:0;"
-            onclick="draftSettingsSwitch()"
-            id="btnSettingsToggle"
-          >
-            <i
-              style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
-              id="draftSettingsArrow"
-              class="fas fa-angle-right"
-            ></i>
-          </button>
-        </div>
+          <i
+            style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
+            id="draftSettingsArrow"
+            class="fas fa-angle-right"
+          ></i>
+        </button>
+      </div>
 
       <div id="draftSettingsContent">
-        <b-form id="draftSettingsContentForm" @submit="onSubmit" @reset="onReset">
+        <b-form
+          id="draftSettingsContentForm"
+          @submit="onSubmit"
+          @reset="onReset"
+        >
           <div class="">
             <div class="actions">
               <h5 class="modal-title" style="text-align:left;">
@@ -167,7 +168,7 @@
         </b-form>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -239,6 +240,7 @@ export default {
       // Finish setting properties here.
       this.draftName = draftSettings.name;
       this.isComputerTeams = draftSettings.isComputerTeams;
+      this.isMultiSelect = draftSettings.isMultiSelect;
       this.isPublic = draftSettings.isPublic;
       this.roundCount = draftSettings.roundCount;
       this.pickTime = draftSettings.pickTime;
@@ -264,11 +266,11 @@ export default {
   right: 0;
   bottom: 0;
   top: 9%;
-  background-color: rgb(255, 255, 255); 
-  width:20%;
+  background-color: rgb(255, 255, 255);
+  width: 20%;
   height: 98%;
-  text-align:left;
-  padding:0%;
+  text-align: left;
+  padding: 0%;
 }
 
 #draftSettingsArrowToggle {
