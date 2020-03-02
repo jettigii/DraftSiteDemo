@@ -74,11 +74,18 @@
               <b-form-select
                 required
                 v-model="pickTime"
-                :options="lookups.draftTimes"
                 value-field="timeInSeconds"
                 text-field="value"
                 style="font-size:14pt;height:40px;"
-              ></b-form-select>
+              >
+                <option
+                  v-for="(selectOption, indexOpt) in lookups.draftTimes"
+                  :key="indexOpt"
+                  :value="selectOption"
+                >
+                  {{ selectOption.value }}
+                </option>
+              </b-form-select>
             </div>
 
             <br /><br />
@@ -173,6 +180,7 @@
 
 <script>
 import { Datetime } from "vue-datetime";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -182,8 +190,7 @@ export default {
   props: {
     draft: Object,
     isOwner: Boolean,
-    mode: String,
-    lookups: Object
+    mode: String
   },
   data() {
     return {
@@ -201,7 +208,7 @@ export default {
       isMultiSelect: false,
       draftName: "",
       password: "",
-      pickTime: "",
+      pickTime: null,
       roundCount: 1,
       startTime: "",
       selected: "Manual",
@@ -212,6 +219,7 @@ export default {
       datetime: null
     };
   },
+
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
@@ -243,7 +251,12 @@ export default {
       this.isMultiSelect = draftSettings.isMultiSelect;
       this.isPublic = draftSettings.isPublic;
       this.roundCount = draftSettings.roundCount;
-      this.pickTime = draftSettings.pickTime;
+
+      // eslint-disable-next-line no-debugger
+      debugger;
+      this.pickTime = this.lookups.draftTimes.filter(
+        draftTime => draftTime.value == draftSettings.pickTime
+      )[0];
       this.startTime = draftSettings.startTime;
     }
   },
@@ -254,7 +267,10 @@ export default {
       } else {
         return !this.isPublic;
       }
-    }
+    },
+    ...mapState({
+      lookups: state => state.draft.draftLookups
+    })
   }
 };
 </script>

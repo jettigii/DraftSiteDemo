@@ -119,6 +119,7 @@ export default {
       "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
     );
     await this.$store.commit("user/setUser", this.draftLobby.user);
+    await this.$store.commit("draft/setDraftLookups", this.draftLobby.lookups);
     this.isLoading = false;
   },
   methods: {
