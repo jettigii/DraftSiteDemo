@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="chatBubbleObject">
     <!-- MESSAGE EXAMPLE -->
     <div class="containerMessage slide-in-elliptic-left-fwd">
       <p style="margin:0px;">

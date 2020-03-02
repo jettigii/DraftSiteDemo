@@ -9,7 +9,7 @@
       Group Chat <i id="groupChatArrow" class="fas fa-angle-up"></i>
     </button>
     <div class="chat-popup" id="chatForm">
-      <h5 >Group Chat</h5>
+      <h5 style="color:white;">Group Chat</h5>
 
       <div id="messageArea">
         <!-- Messages go here -->
@@ -25,11 +25,11 @@
         <input
           v-model="message"
           type="text"
-          id="msg"
+          id="msgChat"
           name="msg"
           placeholder="Type a message.."
           style="float:left;width:80%;height:40px;background-color:white;"
-          
+          required
         />
         <button
           class="btn"
@@ -37,7 +37,9 @@
           style="float:right;width:20%;height:40px;"
           @click="sendMessage()"
         >
-          <i class="fas fa-paper-plane"></i>
+          <i id="btnSend" class="fas fa-paper-plane">
+            <img id="imgChatLoader" style="width:100%;height:100%;display:none;" src="../assets/loadChat.gif" />
+          </i>
         </button>
       </div>
     </div>
@@ -50,11 +52,15 @@ import ChatBubble from "./ChatBubble.vue";
 export default {
   props: {
     username: String
+    // messageCount: Number,
+    // messageEnabled: Number
   },
   data() {
     return {
       message: "",
-      messages: []
+      messages: [],
+      messageCount: 0,
+      timer: '',
     };
   },
   components: {
@@ -62,14 +68,42 @@ export default {
   },
   methods: {
     receiveMessage(message) {
+      //send message
       this.messages.push(message);
+      //scroll down
+      var element = document.getElementById("messageArea");
+      element.scrollTop = element.scrollHeight*2;
     },
     sendMessage: async function() {
-      //send message
-      this.$emit("send-message", this.message);
-      //clear string
-      this.message = "";
+      if (this.message != "") {
+        //scroll down
+        var element = document.getElementById("messageArea");
+        element.scrollTop = element.scrollHeight*2;
+
+        //send message
+        this.$emit("send-message", this.message);
+        // this.messages.push("this.message");
+        //show load image
+        document.getElementById("btnSend").className = "";
+        document.getElementById("imgChatLoader").style.display = "block";
+        //clear string
+        this.message = "";
+        //count messages for anti spam
+        if (this.messageCount < 0) {
+          this.messageCount = this.messageCount + 1;
+        } else {
+          document.getElementById("btnSendMessage").disabled = true;
+          this.timer = setInterval(this.resetInterval, 2000);
+        }
+      }
       return false;
+    },
+    resetInterval() {
+      clearInterval(this.timer);
+      document.getElementById("btnSendMessage").disabled = false;
+      document.getElementById("btnSend").className = "fas fa-paper-plane";
+      document.getElementById("imgChatLoader").style.display = "none";
+      this.messageCount = 0;
     }
   },
   computed: {
@@ -93,7 +127,10 @@ export default {
   overflow: hidden;
   /* margin-bottom: 0px; */
   z-index: 1;
-  background-color:rgb(187, 184, 199);
+  background-color:#455469;
+  border-style: solid;
+  border-color: #2D3744;
+  border-width: 3px;
 }
 
 .open-button {
@@ -115,7 +152,7 @@ export default {
   max-height: 500px;
   overflow-y: auto;
   padding-top: 5%;
-  padding-bottom: 45%;
+  padding-bottom: 55%;
 }
 
 /* Add styles to the form container */
@@ -142,7 +179,7 @@ export default {
   height: 40px;
   margin: 5px;
   width: 280px;
-  right: 21.7%;
+  right: 22%;
   z-index: 50;
 }
 
@@ -198,7 +235,7 @@ export default {
     overflow-y: auto;
     padding: 4%;
     padding-top: 5%;
-    padding-bottom: 15%;
+    padding-bottom: 45%;
   }
 }
 </style>

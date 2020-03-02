@@ -11,7 +11,7 @@
   
         <div
           id="draftSettingsArrowToggle" 
-          style="height:100%;width:8%;float:left;background-color:#7E94A9;"
+          style="height:100%;width:8%;float:left;background-color:#2D3744;"
         >
           <button
             class=""
@@ -19,11 +19,21 @@
             onclick="draftSettingsSwitch()"
             id="btnSettingsToggle"
           >
-            <i
+            <div style="width:100%;"><i
               style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
               id="draftSettingsArrow"
               class="fas fa-angle-right"
-            ></i>
+            >
+            </i>
+            </div>
+            <h8 id="lblDraftSettings">Draft Settings</h8>
+            <div style="width:100%;"><i
+              style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
+              id="draftSettingsArrow2"
+              class="fas fa-angle-right"
+            >
+            </i>
+            </div>
           </button>
         </div>
 
@@ -31,10 +41,10 @@
         <b-form id="draftSettingsContentForm" @submit="onSubmit" @reset="onReset">
           <div class="">
             <div class="actions">
-              <h5 class="modal-title" style="text-align:left;">
+              <h5 class="modal-title" style="text-align:left;color: white;">
                 Draft Settings
               </h5>
-              <label for="txtName">Name</label>
+              <label for="txtName" style="color: white;">Name</label>
               <b-form-input
                 type="text"
                 name="txtName"
@@ -52,7 +62,7 @@
               class="actions"
               style="display:inline-block; text-align:left; width:40%;"
             >
-              <label for="draftRoundSelected">Draft Rounds</label>
+              <label for="draftRoundSelected" style="color: white;">Draft Rounds</label>
               <b-form-select
                 required
                 v-model="roundCount"
@@ -69,7 +79,7 @@
               class="actions"
               style="display:inline-block; text-align:left; width:40%;"
             >
-              <label for="draftRoundSelected">Draft Time</label>
+              <label for="draftRoundSelected" style="color: white;">Draft Time</label>
               <b-form-select
                 required
                 v-model="pickTime"
@@ -88,7 +98,7 @@
               switch
               size="sm"
               value="true"
-              ><label>Public draft?</label>
+              ><label style="color: white;">Public draft?</label>
             </b-form-checkbox>
 
             <div v-show="showPassword" style="font-size:14pt;height:40px;">
@@ -107,7 +117,7 @@
               name="has-computer-teams-check-button"
               switch
               size="sm"
-              ><label>Allow Computer Teams</label>
+              ><label style="color: white;">Allow Computer Teams</label>
             </b-form-checkbox>
 
             <b-form-checkbox
@@ -115,14 +125,14 @@
               name="has-multi-select-check-button"
               switch
               size="sm"
-              ><label>Allow Multiple Team Selection</label>
+              ><label style="color: white;">Allow Multiple Team Selection</label>
             </b-form-checkbox>
 
             <div
               class="actions"
               style="display:inline-block; margin-right:10px; text-align:left;"
             >
-              <label>Draft Start</label>
+              <label style="color: white;">Draft Start</label>
             </div>
 
             <b-form-radio-group
@@ -132,7 +142,7 @@
               value-field="item"
               text-field="name"
               disabled-field="notEnabled"
-              style="font-size:14pt;height:40px;"
+              style="font-size:14pt;height:40px;color: white;"
             >
             </b-form-radio-group>
 
@@ -150,7 +160,7 @@
               type="datetime"
               v-model="datetime"
               use12-hour
-              style="font-size:12pt;height:14px;z-index:999;"
+              style="font-size:12pt;height:44px;z-index:9999;"
             ></datetime>
           </div>
           <br /><br />
@@ -264,11 +274,12 @@ export default {
   right: 0;
   bottom: 0;
   top: 9%;
-  background-color: rgb(255, 255, 255); 
+  background-color: #455469; 
   width:20%;
   height: 98%;
   text-align:left;
   padding:0%;
+  color: white;
 }
 
 #draftSettingsArrowToggle {
@@ -294,6 +305,12 @@ export default {
 
 #draftSettingsContentForm {
   margin-bottom: 50%;
+}
+
+#lblDraftSettings {
+  writing-mode: vertical-rl;
+  /* padding-top: 50px; */
+  color: white;
 }
 
 @media only screen and (max-width: 600px) {

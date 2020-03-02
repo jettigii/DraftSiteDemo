@@ -262,6 +262,7 @@ function draftSettingsSwitch() {
     document.getElementById("chatForm").style.right = "3.5%";
     document.getElementById("sendMessageArea").style.right = "3.5%";
     document.getElementById("draftSettingsArrow").className = "fas fa-angle-left";
+    document.getElementById("draftSettingsArrow2").className = "fas fa-angle-left";
     
   } else {
     //Open
@@ -274,6 +275,7 @@ function draftSettingsSwitch() {
     document.getElementById("chatForm").style.right = "22%";
     document.getElementById("sendMessageArea").style.right = "22%";
     document.getElementById("draftSettingsArrow").className = "fas fa-angle-right";
+    document.getElementById("draftSettingsArrow2").className = "fas fa-angle-right";
   }
 }
 
@@ -303,9 +305,10 @@ function playerSwitch() {
 }
 
 // chat window open-close
-var chatSwitch = 1;
+var chatSwitch = 0;
 function openForm() {
-  if (chatSwitch == 0) {
+  if (document.getElementById("chatForm").style.display == "block") {
+    //HIDE
     document.getElementById("chatForm").style.display = "none";
     document.getElementById("groupChatArrow").className = "fas fa-angle-up";
     // document.getElementById("chatForm").classList.remove("slide-in-bottom");
@@ -313,6 +316,8 @@ function openForm() {
     chatSwitch = 1;
   }
   else {
+    //SHOW
+    document.getElementById("msgChat").focus();
     document.getElementById("chatForm").style.display = "block";
     document.getElementById("groupChatArrow").className = "fas fa-angle-down";
     // document.getElementById("chatForm").classList.add("slide-in-bottom");
@@ -341,14 +346,10 @@ function DraftMobileMenuClick() {
   }
 }
 
-function clearChatText() {
-  //clear text msg
-  document.getElementById("msgChat").input = "";
-}
 
 // send message when user presses enter
 $(document).ready(function(){
-  $('#msg').keypress(function(e){
+  $('#msgChat').keypress(function(e){
     if(e.keyCode==13)
     $('#btnSendMessage').click();
   });
