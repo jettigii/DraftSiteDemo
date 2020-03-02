@@ -37,13 +37,6 @@ namespace DraftSiteApi
             services.AddControllers();
             services.AddSignalR();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.SlidingExpiration = true;
-                    options.ExpireTimeSpan = TimeSpan.FromDays(7);
-                });
-
             services.AddDbContext<DraftSiteContext>(options =>
             {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
@@ -95,10 +88,6 @@ namespace DraftSiteApi
             }
 
             app.UseHttpsRedirection();
-
-            app.UseAuthentication();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
