@@ -46,7 +46,6 @@
 
 <script>
 import { mapState } from "vuex";
-// import DraftHub from "./hubs/draft-hub.js";
 import DraftLobby from "./components/DraftLobby.vue";
 import DraftRoom from "./components/DraftRoom.vue";
 

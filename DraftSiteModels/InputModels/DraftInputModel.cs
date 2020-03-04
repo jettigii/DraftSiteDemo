@@ -13,6 +13,8 @@ namespace DraftSiteModels.InputModels
         [StringLength(50)]
         public string Name { get; set; }
 
+        public string DraftStartType { get; set; }
+
         [StringLength(24)]
         public string Password { get; set; }
 

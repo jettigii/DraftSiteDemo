@@ -10,7 +10,6 @@
         public string PickTime { get; set; }
         public bool IsPublic { get; set; }
         public int RoundCount { get; set; }
-        public string DraftStartType { get; set; }
         public string StartTime { get; set; }
         public string Username { get; set; }
     }

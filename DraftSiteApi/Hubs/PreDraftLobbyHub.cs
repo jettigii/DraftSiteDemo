@@ -1,8 +1,10 @@
-﻿using DraftSiteModels.InputModels;
+﻿using DraftSiteModels.HubModels;
+using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
 using DraftSiteService.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DraftSiteApi.Hubs
@@ -16,11 +18,20 @@ namespace DraftSiteApi.Hubs
             try
             {
                 var draftId = Convert.ToInt32(draftLobbyRequest.DraftId);
-                var user = await EnterDraft(draftId);
 
-                var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftId, user.Username, draftLobbyRequest.Password);
+                var user = GetUser(draftLobbyRequest.UserId);
+
+                var draftUser = new HubUser()
+                {
+                    DraftId = draftId,
+                    UserId = user.Key,
+                    Username = user.Value.First().Username
+                };
+
+                await EnterDraftAsync(draftUser);
+
+                var preDraftLobbyData = await _draftService.GetPreDraftLobby(draftId, draftUser.Username, draftLobbyRequest.Password);
                 preDraftLobbyData.Lookups = await _draftService.GetDraftLookupsAsync();
-                _connections.TryAdd(Context.ConnectionId, user);
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, draftLobbyRequest.DraftId.ToString());
 
@@ -28,7 +39,7 @@ namespace DraftSiteApi.Hubs
                 {
                     Id = Guid.NewGuid().ToString(),
                     Username = "System",
-                    Message = user.Username + " has joined the lobby."
+                    Message = draftUser.Username + " has joined the lobby."
                 };
 
                 await Clients.Group(draftLobbyRequest.DraftId.ToString()).SendAsync("receiveMessage", alert);
@@ -44,25 +55,26 @@ namespace DraftSiteApi.Hubs
 
         public async Task SelectTeam(TeamChoiceInputModel teamSelection)
         {
+            var user = GetHubUserByConnectionId();
             var teams = await _draftService.SelectTeam(user.UserId, user.DraftId, teamSelection);
             await Clients.Group(user.DraftId.ToString()).SendAsync("receiveTeamsUpdate", teams);
         }
-
-        public async Task DeselectTeam(TeamChoiceInputModel teamSelection)
-        {
-            var teams = _draftService.DeselectTeam(user.UserId, user.DraftId, teamSelection);
-            await Clients.Group(user.DraftId.ToString()).SendAsync("receiveTeamsUpdate", teams);
-        }
-
+        
         public async Task UpdateSettings(DraftInputModel draft)
         {
-            var newSettings = await _draftService.UpdateDraftSettings(user.DraftId, draft);
+            var user = GetHubUserByConnectionId();
+            var newSettings = await _draftService.UpdateDraftSettings(user.DraftId, user.UserId, draft);
             await Clients.Group(newSettings.Id.ToString()).SendAsync("receiveSettingsUpdate", newSettings);
         }
 
         public void SetComputerPlayer(int teamId)
         {
 
+        }
+
+        public async Task StartDraft(int draftId)
+        {
+            await _draftService.StartDraftAsync(draftId);
         }
     }
 }

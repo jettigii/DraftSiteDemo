@@ -5,6 +5,7 @@
       :draftId="draftId"
       :password="password"
       @draftStatusChange="draftStatusChange"
+      @updateDraftLobby="updateDraftLobby"
     />
   </div>
 </template>
@@ -39,6 +40,9 @@ export default {
   methods: {
     draftStatusChange(newStatus) {
       this.status = newStatus;
+    },
+    updateDraftLobby() {
+      this.$emit("updateDraftLobby");
     }
   }
 };

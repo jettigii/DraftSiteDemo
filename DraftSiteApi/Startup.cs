@@ -37,13 +37,6 @@ namespace DraftSiteApi
             services.AddControllers();
             services.AddSignalR();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.SlidingExpiration = true;
-                    options.ExpireTimeSpan = TimeSpan.FromDays(7);
-                });
-
             services.AddDbContext<DraftSiteContext>(options =>
             {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
@@ -62,6 +55,8 @@ namespace DraftSiteApi
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDraftService, DraftService>();
             services.AddScoped<IUserLobbyMappingService, UserLobbyMappingService>();
+            services.AddScoped<IDraftComputerPlayerService, DraftComputerPlayerService>();
+            services.AddScoped<IMultiPlayerDraftService, MultiPlayerDraftService>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDraftRepository, DraftRepository>();
@@ -95,10 +90,6 @@ namespace DraftSiteApi
             }
 
             app.UseHttpsRedirection();
-
-            app.UseAuthentication();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

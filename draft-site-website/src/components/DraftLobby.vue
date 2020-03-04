@@ -22,6 +22,13 @@
           <template v-slot:cell(isPublic)="data">
             <b class="text-info">{{ data.value | yesno }}</b>
           </template>
+
+          <template v-slot:table-busy>
+            <div class="text-center text-danger my-2">
+              <b-spinner class="align-middle"></b-spinner>
+              <strong>Loading...</strong>
+            </div>
+          </template>
         </b-table>
       </div>
       <b-modal
@@ -71,7 +78,6 @@
 import ChatRoom from "./ChatRoom.vue";
 import DraftLobbyHub from "../hubs/draft-lobby-hub.js";
 import DraftSettings from "./DraftSettings.vue";
-import UserService from "../services/user-service.js";
 
 export default {
   components: {
@@ -107,17 +113,15 @@ export default {
   },
   mounted: async function() {
     this.isLoading = true;
-    const userService = new UserService();
-    await userService.authenticate(
+    this.draftLobbyHub = new DraftLobbyHub();
+    await this.draftLobbyHub.start(this);
+
+    this.draftLobby = await this.draftLobbyHub.enterDraftLobby(
       "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
     );
 
-    this.draftLobbyHub = new DraftLobbyHub();
-    await this.draftLobbyHub.start(this);
-    this.draftLobby = await this.draftLobbyHub.getDraftLobby(
-      "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
-    );
     await this.$store.commit("user/setUser", this.draftLobby.user);
+    await this.$store.commit("draft/setDraftLookups", this.draftLobby.lookups);
     this.isLoading = false;
   },
   methods: {
@@ -166,6 +170,9 @@ export default {
     sendMessage: async function(message) {
       await this.draftLobbyHub.sendMessage(message);
       return false;
+    },
+    updateDraftLobby() {
+      this.draftLobbyHub.updateDraftLobby();
     }
   }
 };
