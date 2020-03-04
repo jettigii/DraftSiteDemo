@@ -1,28 +1,25 @@
 <template>
-<div>
-  <div id="btnDraftMobileMenu">
-    <button class="primary button" onclick="DraftMobileMenuClick()">
-      <i id="btnDraftMobileMenuIcon" class="fas fa-bars"></i>
-    </button>
-  </div>
-  <div
-    id="DraftSettings"
-  >
-  
-        <div
+  <div>
+    <div id="btnDraftMobileMenu">
+      <button class="primary button" onclick="DraftMobileMenuClick()">
+        <i id="btnDraftMobileMenuIcon" class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div id="DraftSettings">
+      <div
           id="draftSettingsArrowToggle" 
           style="height:100%;width:8%;float:left;background-color:#2D3744;"
+      >
+        <button
+          class=""
+          style="height:100%;width:100%;color:white;border:none;background:none;padding:0;"
+          onclick="draftSettingsSwitch()"
+          id="btnSettingsToggle"
         >
-          <button
-            class=""
-            style="height:100%;width:100%;color:white;border:none;background:none;padding:0;"
-            onclick="draftSettingsSwitch()"
-            id="btnSettingsToggle"
-          >
-            <div style="width:100%;"><i
-              style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
-              id="draftSettingsArrow"
-              class="fas fa-angle-right"
+          <i
+            style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
+            id="draftSettingsArrow"
+            class="fas fa-angle-right"
             >
             </i>
             </div>
@@ -34,11 +31,15 @@
             >
             </i>
             </div>
-          </button>
-        </div>
+        </button>
+      </div>
 
       <div id="draftSettingsContent">
-        <b-form id="draftSettingsContentForm" @submit="onSubmit" @reset="onReset">
+        <b-form
+          id="draftSettingsContentForm"
+          @submit="onSubmit"
+          @reset="onReset"
+        >
           <div class="">
             <div class="actions">
               <h5 class="modal-title" style="text-align:left;color: white;">
@@ -83,11 +84,18 @@
               <b-form-select
                 required
                 v-model="pickTime"
-                :options="lookups.draftTimes"
                 value-field="timeInSeconds"
                 text-field="value"
                 style="font-size:14pt;height:40px;"
-              ></b-form-select>
+              >
+                <option
+                  v-for="(selectOption, indexOpt) in lookups.draftTimes"
+                  :key="indexOpt"
+                  :value="selectOption"
+                >
+                  {{ selectOption.value }}
+                </option>
+              </b-form-select>
             </div>
 
             <br /><br />
@@ -177,11 +185,12 @@
         </b-form>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
 import { Datetime } from "vue-datetime";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -191,8 +200,7 @@ export default {
   props: {
     draft: Object,
     isOwner: Boolean,
-    mode: String,
-    lookups: Object
+    mode: String
   },
   data() {
     return {
@@ -210,7 +218,7 @@ export default {
       isMultiSelect: false,
       draftName: "",
       password: "",
-      pickTime: "",
+      pickTime: null,
       roundCount: 1,
       startTime: "",
       selected: "Manual",
@@ -221,6 +229,7 @@ export default {
       datetime: null
     };
   },
+
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
@@ -240,18 +249,23 @@ export default {
         isMultiSelect: this.isMultiSelect,
         name: this.draftName,
         password: this.password,
-        pickTime: this.pickTime,
+        pickTime: this.pickTime.id,
         roundCount: this.roundCount,
-        startTime: this.startTime
+        startTime: this.startTime,
+        draftStartType: this.selected
       };
     },
     loadSettings(draftSettings) {
       // Finish setting properties here.
       this.draftName = draftSettings.name;
       this.isComputerTeams = draftSettings.isComputerTeams;
+      this.isMultiSelect = draftSettings.isMultiSelect;
       this.isPublic = draftSettings.isPublic;
       this.roundCount = draftSettings.roundCount;
-      this.pickTime = draftSettings.pickTime;
+
+      this.pickTime = this.lookups.draftTimes.filter(
+        draftTime => draftTime.value == draftSettings.pickTime
+      )[0];
       this.startTime = draftSettings.startTime;
     }
   },
@@ -262,7 +276,10 @@ export default {
       } else {
         return !this.isPublic;
       }
-    }
+    },
+    ...mapState({
+      lookups: state => state.draft.draftLookups
+    })
   }
 };
 </script>
@@ -275,10 +292,10 @@ export default {
   bottom: 0;
   top: 9%;
   background-color: #455469; 
-  width:20%;
+  width: 20%;
   height: 98%;
-  text-align:left;
-  padding:0%;
+  text-align: left;
+  padding: 0%;
   color: white;
 }
 

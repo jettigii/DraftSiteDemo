@@ -8,16 +8,23 @@ export default class DraftLobbyHub extends DraftHub {
   }
 
   async start(that) {
-    this.connection.on("receiveDraftLobbyUpdate", lobby => {
-      that.receiveDraftLobbyUpdate(lobby);
-    });
-
     await super.start(that);
   }
 
-  async getDraftLobby(token) {
-    var lobby = await this.connection.invoke("GetUserLobby", { Token: token });
+  async enterDraftLobby(token) {
+    var response = await this.connection.invoke("EnterDraftLobby", {
+      Token: token
+    });
+    return response;
+  }
+
+  async getDraftLobby() {
+    var lobby = await this.connection.invoke("GetUserLobby");
     return lobby;
+  }
+
+  async updateDraftLobby() {
+    await this.connection.invoke("updateDraftLobby");
   }
 
   async createDraft(draft) {

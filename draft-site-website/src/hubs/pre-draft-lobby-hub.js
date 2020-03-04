@@ -31,8 +31,9 @@ class PreDraftLobbyHub {
     await connection.start().catch(function() {});
   }
 
-  async enterPreDraftLobby(draftId, password) {
+  async enterPreDraftLobby(userId, draftId, password) {
     const preDraftLobby = await connection.invoke("enterPreDraftLobby", {
+      userId,
       draftId,
       password
     });
@@ -49,6 +50,12 @@ class PreDraftLobbyHub {
       TeamName: team.teamName
     });
     return response;
+  }
+
+  async updateSettings(settings) {
+    // eslint-disable-next-line no-console
+    console.log(settings);
+    await connection.invoke("updateSettings", settings);
   }
 
   async startDraft() {}

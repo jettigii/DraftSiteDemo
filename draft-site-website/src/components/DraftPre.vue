@@ -170,7 +170,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 import DraftSettings from "./DraftSettings.vue";
 import ChatBubble from "./ChatBubble.vue";
 import PreDraftLobbyHub from "../hubs/pre-draft-lobby-hub.js";
@@ -186,12 +186,13 @@ export default {
   mounted: async function() {
     this.preDraftLobbyHub = new PreDraftLobbyHub();
     await this.preDraftLobbyHub.start(this);
+
     this.preDraftLobby = await this.preDraftLobbyHub.enterPreDraftLobby(
+      this.user.id,
       this.draftId.toString(),
       this.password
     );
-    // eslint-disable-next-line no-debugger
-    debugger;
+
     this.$refs.draftSettings.loadSettings(this.preDraftLobby.draft);
   },
   data() {
@@ -209,9 +210,6 @@ export default {
     DraftTeamComponent
   },
   methods: {
-    ...mapActions({
-      updateSettings: "draft/updateSettings"
-    }),
     receiveMessage(message) {
       this.messages.push(message);
     },
@@ -224,14 +222,24 @@ export default {
     },
     selectTeam: function(team) {
       this.preDraftLobbyHub.selectTeam(team);
+    },
+    receiveTeams: function(teams) {
+      this.preDraftLobby.draftTeams = teams;
+    },
+    receiveSettings: function(settings) {
+      this.preDraftLobby.draft = settings;
+    },
+    updateSettings(settings) {
+      this.preDraftLobbyHub.updateSettings(settings);
+      this.$emit("updateDraftLobby");
     }
   },
   computed: {
     ...mapState({
-      username: state => state.user.username
+      user: state => state.user.user
     }),
     isOwner: function() {
-      return this.username == this.messageUsername;
+      return this.user.username == this.messageUsername;
     }
   }
 };

@@ -3,20 +3,16 @@ using DraftSiteModels.Entities;
 using DraftSiteRepository.Interfaces;
 using DraftSiteRepository.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace DraftSiteRepository.Repositories
 {
-    public class DraftRepository : IDraftRepository
+    public class DraftRepository : BaseRepository, IDraftRepository
     {
-        private readonly DraftSiteContext _context;
-
-        public DraftRepository(DraftSiteContext context)
-        {
-            _context = context;
-        }
+        public DraftRepository(DraftSiteContext context) : base(context)        {        }
 
         public async Task<MultiplayerDraft> CreateDraft(MultiplayerDraft draft)
         {
@@ -45,27 +41,15 @@ namespace DraftSiteRepository.Repositories
             await _context.SaveChangesAsync();
             return user;
         }
-
-        public async Task<DraftTeamUser> DeleteDraftTeamUser(int userId, int draftId, int teamId)
-        {
-            // TODO: THIS METHOD NEEDS MULTIPLAYERDRAFTID AS INPUT
-            var draftTeamUser = await _context
-                .DraftTeamUsers
-                .SingleOrDefaultAsync(dtu => dtu.MultiPlayerDraftId == userId);
-
-            _context.DraftTeamUsers.Remove(draftTeamUser);
-            await _context.SaveChangesAsync();
-
-            return draftTeamUser;
-        }
-
-        public async Task<MultiplayerDraft> GetDraft(int id)
+        
+        public async Task<MultiplayerDraft> GetDraftAsync(int id)
         {
             var draft = await _context
                 .MultiPlayerDrafts
                 .Include(draft => draft.Owner)
                 .Include(draft => draft.PickTime)
                 .Include(draft => draft.DraftStatus)
+                .Include(draft => draft.DraftTeamUsers)
                 .SingleOrDefaultAsync(draft => draft.Id == id);
             return draft;
         }
@@ -117,7 +101,7 @@ namespace DraftSiteRepository.Repositories
         public async Task<List<Players>> GetPlayers()
         {
             var players = await _context.Players
-                .Where(player => player.Draftclass == "2020" && player.Sport == 1 )
+                .Where(player => player.Draftclass == "2020" && player.Sport == 1)
                 .ToListAsync();
 
             return players;
@@ -138,28 +122,9 @@ namespace DraftSiteRepository.Repositories
         }
 
         public async Task<MultiplayerDraft> UpdateDraftSettings(MultiplayerDraft updatedDraft)
-        {
-            var entity = await _context
-                .MultiPlayerDrafts
-                .Include(draft => draft.Owner)
-                .Include(draft => draft.PickTime)
-                .Include(draft => draft.DraftStatus)
-                .SingleAsync(draft => draft.Id == updatedDraft.Id);
-
-            if (entity == null)
-            {
-                _context.Add(entity);
-            }
-            else
-            {
-                _context.Entry(entity).CurrentValues.SetValues(updatedDraft);
-                entity.PickTimeId = updatedDraft.PickTimeId;
-                entity.DraftStatusId = updatedDraft.DraftStatusId;
-            }
-
+        {            
             await _context.SaveChangesAsync();
-
-            return entity;
+            return updatedDraft;
         }
 
         public async Task<DraftTeamUser> GetDraftTeamAsync(int draftId, int teamId)
@@ -174,6 +139,17 @@ namespace DraftSiteRepository.Repositories
         public Task<List<DraftTeamUser>> GetDraftTeamPickOrderAsync(int draftId)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<DraftTeamUser> UpdateDraftTeamUser(DraftTeamUser user)
+        {
+            var dbUser = await _context.DraftTeamUsers.SingleOrDefaultAsync(u => u.TeamsId == user.TeamsId &&
+            u.MultiPlayerDraftId == user.MultiPlayerDraftId);
+
+            dbUser.UsersId = user.UsersId;
+            await _context.SaveChangesAsync();
+
+            return dbUser;
         }
     }
 }
