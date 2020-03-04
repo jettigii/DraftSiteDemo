@@ -323,6 +323,7 @@ function openForm() {
     // document.getElementById("chatForm").classList.add("slide-in-bottom");
     // document.getElementById("chatForm").classList.remove("slide-out-bottom");
     chatSwitch = 0;
+    document.getElementById("startTime").value = "NO";
   }
 }
 

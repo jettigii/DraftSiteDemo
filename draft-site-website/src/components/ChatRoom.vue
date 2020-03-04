@@ -86,8 +86,7 @@ export default {
         //show load image
         document.getElementById("btnSend").className = "";
         document.getElementById("imgChatLoader").style.display = "block";
-        //clear string
-        this.message = "";
+        
         //count messages for anti spam
         if (this.messageCount < 0) {
           this.messageCount = this.messageCount + 1;
@@ -100,6 +99,9 @@ export default {
     },
     resetInterval() {
       clearInterval(this.timer);
+      //clear string
+      this.message = "";
+      //renable button
       document.getElementById("btnSendMessage").disabled = false;
       document.getElementById("btnSend").className = "fas fa-paper-plane";
       document.getElementById("imgChatLoader").style.display = "none";

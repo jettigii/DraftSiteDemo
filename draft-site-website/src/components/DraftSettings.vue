@@ -26,7 +26,7 @@
             >
             </i>
             </div>
-            <h8 id="lblDraftSettings">Draft Settings</h8>
+            <h7 id="lblDraftSettings">Draft Settings</h7>
             <div style="width:100%;"><i
               style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
               id="draftSettingsArrow2"
@@ -161,6 +161,9 @@
               v-model="datetime"
               use12-hour
               style="font-size:12pt;height:44px;z-index:9999;"
+              :min-datetime="minDatetime"
+              :week-start="7"
+              :phrases="{ok: 'Continue', cancel: 'Exit'}"
             ></datetime>
           </div>
           <br /><br />
@@ -218,7 +221,9 @@ export default {
         { item: "Manual", name: "Manual" },
         { item: "Automatic", name: "Automatic", notEnabled: true }
       ],
-      datetime: null
+      datetime: "",
+      minDatetime: ""
+      // datetime: "2020-03-03T03:01:00.000Z"
     };
   },
   methods: {
@@ -254,6 +259,11 @@ export default {
       this.pickTime = draftSettings.pickTime;
       this.startTime = draftSettings.startTime;
     }
+  },
+  mounted: function () {
+    this.$nextTick(function () {
+      this.startTime.value = "2020-03-03T03:01:00.000Z";
+    })
   },
   computed: {
     showPassword() {
