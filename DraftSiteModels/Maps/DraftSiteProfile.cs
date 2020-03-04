@@ -20,11 +20,12 @@ namespace DraftSiteModels.Maps
             CreateMap<MultiplayerDraft, PreDraftViewModel>();
 
             CreateMap<DraftInputModel, MultiplayerDraft>()
-                .ForMember(destination => destination.PickTime, opts => opts.Ignore());
+                .ForMember(destination => destination.PickTime, opts => opts.Ignore())
+                .ForMember(destination => destination.DraftStartType, opts => opts.Ignore());
 
             CreateMap<DraftTime, DraftTimeViewModel>();
 
-            CreateMap<DraftStartType, DraftStartTypeViewModel>();            
+            CreateMap<DraftStartType, DraftStartTypeViewModel>();
 
             CreateMap<DraftStatus, DraftStatusViewModel>();
 
@@ -42,7 +43,7 @@ namespace DraftSiteModels.Maps
                 .ForMember(destination => destination.TeamOwnerUser, opts => opts.MapFrom(source => source.User.Username));
 
             CreateMap<DraftTeamUserPlayer, DraftPlayerViewModel>()
-                .ForMember(destination => destination.PlayerName, opts => opts.MapFrom(source => $"{source.Player.Lastname}, {source.Player.Firstname}"))                ;
+                .ForMember(destination => destination.PlayerName, opts => opts.MapFrom(source => $"{source.Player.Lastname}, {source.Player.Firstname}"));
 
             CreateMap<Teams, DraftTeamUser>()
                 .ForMember(destination => destination.TeamsId, opts => opts.MapFrom(source => source.Id))

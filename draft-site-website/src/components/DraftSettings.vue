@@ -7,8 +7,8 @@
     </div>
     <div id="DraftSettings">
       <div
-          id="draftSettingsArrowToggle" 
-          style="height:100%;width:8%;float:left;background-color:#2D3744;"
+        id="draftSettingsArrowToggle"
+        style="height:100%;width:8%;float:left;background-color:#2D3744;"
       >
         <button
           class=""
@@ -20,17 +20,17 @@
             style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
             id="draftSettingsArrow"
             class="fas fa-angle-right"
-            >
-            </i>
-            </div>
-            <h8 id="lblDraftSettings">Draft Settings</h8>
-            <div style="width:100%;"><i
+          >
+          </i>
+          <h8 id="lblDraftSettings">Draft Settings</h8>
+          <div style="width:100%;">
+            <i
               style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
               id="draftSettingsArrow2"
               class="fas fa-angle-right"
             >
             </i>
-            </div>
+          </div>
         </button>
       </div>
 
@@ -63,7 +63,9 @@
               class="actions"
               style="display:inline-block; text-align:left; width:40%;"
             >
-              <label for="draftRoundSelected" style="color: white;">Draft Rounds</label>
+              <label for="draftRoundSelected" style="color: white;"
+                >Draft Rounds</label
+              >
               <b-form-select
                 required
                 v-model="roundCount"
@@ -80,7 +82,9 @@
               class="actions"
               style="display:inline-block; text-align:left; width:40%;"
             >
-              <label for="draftRoundSelected" style="color: white;">Draft Time</label>
+              <label for="draftRoundSelected" style="color: white;"
+                >Draft Time</label
+              >
               <b-form-select
                 required
                 v-model="pickTime"
@@ -133,7 +137,9 @@
               name="has-multi-select-check-button"
               switch
               size="sm"
-              ><label style="color: white;">Allow Multiple Team Selection</label>
+              ><label style="color: white;"
+                >Allow Multiple Team Selection</label
+              >
             </b-form-checkbox>
 
             <div
@@ -166,7 +172,7 @@
             <datetime
               id="startTime"
               type="datetime"
-              v-model="datetime"
+              v-model="startTime"
               use12-hour
               style="font-size:12pt;height:44px;z-index:9999;"
             ></datetime>
@@ -220,13 +226,12 @@ export default {
       password: "",
       pickTime: null,
       roundCount: 1,
-      startTime: "",
+      startTime: null,
       selected: "Manual",
       options: [
         { item: "Manual", name: "Manual" },
         { item: "Automatic", name: "Automatic", notEnabled: true }
-      ],
-      datetime: null
+      ]
     };
   },
 
@@ -291,7 +296,7 @@ export default {
   right: 0;
   bottom: 0;
   top: 9%;
-  background-color: #455469; 
+  background-color: #455469;
   width: 20%;
   height: 98%;
   text-align: left;

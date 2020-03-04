@@ -171,8 +171,8 @@ export default {
       await this.draftLobbyHub.sendMessage(message);
       return false;
     },
-    updateDraftLobby() {
-      this.draftLobbyHub.updateDraftLobby();
+    updateDraftLobby(drafts) {
+      this.draftLobby.drafts = drafts;
     }
   }
 };

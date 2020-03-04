@@ -8,6 +8,10 @@ export default class DraftLobbyHub extends DraftHub {
   }
 
   async start(that) {
+    this.connection.on("receiveDraftLobbyUpdate", drafts => {
+      that.receiveDraftLobbyUpdate(drafts);
+    });
+
     await super.start(that);
   }
 
