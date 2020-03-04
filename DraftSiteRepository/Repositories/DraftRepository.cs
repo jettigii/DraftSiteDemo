@@ -10,14 +10,9 @@ using System.Threading.Tasks;
 
 namespace DraftSiteRepository.Repositories
 {
-    public class DraftRepository : IDraftRepository
+    public class DraftRepository : BaseRepository, IDraftRepository
     {
-        private readonly DraftSiteContext _context;
-
-        public DraftRepository(DraftSiteContext context)
-        {
-            _context = context;
-        }
+        public DraftRepository(DraftSiteContext context) : base(context)        {        }
 
         public async Task<MultiplayerDraft> CreateDraft(MultiplayerDraft draft)
         {
@@ -47,13 +42,14 @@ namespace DraftSiteRepository.Repositories
             return user;
         }
         
-        public async Task<MultiplayerDraft> GetDraft(int id)
+        public async Task<MultiplayerDraft> GetDraftAsync(int id)
         {
             var draft = await _context
                 .MultiPlayerDrafts
                 .Include(draft => draft.Owner)
                 .Include(draft => draft.PickTime)
                 .Include(draft => draft.DraftStatus)
+                .Include(draft => draft.DraftTeamUsers)
                 .SingleOrDefaultAsync(draft => draft.Id == id);
             return draft;
         }
@@ -126,28 +122,9 @@ namespace DraftSiteRepository.Repositories
         }
 
         public async Task<MultiplayerDraft> UpdateDraftSettings(MultiplayerDraft updatedDraft)
-        {
-            var entity = await _context
-                .MultiPlayerDrafts
-                .Include(draft => draft.Owner)
-                .Include(draft => draft.PickTime)
-                .Include(draft => draft.DraftStatus)
-                .SingleAsync(draft => draft.Id == updatedDraft.Id);
-
-            if (entity == null)
-            {
-                _context.Add(entity);
-            }
-            else
-            {
-                _context.Entry(entity).CurrentValues.SetValues(updatedDraft);
-                entity.PickTimeId = updatedDraft.PickTimeId;
-                entity.DraftStatusId = updatedDraft.DraftStatusId;
-            }
-
+        {            
             await _context.SaveChangesAsync();
-
-            return entity;
+            return updatedDraft;
         }
 
         public async Task<DraftTeamUser> GetDraftTeamAsync(int draftId, int teamId)

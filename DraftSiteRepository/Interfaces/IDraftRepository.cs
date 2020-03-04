@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DraftSiteRepository.Interfaces
 {
-    public interface IDraftRepository
+    public interface IDraftRepository : IBaseRepository
     {
         Task<MultiplayerDraft> CreateDraft(MultiplayerDraft draft);
 
@@ -13,7 +13,7 @@ namespace DraftSiteRepository.Interfaces
 
         Task<DraftTeamUser> UpdateDraftTeamUser(DraftTeamUser user);
 
-        Task<MultiplayerDraft> GetDraft(int id);
+        Task<MultiplayerDraft> GetDraftAsync(int id);
 
         Task<List<MultiplayerDraft>> GetDrafts();
 
@@ -28,13 +28,17 @@ namespace DraftSiteRepository.Interfaces
         Task<List<Teams>> GetTeams();
 
         Task<MultiplayerDraft> UpdateDraftSettings(MultiplayerDraft draft);
+
         Task<DraftTeamUser> GetDraftTeamAsync(int draftId, int teamId);
+
         Task<List<DraftTeamUser>> CreateDraftTeams(List<DraftTeamUser> draftTeamUsers);
+
         Task<List<DraftTeamUserPlayer>> CreateDraftPlayers(List<DraftTeamUserPlayer> draftTeamUserPlayers);
 
         Task<List<DraftTeamUserPlayer>> GetDraftPlayersAsync(int draftId);
 
         Task<List<DraftTeamUser>> GetDraftTeamsAsync(int draftId);
+
         Task<List<DraftTeamUser>> GetDraftTeamPickOrderAsync(int draftId);
     }
 }

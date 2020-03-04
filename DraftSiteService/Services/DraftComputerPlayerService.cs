@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DraftSiteService.Services
 {
-    public class DraftComputerPlayerService
+    public class DraftComputerPlayerService : IDraftComputerPlayerService
     {
         private readonly IDraftRepository _draftRepository;
 

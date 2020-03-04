@@ -22,7 +22,7 @@ namespace DraftSiteService.Interfaces
 
         Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection);
 
-        Task<DraftViewModel> UpdateDraftSettings(int draftId, DraftInputModel draft);
+        Task<DraftViewModel> UpdateDraftSettings(int draftId, int userId, DraftInputModel draft);
 
         Task<List<DraftPlayerViewModel>> GetPlayers();
 

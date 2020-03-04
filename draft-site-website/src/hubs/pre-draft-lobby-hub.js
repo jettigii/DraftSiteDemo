@@ -52,6 +52,12 @@ class PreDraftLobbyHub {
     return response;
   }
 
+  async updateSettings(settings) {
+    // eslint-disable-next-line no-console
+    console.log(settings);
+    await connection.invoke("updateSettings", settings);
+  }
+
   async startDraft() {}
 }
 

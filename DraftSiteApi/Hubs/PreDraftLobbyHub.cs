@@ -63,13 +63,18 @@ namespace DraftSiteApi.Hubs
         public async Task UpdateSettings(DraftInputModel draft)
         {
             var user = GetHubUserByConnectionId();
-            var newSettings = await _draftService.UpdateDraftSettings(user.DraftId, draft);
+            var newSettings = await _draftService.UpdateDraftSettings(user.DraftId, user.UserId, draft);
             await Clients.Group(newSettings.Id.ToString()).SendAsync("receiveSettingsUpdate", newSettings);
         }
 
         public void SetComputerPlayer(int teamId)
         {
 
+        }
+
+        public async Task StartDraft(int draftId)
+        {
+            await _draftService.StartDraftAsync(draftId);
         }
     }
 }

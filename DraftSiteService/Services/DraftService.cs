@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DraftSiteModels.Data;
 using DraftSiteModels.Entities;
 using DraftSiteModels.InputModels;
 using DraftSiteModels.ViewModels;
@@ -29,7 +30,8 @@ namespace DraftSiteService.Services
         {
             var draftEntity = _mapper.Map<MultiplayerDraft>(draft);
 
-            var draftTime = await GetDraftTimeFromSeconds(draft.PickTime);
+            // TODO: Pull these from database
+            var draftTime = DraftTimeData.DraftTimes.SingleOrDefault(draftTime => draftTime.Id == draft.PickTime);
             draftEntity.PickTimeId = draftTime.Id;
             draftEntity.OwnerId = Convert.ToUInt32(draft.UserId);
             draftEntity.DraftStatusId = 1;
@@ -64,7 +66,7 @@ namespace DraftSiteService.Services
 
         public async Task<DraftViewModel> GetDraftAsync(int id)
         {
-            var draft = await _draftRepository.GetDraft(id);
+            var draft = await _draftRepository.GetDraftAsync(id);
             var draftViewModel = _mapper.Map<DraftViewModel>(draft);
             return draftViewModel;
         }
@@ -98,7 +100,7 @@ namespace DraftSiteService.Services
 
         public async Task<PreDraftViewModel> GetPreDraftLobby(int draftId, string username, string password)
         {
-            var draft = await _draftRepository.GetDraft(draftId);
+            var draft = await _draftRepository.GetDraftAsync(draftId);
 
             if (!string.IsNullOrWhiteSpace(draft.password))
             {
@@ -122,10 +124,41 @@ namespace DraftSiteService.Services
             return preDraftViewModel;
         }
 
-        public async Task<DraftViewModel> UpdateDraftSettings(int draftId, DraftInputModel draft)
+        public async Task<DraftViewModel> UpdateDraftSettings(int draftId, int userId, DraftInputModel draft)
         {
-            var draftEntity = _mapper.Map<MultiplayerDraft>(draft);
-            draftEntity.Id = draftId;
+            var draftEntity = await _draftRepository.GetDraftAsync(draftId);
+
+            if (userId != draftEntity.OwnerId)
+            {
+                throw new Exception("Only owner may update draft settings!");
+            }
+            DateTime.TryParse(draft.StartTime, out var draftTimeValue);
+
+            // TODO Add various start modes.
+            //draftEntity.DraftStartType = draft.DraftStartType ?? draftEntity.DraftStartType;
+
+            // TODO Add this to mapping profile
+            draftEntity.DraftStartTypeId = DraftStartTypeData.DraftStartTypes.SingleOrDefault(draftStartType => draftStartType.Value == draft.DraftStartType).Id;
+            draftEntity.IsComputerTeams = draft.IsComputerTeams;
+            draftEntity.IsMultiSelect = draft.IsMultiSelect;
+            draftEntity.IsPublic = draft.IsPublic;
+            draftEntity.Name = draft.Name ?? draftEntity.Name;
+            draftEntity.PickTimeId = DraftTimeData.DraftTimes.SingleOrDefault(draftTime => draftTime.Id == draft.PickTime).Id;
+            draftEntity.RoundCount = draft.RoundCount;
+            draftEntity.StartTime = draftTimeValue;
+
+            if (draftEntity.IsPublic)
+            {
+                draftEntity.password = null;
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(draft.Password))
+                {
+                    draftEntity.password = _passwordService.Hash(draft.Password);
+                }
+            }
+
             var updatedDraft = await _draftRepository.UpdateDraftSettings(draftEntity);
             var preDraftLobbyViewModel = _mapper.Map<DraftViewModel>(updatedDraft);
             return preDraftLobbyViewModel;
@@ -160,7 +193,7 @@ namespace DraftSiteService.Services
         {
             draftTeamUser.User = null;
             draftTeamUser.UsersId = 0;
-            await _draftRepository.UpdateDraftTeamUser(draftTeamUser);  
+            await _draftRepository.UpdateDraftTeamUser(draftTeamUser);
         }
 
         public async Task<List<DraftTeamSummaryViewModel>> SelectTeam(int userId, int draftId, TeamChoiceInputModel teamSelection)
@@ -171,7 +204,7 @@ namespace DraftSiteService.Services
             if (team.UsersId == 0)
             {
                 var teamUsers = teamDraftUsers.Where(teamDraftUser => teamDraftUser.UsersId == userId);
-                var draft = await _draftRepository.GetDraft(draftId);
+                var draft = await _draftRepository.GetDraftAsync(draftId);
 
                 if (draft.IsMultiSelect || !teamUsers.Any())
                 {
@@ -182,7 +215,7 @@ namespace DraftSiteService.Services
                         TeamsId = team.TeamsId
                     };
 
-                    await _draftRepository.UpdateDraftTeamUser(teamEntity);                    
+                    await _draftRepository.UpdateDraftTeamUser(teamEntity);
                 }
                 else
                 {
@@ -209,20 +242,30 @@ namespace DraftSiteService.Services
 
         public async Task<DraftViewModel> GetDraft(int draftId)
         {
-            var draft = await _draftRepository.GetDraft(draftId);
+            var draft = await _draftRepository.GetDraftAsync(draftId);
             var draftViewModel = _mapper.Map<DraftViewModel>(draft);
             return draftViewModel;
         }
 
         public async Task StartDraftAsync(int draftId)
         {
-            var draft = GetDraftAsync(draftId);
-            var draftTeamPickOrder = _draftRepository.GetDraftTeamPickOrderAsync(draftId);
-
-            //var draftHubModel = new DraftHubModel()
-            //{
-            //    ActiveTeamId
-            //};
+            var draft = await _draftRepository.GetDraftAsync(draftId);
+            draft.DraftStatusId = DraftStatusData.DraftStatuses.Single(status => status.Name == "InProgress").Id;
+            draft.DraftStatus = null;
+            await _draftRepository.SaveChangesAsync();
         }
+
+
+
+
+
+        //var draft = await GetDraftAsync(draftId);
+        //var draftTeamPickOrder = await _draftRepository.GetDraftTeamPickOrderAsync(draftId);
+        //var players = await _draftRepository.GetDraftPlayersAsync(draftId);
+
+        //var multiPlayerDraftViewModel = new MultiplayerDraftViewModel()
+        //{
+
+        //};
     }
 }

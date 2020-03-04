@@ -15,7 +15,7 @@ namespace DraftSiteApi.Hubs
         protected readonly IDraftService _draftService;
         protected readonly IUserService _userService;
         protected static readonly ConcurrentDictionary<int, List<HubUser>> _users = new ConcurrentDictionary<int, List<HubUser>>();
-        
+
 
         public DraftHub(IDraftService draftService, IUserService userService)
         {
@@ -38,7 +38,7 @@ namespace DraftSiteApi.Hubs
         }
 
         protected async Task<HubUser> EnterDraftAsync(HubUser user)
-        {            
+        {
             user.connectionId = Context.ConnectionId;
             var isConnected = _users.Keys.Any(key => key == user.UserId);
 
@@ -70,8 +70,13 @@ namespace DraftSiteApi.Hubs
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            var hubUser = GetHubUserByConnectionId();
-            _users.Single(u => u.Key == hubUser.UserId).Value.Remove(hubUser);
+            try
+            {
+                var hubUser = GetHubUserByConnectionId();
+                _users.Single(u => u.Key == hubUser.UserId).Value.Remove(hubUser);
+            }
+            catch { }
+
             return base.OnDisconnectedAsync(exception);
         }
 
@@ -79,12 +84,18 @@ namespace DraftSiteApi.Hubs
         {
             return _users.SingleOrDefault(connection => connection.Key == userId);
         }
-        
+
         protected HubUser GetHubUserByConnectionId()
         {
             var users = _users.SelectMany(u => u.Value).ToList();
             var user = users.SingleOrDefault(u => u.connectionId == Context.ConnectionId);
             return user;
+        }
+
+        protected async Task UpdateDraftLobby()
+        {
+            var userLobby = await _draftService.GetUserLobby();
+            await Clients.All.SendAsync("receiveDraftLobbyUpdate", userLobby);
         }
     }
 }

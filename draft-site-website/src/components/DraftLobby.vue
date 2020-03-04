@@ -115,9 +115,11 @@ export default {
     this.isLoading = true;
     this.draftLobbyHub = new DraftLobbyHub();
     await this.draftLobbyHub.start(this);
-    this.draftLobby = await this.draftLobbyHub.getDraftLobby(
+
+    this.draftLobby = await this.draftLobbyHub.enterDraftLobby(
       "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
     );
+
     await this.$store.commit("user/setUser", this.draftLobby.user);
     await this.$store.commit("draft/setDraftLookups", this.draftLobby.lookups);
     this.isLoading = false;
@@ -168,6 +170,9 @@ export default {
     sendMessage: async function(message) {
       await this.draftLobbyHub.sendMessage(message);
       return false;
+    },
+    updateDraftLobby() {
+      this.draftLobbyHub.updateDraftLobby();
     }
   }
 };

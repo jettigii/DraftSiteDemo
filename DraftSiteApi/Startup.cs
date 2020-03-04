@@ -55,6 +55,8 @@ namespace DraftSiteApi
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDraftService, DraftService>();
             services.AddScoped<IUserLobbyMappingService, UserLobbyMappingService>();
+            services.AddScoped<IDraftComputerPlayerService, DraftComputerPlayerService>();
+            services.AddScoped<IMultiPlayerDraftService, MultiPlayerDraftService>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDraftRepository, DraftRepository>();

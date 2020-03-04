@@ -239,9 +239,10 @@ export default {
         isMultiSelect: this.isMultiSelect,
         name: this.draftName,
         password: this.password,
-        pickTime: this.pickTime,
+        pickTime: this.pickTime.id,
         roundCount: this.roundCount,
-        startTime: this.startTime
+        startTime: this.startTime,
+        draftStartType: this.selected
       };
     },
     loadSettings(draftSettings) {
@@ -252,8 +253,6 @@ export default {
       this.isPublic = draftSettings.isPublic;
       this.roundCount = draftSettings.roundCount;
 
-      // eslint-disable-next-line no-debugger
-      debugger;
       this.pickTime = this.lookups.draftTimes.filter(
         draftTime => draftTime.value == draftSettings.pickTime
       )[0];

@@ -170,7 +170,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 import DraftSettings from "./DraftSettings.vue";
 import ChatBubble from "./ChatBubble.vue";
 import PreDraftLobbyHub from "../hubs/pre-draft-lobby-hub.js";
@@ -186,8 +186,7 @@ export default {
   mounted: async function() {
     this.preDraftLobbyHub = new PreDraftLobbyHub();
     await this.preDraftLobbyHub.start(this);
-    // eslint-disable-next-line no-console
-    console.log(this.user);
+
     this.preDraftLobby = await this.preDraftLobbyHub.enterPreDraftLobby(
       this.user.id,
       this.draftId.toString(),
@@ -211,9 +210,6 @@ export default {
     DraftTeamComponent
   },
   methods: {
-    ...mapActions({
-      updateSettings: "draft/updateSettings"
-    }),
     receiveMessage(message) {
       this.messages.push(message);
     },
@@ -229,6 +225,13 @@ export default {
     },
     receiveTeams: function(teams) {
       this.preDraftLobby.draftTeams = teams;
+    },
+    receiveSettings: function(settings) {
+      this.preDraftLobby.draft = settings;
+    },
+    updateSettings(settings) {
+      this.preDraftLobbyHub.updateSettings(settings);
+      this.$emit("updateDraftLobby");
     }
   },
   computed: {
