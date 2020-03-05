@@ -16,14 +16,14 @@
           onclick="draftSettingsSwitch()"
           id="btnSettingsToggle"
         >
-          <i
-            style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
-            id="draftSettingsArrow"
-            class="fas fa-angle-right"
+          <div style="width:100%;"><i
+              style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
+              id="draftSettingsArrow"
+              class="fas fa-angle-right"
             >
             </i>
             </div>
-            <h7 id="lblDraftSettings">Draft Settings</h7>
+            <h6 id="lblDraftSettings">Draft Settings</h6>
             <div style="width:100%;"><i
               style="height:100%;width:100%;margin: 0;top: 50%;color:white;"
               id="draftSettingsArrow2"

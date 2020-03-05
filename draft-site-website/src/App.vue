@@ -14,22 +14,36 @@
     <div style="width:100%; height:100%; padding-top: 100px;">
       <b-tabs content-class="mt-3">
         <b-tab title="Main Lobby" active>
+          <!-- TITLE -->
+          <template v-slot:title>
+            Main Lobby
+          </template>
+          <!-- TITLE -->
+          <!-- CONTENT -->
           <draft-lobby @open-draft="openDraft"></draft-lobby>
+          <!-- CONTENT -->
         </b-tab>
         <b-tab v-for="tab in tabs" :key="tab.Id" :title="tab.id.toString()">
-          <b-button
+          <!-- TITLE -->
+          <template v-slot:title>
+            <span v-html="tab.id.toString()"></span>
+            <b-button
             size="sm"
-            variant="danger"
-            class="float-right"
+            variant="link"
             @click="closeTab(i)"
           >
-            Close tab
+            X
           </b-button>
+          </template>
+          <!-- TITLE -->
+          <!-- CONTENT -->
           <draft-room
             :draftId="tab.id"
             :password="tab.password"
             :status="tab.draftStatus"
+            style="overflow-y: auto;height: 100%;"
           ></draft-room>
+          <!-- CONTENT -->
         </b-tab>
       </b-tabs>
     </div>

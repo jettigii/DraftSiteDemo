@@ -116,7 +116,7 @@
             <button
               id="btnStartDraft"
               class="button primary"
-              style="width:18.4%;position:absolute;bottom:0px;right:0px;"
+              style="width:18.4%;position:fixed;bottom:0px;right:0px;"
               onclick="startDraft()"
             >
               Start Draft
@@ -257,13 +257,15 @@ export default {
 .mainArea {
   display: grid;
   grid-template-columns: 100%;
-  grid-template-rows: 8% 92%;
+  /* grid-template-rows: 8% 92%; */
   grid-template-areas: "teamPlayersLabelArea" "teamPlayersArea";
   grid-area: mainArea;
 }
 
 .teamPlayersArea {
   grid-area: teamPlayersArea;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .teamPlayersLabelArea {

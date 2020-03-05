@@ -249,9 +249,7 @@ function startDateSwitch() {
 
 // Toggle draft settings display
 function draftSettingsSwitch() {
-  if (
-    document.getElementById("draftSettingsArrowToggle").style.width != "100%"
-  ) {
+  if (document.getElementById("draftSettingsArrowToggle").style.width != "100%") {
     //Collapsed
     // document.getElementById("preGrid").style.gridTemplateColumns = "98.4% 1.6%";
     document.getElementById("draftSettingsArrowToggle").style.width = "100%";
@@ -323,7 +321,6 @@ function openForm() {
     // document.getElementById("chatForm").classList.add("slide-in-bottom");
     // document.getElementById("chatForm").classList.remove("slide-out-bottom");
     chatSwitch = 0;
-    document.getElementById("startTime").value = "NO";
   }
 }
 
