@@ -1,11 +1,11 @@
-﻿using System;
+﻿using DraftSiteModels.ViewModels;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace DraftSiteService.Interfaces
 {
     public interface IMultiPlayerDraftService
     {
-        Action<int> PlayerSelectionBroadcast { get; set; }
+        Task JoinDraftLobby();
     }
 }

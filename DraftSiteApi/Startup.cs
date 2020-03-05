@@ -1,4 +1,6 @@
 using AutoMapper;
+using DraftSiteApi.Controllers;
+using DraftSiteApi.HostedServices;
 using DraftSiteApi.Hubs;
 using DraftSiteModels.Maps;
 using DraftSiteRepository.Interfaces;
@@ -35,6 +37,13 @@ namespace DraftSiteApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost";
+                options.InstanceName = "SampleInstance";
+            });
+
             services.AddSignalR();
 
             services.AddDbContext<DraftSiteContext>(options =>
@@ -54,14 +63,17 @@ namespace DraftSiteApi
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDraftService, DraftService>();
-            services.AddScoped<IUserLobbyMappingService, UserLobbyMappingService>();
+            //services.AddScoped<IUserLobbyMappingService, UserLobbyMappingService>();
             services.AddScoped<IDraftComputerPlayerService, DraftComputerPlayerService>();
-            services.AddScoped<IMultiPlayerDraftService, MultiPlayerDraftService>();
+            //services.AddScoped<IMultiPlayerDraftService, MultiPlayerDraftService>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDraftRepository, DraftRepository>();
 
             services.AddScoped<IPasswordService, PasswordService>();
+            //services.AddSingleton<IDraftController, DraftController>();
+
+            services.AddHostedService<DraftHostedService>();
 
             services.AddCors(options =>
             {
@@ -94,9 +106,7 @@ namespace DraftSiteApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<DraftLobbyHub>("/hubs/draftLobby");
-                endpoints.MapHub<MultiPlayerDraftHub>("/hubs/multiplayerDraftLobby");
-                endpoints.MapHub<PreDraftLobbyHub>("/hubs/preDraftLobby");
+                endpoints.MapHub<DraftHub>("/hubs/draftHub");
             });
         }
     }

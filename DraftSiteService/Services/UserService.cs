@@ -16,7 +16,7 @@ namespace DraftSiteService.Services
             _userRepository = userRepository;
             _mapper = mapper;
         }
-        public async Task<DraftSiteUserViewModel> Authenticate(string token)
+        public async Task<DraftSiteUserViewModel> AuthenticateAsync(string token)
         {
             var userAuthToken = await _userRepository.Authenticate(token);
             var user = await _userRepository.GetUserById(userAuthToken.UserId);

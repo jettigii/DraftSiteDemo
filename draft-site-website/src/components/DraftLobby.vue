@@ -8,7 +8,7 @@
       >
         <b-table
           hover
-          :items="draftLobby.drafts"
+          :items="drafts"
           @row-clicked="enterDraft"
           :fields="draftFields"
           :busy="isLoading"
@@ -89,6 +89,7 @@ export default {
       password: "",
       passwordState: null,
       selectedRow: null,
+      drafts: [],
       draftFields: [
         { key: "name" },
         { key: "roundCount" },
@@ -102,7 +103,6 @@ export default {
       modalName: "modal-password-ref",
       draftLobbyHub: null,
       draftLobby: {
-        drafts: [],
         lookups: {},
         user: {
           username: "Not logged in"
@@ -116,7 +116,7 @@ export default {
     this.draftLobbyHub = new DraftLobbyHub();
     await this.draftLobbyHub.start(this);
 
-    this.draftLobby = await this.draftLobbyHub.enterDraftLobby(
+    this.draftLobby = this.draftLobby = await this.draftLobbyHub.enterDraftLobby(
       "144f7dcfbc744fa7effd0f78eb0890d81af919725fd696d7e10b458ae34728c9"
     );
 
@@ -135,7 +135,7 @@ export default {
       }
     },
     receiveDraftLobbyUpdate: function(lobby) {
-      this.draftLobby.drafts = lobby;
+      this.drafts = lobby;
     },
     handleOk(e) {
       e.preventDefault();
@@ -162,7 +162,6 @@ export default {
     },
     async createDraft(draft) {
       await this.draftLobbyHub.createDraft(draft);
-      this.drafts = await this.draftLobbyHub.getDraftLobby();
     },
     receiveMessage(message) {
       this.$refs.chatRoom.receiveMessage(message);
@@ -172,7 +171,7 @@ export default {
       return false;
     },
     updateDraftLobby(drafts) {
-      this.draftLobby.drafts = drafts;
+      this.drafts = drafts;
     }
   }
 };

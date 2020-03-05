@@ -1,6 +1,6 @@
 import { HubConnectionBuilder, LogLevel } from "@aspnet/signalr";
 
-const preDraftLobbyHubRoute = "preDraftLobby/";
+const preDraftLobbyHubRoute = "draftHub/";
 let connection;
 
 class PreDraftLobbyHub {

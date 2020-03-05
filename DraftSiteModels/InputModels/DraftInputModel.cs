@@ -5,6 +5,7 @@ namespace DraftSiteModels.InputModels
 {
     public class DraftInputModel
     {
+        public int DraftId { get; set; }
         public bool IsComputerTeams { get; set; }
         public bool IsPublic { get; set; }
 

@@ -1,6 +1,6 @@
 import DraftHub from "./draft-hub";
 
-const draftLobby = "draftLobby/";
+const draftLobby = "draftHub/";
 
 export default class DraftLobbyHub extends DraftHub {
   constructor() {
@@ -16,15 +16,10 @@ export default class DraftLobbyHub extends DraftHub {
   }
 
   async enterDraftLobby(token) {
-    var response = await this.connection.invoke("EnterDraftLobby", {
+    var response = await this.connection.invoke("JoinDraftLobbyAsync", {
       Token: token
     });
     return response;
-  }
-
-  async getDraftLobby() {
-    var lobby = await this.connection.invoke("GetUserLobby");
-    return lobby;
   }
 
   async updateDraftLobby() {
